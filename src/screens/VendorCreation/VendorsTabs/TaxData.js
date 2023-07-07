@@ -9,18 +9,17 @@ import { setTaxDataAction } from "../../../redux/action/vendorAction";
 import { connect } from "react-redux";
 import cogoToast from "cogo-toast";
 
-
-
 function TaxData(props) {
   const [TaxData, setTaxData] = useState([]);
 
-  useEffect(()=>{
-    setTaxData(props.TAX_DATA)
-  },[props.TAX_DATA])
-  
-  const saveTaxData=()=>{
-props.setTaxDataAction(TaxData);
-  }
+  useEffect(() => {
+    setTaxData(props.TAX_DATA);
+    
+  }, [props.TAX_DATA]);
+
+  const saveTaxData = () => {
+    props.setTaxDataAction(TaxData);
+  };
 
   return (
     <>
@@ -31,7 +30,14 @@ props.setTaxDataAction(TaxData);
           justifyContent: "flex-end",
         }}
       >
-        <Button variant="outlined" color="primary" sx={{ marginRight: 5 }} onClick={()=>{saveTaxData();}}>
+        <Button
+          variant="outlined"
+          color="primary"
+          sx={{ marginRight: 5 }}
+          onClick={() => {
+            saveTaxData();
+          }}
+        >
           Save
         </Button>
       </Box>
@@ -59,14 +65,14 @@ props.setTaxDataAction(TaxData);
               Placeholder="GST Number"
               Value={TaxData?.GST_NUMBER}
               onChange={(e) => {
-                  if (e.target.value.length <= 15) {
-                    setTaxData((prevState) => ({
-                      ...prevState,
-                      GST_NUMBER: e.target.value,
-                    }));
-                  } else {
-                    cogoToast.warn("Maximum length 15 only");
-                  }
+                if (e.target.value.length <= 15) {
+                  setTaxData((prevState) => ({
+                    ...prevState,
+                    GST_NUMBER: e.target.value,
+                  }));
+                } else {
+                  cogoToast.warn("Maximum length 15 only");
+                }
               }}
               Style={{
                 width: "100%",
@@ -108,14 +114,14 @@ props.setTaxDataAction(TaxData);
               Placeholder="Pan Number"
               Value={TaxData?.PAN_NUMBER}
               onChange={(e) => {
-                 if (e.target.value.length <= 10) {
-                   setTaxData((prevState) => ({
-                     ...prevState,
-                     PAN_NUMBER: e.target.value,
-                   }));
-                 } else {
-                   cogoToast.warn("Maximum length 10 only");
-                 }
+                if (e.target.value.length <= 10) {
+                  setTaxData((prevState) => ({
+                    ...prevState,
+                    PAN_NUMBER: e.target.value,
+                  }));
+                } else {
+                  cogoToast.warn("Maximum length 10 only");
+                }
               }}
               Style={{
                 width: "100%",
@@ -155,14 +161,14 @@ props.setTaxDataAction(TaxData);
               Placeholder="CIN Number"
               Value={TaxData?.CIN_NUMBER}
               onChange={(e) => {
-                 if (e.target.value.length <= 21) {
-                   setTaxData((prevState) => ({
-                     ...prevState,
-                     CIN_NUMBER: e.target.value,
-                   }));
-                 } else {
-                   cogoToast.warn("Maximum length 21 only");
-                 }
+                if (e.target.value.length <= 21) {
+                  setTaxData((prevState) => ({
+                    ...prevState,
+                    CIN_NUMBER: e.target.value,
+                  }));
+                } else {
+                  cogoToast.warn("Maximum length 21 only");
+                }
               }}
               Style={{
                 width: "100%",
@@ -204,14 +210,14 @@ props.setTaxDataAction(TaxData);
               Placeholder="MSME Number"
               Value={TaxData?.MSME_NUMBER}
               onChange={(e) => {
-                 if (e.target.value.length <= 12) {
-                   setTaxData((prevState) => ({
-                     ...prevState,
-                     MSME_NUMBER: e.target.value,
-                   }));
-                 } else {
-                   cogoToast.warn("Maximum length 12 only");
-                 }
+                if (e.target.value.length <= 12) {
+                  setTaxData((prevState) => ({
+                    ...prevState,
+                    MSME_NUMBER: e.target.value,
+                  }));
+                } else {
+                  cogoToast.warn("Maximum length 12 only");
+                }
               }}
               Style={{
                 width: "100%",
@@ -251,14 +257,14 @@ props.setTaxDataAction(TaxData);
               Placeholder="Aadhar Number"
               Value={TaxData?.AADHAR_NUMBER}
               onChange={(e) => {
-                 if (e.target.value.length <= 16) {
-                   setTaxData((prevState) => ({
-                     ...prevState,
-                     AADHAR_NUMBER: e.target.value,
-                   }));
-                 } else {
-                   cogoToast.warn("Maximum length 40 only");
-                 }
+                if (e.target.value.length <= 16) {
+                  setTaxData((prevState) => ({
+                    ...prevState,
+                    AADHAR_NUMBER: e.target.value,
+                  }));
+                } else {
+                  cogoToast.warn("Maximum length 40 only");
+                }
               }}
               Style={{
                 width: "100%",
@@ -292,9 +298,6 @@ props.setTaxDataAction(TaxData);
     </>
   );
 }
-
-
-
 
 const mapStateToProps = (state) => ({
   TAX_DATA: state.vendor.tax_data,

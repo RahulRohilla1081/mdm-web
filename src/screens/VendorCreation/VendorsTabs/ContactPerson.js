@@ -51,72 +51,75 @@ function ContactPerson(props) {
   ];
   let DayArray = Array.from(Array(32).keys());
 
-  const [TbodyDETAILS_OF_USER,setTbodyDETAILS_OF_USER]=useState([])
+  const [TbodyDETAILS_OF_USER, setTbodyDETAILS_OF_USER] = useState([]);
   const [TbodyVENDOR, setTbodyVENDOR] = useState([]);
-  const [TbodyVENDOR_CONTACT_PERSON, setTbodyVENDOR_CONTACT_PERSON] = useState([]);
-  const [TbodyPROMOTER, setTbodyPROMOTER] = useState([]);
-  const [TbodyDIRECTOR_PARTNER_PROPRIETOR,setTbodyDIRECTOR_PARTNER_PROPRIETOR,] = useState([]);
-  const [Tbody, setTbody] = useState(
-    [
-  //     {
-  //   DETAILS_OF_USER: [{
-  //     NAME:"",
-  //     EMAIL:"",
-  //     ADDRESS:"",
-  //     MOBILE:"",
-  //     GENDER:"",
-  //     LANDING:"",
-  //     BIRTH_DATE:"",
-  //     BIRTH_MONTH:"",
-  //     DESIGNATION:"",
-  //   }],
-  //   VENDOR: [{
-  //     NAME:"",
-  //     EMAIL:"",
-  //     ADDRESS:"",
-  //     MOBILE:"",
-  //     GENDER:"",
-  //     LANDING:"",
-  //     BIRTH_DATE:"",
-  //     BIRTH_MONTH:"",
-  //     DESIGNATION:"",
-  //   }],
-  //   VENDOR_CONTACT_PERSON: [{
-  //     NAME:"",
-  //     EMAIL:"",
-  //     ADDRESS:"",
-  //     MOBILE:"",
-  //     GENDER:"",
-  //     LANDING:"",
-  //     BIRTH_DATE:"",
-  //     BIRTH_MONTH:"",
-  //     DESIGNATION:"",
-  //   }],
-  //   PROMOTER:[{
-  //     NAME:"",
-  //     EMAIL:"",
-  //     ADDRESS:"",
-  //     MOBILE:"",
-  //     GENDER:"",
-  //     LANDING:"",
-  //     BIRTH_DATE:"",
-  //     BIRTH_MONTH:"",
-  //     DESIGNATION:"",
-  //   }],
-  //   DIRECTOR_PARTNER_PROPRIETOR:[{
-  //     NAME:"",
-  //     EMAIL:"",
-  //     ADDRESS:"",
-  //     MOBILE:"",
-  //     GENDER:"",
-  //     LANDING:"",
-  //     BIRTH_DATE:"",
-  //     BIRTH_MONTH:"",
-  //     DESIGNATION:"",
-  //   }]
-  // }
-]
+  const [TbodyVENDOR_CONTACT_PERSON, setTbodyVENDOR_CONTACT_PERSON] = useState(
+    []
   );
+  const [TbodyPROMOTER, setTbodyPROMOTER] = useState([]);
+  const [
+    TbodyDIRECTOR_PARTNER_PROPRIETOR,
+    setTbodyDIRECTOR_PARTNER_PROPRIETOR,
+  ] = useState([]);
+  const [Tbody, setTbody] = useState([
+    //     {
+    //   DETAILS_OF_USER: [{
+    //     NAME:"",
+    //     EMAIL:"",
+    //     ADDRESS:"",
+    //     MOBILE:"",
+    //     GENDER:"",
+    //     LANDING:"",
+    //     BIRTH_DATE:"",
+    //     BIRTH_MONTH:"",
+    //     DESIGNATION:"",
+    //   }],
+    //   VENDOR: [{
+    //     NAME:"",
+    //     EMAIL:"",
+    //     ADDRESS:"",
+    //     MOBILE:"",
+    //     GENDER:"",
+    //     LANDING:"",
+    //     BIRTH_DATE:"",
+    //     BIRTH_MONTH:"",
+    //     DESIGNATION:"",
+    //   }],
+    //   VENDOR_CONTACT_PERSON: [{
+    //     NAME:"",
+    //     EMAIL:"",
+    //     ADDRESS:"",
+    //     MOBILE:"",
+    //     GENDER:"",
+    //     LANDING:"",
+    //     BIRTH_DATE:"",
+    //     BIRTH_MONTH:"",
+    //     DESIGNATION:"",
+    //   }],
+    //   PROMOTER:[{
+    //     NAME:"",
+    //     EMAIL:"",
+    //     ADDRESS:"",
+    //     MOBILE:"",
+    //     GENDER:"",
+    //     LANDING:"",
+    //     BIRTH_DATE:"",
+    //     BIRTH_MONTH:"",
+    //     DESIGNATION:"",
+    //   }],
+    //   DIRECTOR_PARTNER_PROPRIETOR:[{
+    //     NAME:"",
+    //     EMAIL:"",
+    //     ADDRESS:"",
+    //     MOBILE:"",
+    //     GENDER:"",
+    //     LANDING:"",
+    //     BIRTH_DATE:"",
+    //     BIRTH_MONTH:"",
+    //     DESIGNATION:"",
+    //   }]
+    // }
+  ]);
 
   useEffect(() => {
     console.log("props.GENERAL_DATA.NAME", props.GENERAL_DATA.NAME);
@@ -128,7 +131,6 @@ function ContactPerson(props) {
     setTbodyDIRECTOR_PARTNER_PROPRIETOR(
       props.CONTACT_PERSON?.DIRECTOR_PARTNER_PROPRIETOR
     );
-
   }, [props.CONTACT_PERSON]);
 
   const saveContactPersonData = () => {
@@ -137,7 +139,7 @@ function ContactPerson(props) {
       VENDOR: TbodyVENDOR,
       VENDOR_CONTACT_PERSON: TbodyVENDOR_CONTACT_PERSON,
       PROMOTER: TbodyPROMOTER,
-      DIRECTOR_PARTNER_PROPRIETOR:TbodyDIRECTOR_PARTNER_PROPRIETOR,
+      DIRECTOR_PARTNER_PROPRIETOR: TbodyDIRECTOR_PARTNER_PROPRIETOR,
     });
   };
 
@@ -167,121 +169,121 @@ function ContactPerson(props) {
     let VendorFormData = new FormData();
 
     // VendorFormData.append("NAME", props.GENERAL_DATA.NAME);
-    VendorFormData.set("NAME", props.GENERAL_DATA.NAME);
-    VendorFormData.set("EMAIL", props.GENERAL_DATA.EMAIL);
-    VendorFormData.set("COUNTRY", props.GENERAL_DATA.COUNTRY?.value);
+    VendorFormData.set("NAME", props.GENERAL_DATA?.NAME);
+    VendorFormData.set("EMAIL", props.GENERAL_DATA?.EMAIL);
+    VendorFormData.set("COUNTRY", props.GENERAL_DATA?.COUNTRY?.value);
     VendorFormData.set("CITY", props.GENERAL_DATA.CITY?.value);
     VendorFormData.set("STATE", props.GENERAL_DATA.STATE?.value);
- VendorFormData.set("ADDRESS_LINE_1", props.GENERAL_DATA.ADDRESS_LINE_1);
- VendorFormData.set("ADDRESS_LINE_2", props.GENERAL_DATA.ADDRESS_LINE_2);
- VendorFormData.set("ADDRESS_LINE_3", props.GENERAL_DATA.ADDRESS_LINE_3);
-    VendorFormData.set("PINCODE", props.GENERAL_DATA.PINCODE);
-        VendorFormData.set("DISTRICT", props.GENERAL_DATA.DISTRICT);
-    VendorFormData.set("DMS", props.GENERAL_DATA.PINCODE);
-    VendorFormData.set("TIME_ZONE_MOBILE", props.GENERAL_DATA.TIME_ZONE);
-    VendorFormData.set("FAX_DETAILS", props.GENERAL_DATA.FAX);
-    VendorFormData.set("TIME_ZONE_MOBILE", props.GENERAL_DATA.TIME_ZONE);
+    VendorFormData.set("ADDRESS_LINE_1", props.GENERAL_DATA?.ADDRESS_LINE_1);
+    VendorFormData.set("ADDRESS_LINE_2", props.GENERAL_DATA?.ADDRESS_LINE_2);
+    VendorFormData.set("ADDRESS_LINE_3", props.GENERAL_DATA?.ADDRESS_LINE_3);
+    VendorFormData.set("PINCODE", props.GENERAL_DATA?.PINCODE);
+    VendorFormData.set("DISTRICT", props.GENERAL_DATA?.DISTRICT);
+    VendorFormData.set("DMS", props.GENERAL_DATA?.PINCODE);
+    VendorFormData.set("TIME_ZONE_MOBILE", props.GENERAL_DATA?.TIME_ZONE);
+    VendorFormData.set("FAX_DETAILS", props.GENERAL_DATA?.FAX);
+    VendorFormData.set("TIME_ZONE_MOBILE", props.GENERAL_DATA?.TIME_ZONE);
     VendorFormData.set(
       "BUSINESS_ROLE",
-      props.GENERAL_DATA.BUSINESS_ROLE?.value
+      props.GENERAL_DATA?.BUSINESS_ROLE?.value
     );
     VendorFormData.set(
       "TAX_DATA",
       JSON.stringify({
-        GST: { GST_NUMBER: props.TAX_DATA.GST_NUMBER },
-        PAN: { PAN_NUMBER: props.TAX_DATA.PAN_NUMBER },
-        CIN: { CIN_NUMBER: props.TAX_DATA.CIN_NUMBER },
-        MSME: { MSME_NUMBER: props.TAX_DATA.MSME_NUMBER },
-        AADHAR: { AADHAR_NUMBER: props.TAX_DATA.AADHAR_NUMBER },
+        GST: { GST_NUMBER: props.TAX_DATA?.GST_NUMBER },
+        PAN: { PAN_NUMBER: props.TAX_DATA?.PAN_NUMBER },
+        CIN: { CIN_NUMBER: props.TAX_DATA?.CIN_NUMBER },
+        MSME: { MSME_NUMBER: props.TAX_DATA?.MSME_NUMBER },
+        AADHAR: { AADHAR_NUMBER: props.TAX_DATA?.AADHAR_NUMBER },
       })
     );
-    VendorFormData.append("GST_DOC", props.TAX_DATA.GST_NUMBER_FILE);
-    VendorFormData.append("PAN_DOC", props.TAX_DATA.PAN_NUMBER_FILE);
-    VendorFormData.append("CIN_DOC", props.TAX_DATA.CIN_NUMBER_FILE);
-    VendorFormData.append("MSME_DOC", props.TAX_DATA.MSME_NUMBER_FILE);
-    VendorFormData.append("AADHAR_DOC", props.TAX_DATA.AADHAR_NUMBER_FILE);
+    VendorFormData.append("GST_DOC", props.TAX_DATA?.GST_NUMBER_FILE);
+    VendorFormData.append("PAN_DOC", props.TAX_DATA?.PAN_NUMBER_FILE);
+    VendorFormData.append("CIN_DOC", props.TAX_DATA?.CIN_NUMBER_FILE);
+    VendorFormData.append("MSME_DOC", props.TAX_DATA?.MSME_NUMBER_FILE);
+    VendorFormData.append("AADHAR_DOC", props.TAX_DATA?.AADHAR_NUMBER_FILE);
     VendorFormData.set(
       "BANK_DETAILS",
       JSON.stringify({
-        ACCOUNT_TYPE: props.BANK_DETAILS_DATA.ACCOUNT_TYPE,
-        BANK_ACCOUNT: props.BANK_DETAILS_DATA.BANK_ACCOUNT,
-        ACCOUNT_HOLDER: props.BANK_DETAILS_DATA.ACCOUNT_HOLDER,
-        BANK_COUNTRY: props.BANK_DETAILS_DATA.BANK_COUNTRY,
-        BANK_NAME: props.BANK_DETAILS_DATA.BANK_NAME,
-        BANK_KEY: props.BANK_DETAILS_DATA.BANK_KEY,
-        BANK_CITY: props.BANK_DETAILS_DATA.BANK_CITY,
-        MODE_OF_PAYMENT: props.BANK_DETAILS_DATA.MODE_OF_PAYMENT?.value,
+        ACCOUNT_TYPE: props.BANK_DETAILS_DATA?.ACCOUNT_TYPE,
+        BANK_ACCOUNT: props.BANK_DETAILS_DATA?.BANK_ACCOUNT,
+        ACCOUNT_HOLDER: props.BANK_DETAILS_DATA?.ACCOUNT_HOLDER,
+        BANK_COUNTRY: props.BANK_DETAILS_DATA?.BANK_COUNTRY,
+        BANK_NAME: props.BANK_DETAILS_DATA?.BANK_NAME,
+        BANK_KEY: props.BANK_DETAILS_DATA?.BANK_KEY,
+        BANK_CITY: props.BANK_DETAILS_DATA?.BANK_CITY,
+        MODE_OF_PAYMENT: props.BANK_DETAILS_DATA?.MODE_OF_PAYMENT?.value,
       })
     );
     VendorFormData.set(
       "COMPANY_DATA",
       JSON.stringify({
-        CURRENCY: props.COMPANY_DATA.CURRENCY.value,
-        TURNOVER: props.COMPANY_DATA.TURNOVER,
-        COMPANY_CODE: props.GENERAL_DATA.COMPANY_CODE,
-        PAYMENT_TERM: props.COMPANY_DATA.PAYMENT_TERM,
-        INCO_TERM_1: props.COMPANY_DATA.INCO_TERM_1.value,
-        INCO_TERM_2: props.COMPANY_DATA.INCO_TERM_2.value,
-        PROCUREMENT_PLANT: props.COMPANY_DATA.PROCUREMENT_PLANT,
+        CURRENCY: props.COMPANY_DATA?.CURRENCY?.value,
+        TURNOVER: props.COMPANY_DATA?.TURNOVER,
+        COMPANY_CODE: props.GENERAL_DATA?.COMPANY_CODE,
+        PAYMENT_TERM: props.COMPANY_DATA?.PAYMENT_TERM,
+        INCO_TERM_1: props.COMPANY_DATA?.INCO_TERM_1?.value,
+        INCO_TERM_2: props.COMPANY_DATA?.INCO_TERM_2?.value,
+        PROCUREMENT_PLANT: props.COMPANY_DATA?.PROCUREMENT_PLANT,
       })
     );
     VendorFormData.set(
       "CONTACT_PERSON",
       JSON.stringify({
         DETAILS_OF_USER: {
-          NAME: TbodyDETAILS_OF_USER.NAME,
-          ADDRESS: TbodyDETAILS_OF_USER.ADDRESS,
-          GENDER: TbodyDETAILS_OF_USER.GENDER,
-          BIRTH_DATE: TbodyDETAILS_OF_USER.BIRTH_DATE,
-          BIRTH_MONTH: TbodyDETAILS_OF_USER.BIRTH_MONTH,
-          EMAIL: TbodyDETAILS_OF_USER.EMAIL,
-          MOBILE: TbodyDETAILS_OF_USER.MOBILE,
-          LANDLINE: TbodyDETAILS_OF_USER.LANDLINE,
-          DESIGNATION: TbodyDETAILS_OF_USER.DESIGNATION,
+          NAME: TbodyDETAILS_OF_USER?.NAME,
+          ADDRESS: TbodyDETAILS_OF_USER?.ADDRESS,
+          GENDER: TbodyDETAILS_OF_USER?.GENDER,
+          BIRTH_DATE: TbodyDETAILS_OF_USER?.BIRTH_DATE,
+          BIRTH_MONTH: TbodyDETAILS_OF_USER?.BIRTH_MONTH,
+          EMAIL: TbodyDETAILS_OF_USER?.EMAIL,
+          MOBILE: TbodyDETAILS_OF_USER?.MOBILE,
+          LANDLINE: TbodyDETAILS_OF_USER?.LANDLINE,
+          DESIGNATION: TbodyDETAILS_OF_USER?.DESIGNATION,
         },
         VENDOR: {
-          NAME: TbodyVENDOR.NAME,
-          ADDRESS: TbodyVENDOR.ADDRESS,
-          GENDER: TbodyVENDOR.GENDER,
-          BIRTH_DATE: TbodyVENDOR.BIRTH_DATE,
-          BIRTH_MONTH: TbodyVENDOR.BIRTH_MONTH,
-          EMAIL: TbodyVENDOR.EMAIL,
-          MOBILE: TbodyVENDOR.MOBILE,
-          LANDLINE: TbodyVENDOR.LANDLINE,
-          DESIGNATION: TbodyVENDOR.DESIGNATION,
+          NAME: TbodyVENDOR?.NAME,
+          ADDRESS: TbodyVENDOR?.ADDRESS,
+          GENDER: TbodyVENDOR?.GENDER,
+          BIRTH_DATE: TbodyVENDOR?.BIRTH_DATE,
+          BIRTH_MONTH: TbodyVENDOR?.BIRTH_MONTH,
+          EMAIL: TbodyVENDOR?.EMAIL,
+          MOBILE: TbodyVENDOR?.MOBILE,
+          LANDLINE: TbodyVENDOR?.LANDLINE,
+          DESIGNATION: TbodyVENDOR?.DESIGNATION,
         },
         VENDOR_CONTACT_PERSON: {
-          NAME: TbodyVENDOR_CONTACT_PERSON.NAME,
-          ADDRESS: TbodyVENDOR_CONTACT_PERSON.ADDRESS,
-          GENDER: TbodyVENDOR_CONTACT_PERSON.GENDER,
-          BIRTH_DATE: TbodyVENDOR_CONTACT_PERSON.BIRTH_DATE,
-          BIRTH_MONTH: TbodyVENDOR_CONTACT_PERSON.BIRTH_MONTH,
-          EMAIL: TbodyVENDOR_CONTACT_PERSON.EMAIL,
-          MOBILE: TbodyVENDOR_CONTACT_PERSON.MOBILE,
-          LANDLINE: TbodyVENDOR_CONTACT_PERSON.LANDLINE,
-          DESIGNATION: TbodyVENDOR_CONTACT_PERSON.DESIGNATION,
+          NAME: TbodyVENDOR_CONTACT_PERSON?.NAME,
+          ADDRESS: TbodyVENDOR_CONTACT_PERSON?.ADDRESS,
+          GENDER: TbodyVENDOR_CONTACT_PERSON?.GENDER,
+          BIRTH_DATE: TbodyVENDOR_CONTACT_PERSON?.BIRTH_DATE,
+          BIRTH_MONTH: TbodyVENDOR_CONTACT_PERSON?.BIRTH_MONTH,
+          EMAIL: TbodyVENDOR_CONTACT_PERSON?.EMAIL,
+          MOBILE: TbodyVENDOR_CONTACT_PERSON?.MOBILE,
+          LANDLINE: TbodyVENDOR_CONTACT_PERSON?.LANDLINE,
+          DESIGNATION: TbodyVENDOR_CONTACT_PERSON?.DESIGNATION,
         },
         PROMOTER: {
-          NAME: TbodyPROMOTER.NAME,
-          ADDRESS: TbodyPROMOTER.ADDRESS,
-          GENDER: TbodyPROMOTER.GENDER,
-          BIRTH_DATE: TbodyPROMOTER.BIRTH_DATE,
-          BIRTH_MONTH: TbodyPROMOTER.BIRTH_MONTH,
-          EMAIL: TbodyPROMOTER.EMAIL,
-          MOBILE: TbodyPROMOTER.MOBILE,
-          LANDLINE: TbodyPROMOTER.LANDLINE,
-          DESIGNATION: TbodyPROMOTER.DESIGNATION,
+          NAME: TbodyPROMOTER?.NAME,
+          ADDRESS: TbodyPROMOTER?.ADDRESS,
+          GENDER: TbodyPROMOTER?.GENDER,
+          BIRTH_DATE: TbodyPROMOTER?.BIRTH_DATE,
+          BIRTH_MONTH: TbodyPROMOTER?.BIRTH_MONTH,
+          EMAIL: TbodyPROMOTER?.EMAIL,
+          MOBILE: TbodyPROMOTER?.MOBILE,
+          LANDLINE: TbodyPROMOTER?.LANDLINE,
+          DESIGNATION: TbodyPROMOTER?.DESIGNATION,
         },
         DIRECTOR_PARTNER_PROPRIETOR: {
-          NAME: TbodyDIRECTOR_PARTNER_PROPRIETOR.NAME,
-          ADDRESS: TbodyDIRECTOR_PARTNER_PROPRIETOR.ADDRESS,
-          GENDER: TbodyDIRECTOR_PARTNER_PROPRIETOR.GENDER,
-          BIRTH_DATE: TbodyDIRECTOR_PARTNER_PROPRIETOR.BIRTH_DATE,
-          BIRTH_MONTH: TbodyDIRECTOR_PARTNER_PROPRIETOR.BIRTH_MONTH,
-          EMAIL: TbodyDIRECTOR_PARTNER_PROPRIETOR.EMAIL,
-          MOBILE: TbodyDIRECTOR_PARTNER_PROPRIETOR.MOBILE,
-          LANDLINE: TbodyDIRECTOR_PARTNER_PROPRIETOR.LANDLINE,
-          DESIGNATION: TbodyDIRECTOR_PARTNER_PROPRIETOR.DESIGNATION,
+          NAME: TbodyDIRECTOR_PARTNER_PROPRIETOR?.NAME,
+          ADDRESS: TbodyDIRECTOR_PARTNER_PROPRIETOR?.ADDRESS,
+          GENDER: TbodyDIRECTOR_PARTNER_PROPRIETOR?.GENDER,
+          BIRTH_DATE: TbodyDIRECTOR_PARTNER_PROPRIETOR?.BIRTH_DATE,
+          BIRTH_MONTH: TbodyDIRECTOR_PARTNER_PROPRIETOR?.BIRTH_MONTH,
+          EMAIL: TbodyDIRECTOR_PARTNER_PROPRIETOR?.EMAIL,
+          MOBILE: TbodyDIRECTOR_PARTNER_PROPRIETOR?.MOBILE,
+          LANDLINE: TbodyDIRECTOR_PARTNER_PROPRIETOR?.LANDLINE,
+          DESIGNATION: TbodyDIRECTOR_PARTNER_PROPRIETOR?.DESIGNATION,
         },
       })
     );
@@ -298,15 +300,13 @@ function ContactPerson(props) {
       });
   };
 
-  const handleVendorInput=(text,index,key)=>{
-    let TempTBody=[...Tbody]
+  const handleVendorInput = (text, index, key) => {
+    let TempTBody = [...Tbody];
 
     // console.log("TempTBody", TempTBody[Vendors_array[index].KEY][index].key);
-    TempTBody["VENDOR"][key]=text;
+    TempTBody["VENDOR"][key] = text;
     setTbody(TempTBody);
-
-
-  }
+  };
 
   useEffect(() => {
     console.log("Tbody", Tbody);
