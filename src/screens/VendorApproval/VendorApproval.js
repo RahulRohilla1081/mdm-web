@@ -47,7 +47,8 @@ function VendorApproval() {
     "Vendor Name",
     "Email",
     "Contact",
-    "Status",
+    "Submission Status",
+    "Approval Status",
     "Action",
   ];
 
@@ -224,6 +225,27 @@ function VendorApproval() {
                     </TableCell>
                     <TableCell align="center" key={"C3" + index}>
                       {val.VENDOR_CONTACT}
+                    </TableCell>
+                    <TableCell align="center" key={"C3" + index}>
+                      {val.SUBMITTED_FLAG == false ? (
+                        <Chip
+                          size="small"
+                          label="Pending"
+                          sx={{
+                            backgroundColor: COLORS.orange,
+                            color: COLORS.white,
+                          }}
+                        />
+                      ) : (
+                        <Chip
+                          size="small"
+                          label="Submitted"
+                          sx={{
+                            backgroundColor: COLORS.success,
+                            color: COLORS.white,
+                          }}
+                        />
+                      )}
                     </TableCell>
                     <TableCell align="center" key={"C3" + index}>
                       {val.SUBMITTED_FLAG == false ? (
