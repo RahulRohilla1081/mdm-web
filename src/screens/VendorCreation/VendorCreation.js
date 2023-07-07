@@ -158,11 +158,11 @@ function VendorCreation(props) {
     // MSME: { MSME_NUMBER: props.TAX_DATA.MSME_NUMBER },
     // AADHAR: { AADHAR_NUMBER: props.TAX_DATA.AADHAR_NUMBER },
     let tempTaxData = {
-      GST_NUMBER: location.state?.VENDOR_DATA?.TAX_DATA?.GST?.GST_NUMBER,
-      PAN_NUMBER: location.state?.VENDOR_DATA?.TAX_DATA?.PAN?.PAN_NUMBER,
-      CIN_NUMBER: location.state?.VENDOR_DATA?.TAX_DATA?.CIN?.CIN_NUMBER,
-      MSME_NUMBER: location.state?.VENDOR_DATA?.TAX_DATA?.MSMSE?.MSME_NUMBER,
-      AADHAR_NUMBER: location.state?.VENDOR_DATA?.TAX_DATA?.AADHAR?.AADHAR_NUMBER,
+      GST_NUMBER: location.state?.VENDOR_DATA?.TAX_DATA.GST?.GST_NUMBER,
+      PAN_NUMBER: location.state?.VENDOR_DATA?.TAX_DATA.PAN?.PAN_NUMBER,
+      CIN_NUMBER: location.state?.VENDOR_DATA?.TAX_DATA.CIN?.CIN_NUMBER,
+      MSME_NUMBER: location.state?.VENDOR_DATA?.TAX_DATA.MSME?.MSME_NUMBER,
+      AADHAR_NUMBER: location.state?.VENDOR_DATA?.TAX_DATA.AADHAR?.AADHAR_NUMBER,
     };
 
     props.setGeneralDataAction(tempGeneralData);
