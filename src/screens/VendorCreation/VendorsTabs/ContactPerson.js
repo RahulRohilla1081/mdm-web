@@ -166,10 +166,21 @@ function ContactPerson(props) {
     },
   ]);
   const SubmitVendorForm = () => {
+
+    console.log("props.GENERALa,dnaishdbhsajbd _DATA", props.GENERAL_DATA);
+    // console.log(props.);
+    // console.log(props.GENERAL_DATA);
+    // console.log(props.GENERAL_DATA);
+
+
+
+
     let VendorFormData = new FormData();
 
     // VendorFormData.append("NAME", props.GENERAL_DATA.NAME);
+    VendorFormData.set("APPLICATION_ID", props.GENERAL_DATA?.APPLICATION_ID);
     VendorFormData.set("NAME", props.GENERAL_DATA?.NAME);
+          VendorFormData.set("APPROVAL_FLAG", "2");
     VendorFormData.set("EMAIL", props.GENERAL_DATA?.EMAIL);
     VendorFormData.set("COUNTRY", props.GENERAL_DATA?.COUNTRY?.value);
     VendorFormData.set("CITY", props.GENERAL_DATA.CITY?.value);
@@ -1238,7 +1249,7 @@ function ContactPerson(props) {
             <Label LabelText="Landline" />
             <CustomInput
               Placeholder="Landline"
-              Value={TbodyPROMOTER?.LANDLINE}
+              Value={TbodyDIRECTOR_PARTNER_PROPRIETOR?.LANDLINE}
               onChange={(e) => {
                 setTbodyDIRECTOR_PARTNER_PROPRIETOR((prevState) => ({
                   ...prevState,

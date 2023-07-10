@@ -25,6 +25,7 @@ import { COLORS } from "../../utils/Theme";
 import ICONS from "../../utils/ICONS";
 import axios from "axios";
 import AXIOS from "../../utils/AXIOS";
+import cogoToast from "cogo-toast";
 
 const drawerWidth = 280;
 function VendorDetails() {
@@ -34,7 +35,7 @@ function VendorDetails() {
     useState(null);
 
   useEffect(() => {
-    console.log("akhdjsajydbas", location.state.VENDOR_DATA);
+    console.log("akhdjsajydbas", location.state.APPROVER_NO);
     if (location.state.SCREEN_NAME == "APPROVAL") {
       setShowApprovalRejectButton(true);
     } else {
@@ -76,6 +77,7 @@ function VendorDetails() {
       .post(AXIOS.axiosUrl + AXIOS.vendor_approve_reject, vendorPayload)
       .then((response) => {
         console.log(response.data);
+        cogoToast.success("Action Completed")
       })
       .catch((err) => {
         console.log(err);
@@ -118,7 +120,14 @@ function VendorDetails() {
                     m: 2,
                   }}
                   onClick={() => {
-                    VendorApproveReject("2");
+                     
+                    if (location.state.APPROVER_NO == "1"){
+                      VendorApproveReject("4");
+                    }
+                    else if(location.state.APPROVER_NO == "2"){
+                      
+                      VendorApproveReject("5");
+                    }
                   }}
                 >
                   Approve
@@ -130,7 +139,12 @@ function VendorDetails() {
                     m: 2,
                   }}
                   onClick={() => {
-                    VendorApproveReject("3");
+                  
+                        if (location.state.APPROVER_NO == "1") {
+                          VendorApproveReject("7");
+                        } else if (location.state.APPROVER_NO == "2") {
+                          VendorApproveReject("8");
+                        }
                   }}
                 >
                   Reject

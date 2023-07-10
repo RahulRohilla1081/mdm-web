@@ -13,6 +13,7 @@ function TaxData(props) {
   const [TaxData, setTaxData] = useState([]);
 
   useEffect(() => {
+    
     setTaxData(props.TAX_DATA);
     
   }, [props.TAX_DATA]);

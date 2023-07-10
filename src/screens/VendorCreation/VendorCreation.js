@@ -109,8 +109,8 @@ function VendorCreation(props) {
         location.state?.VENDOR_DATA
       );
     }
-    var SecuredOTP = localStorage.getItem("MDM_MasterToken");
-
+    var SecuredOTP = localStorage.getItem("MDM_MasterOTPToken");
+console.log("a,jbhjadbhjesb f", SecuredOTP);
     console.log("s", AXIOS.axiosUrl + AXIOS.verifySessionToken + SecuredOTP);
     if (SecuredOTP != null) {
       VerifyOTP(SecuredOTP);
@@ -123,6 +123,10 @@ function VendorCreation(props) {
       (val) => val.value == location.state?.VENDOR_DATA?.COUNTRY
     );
 
+    console.log(
+      "location.state?.VENDOR_DATA?.APPLICATION_ID",
+      location.state?.VENDOR_DATA?.APPLICATION_ID
+    );
     let tempGeneralData = {
       APPLICATION_ID: location.state?.VENDOR_DATA?.APPLICATION_ID,
       NAME: location.state?.VENDOR_DATA?.NAME,
@@ -162,11 +166,37 @@ function VendorCreation(props) {
       PAN_NUMBER: location.state?.VENDOR_DATA?.TAX_DATA.PAN?.PAN_NUMBER,
       CIN_NUMBER: location.state?.VENDOR_DATA?.TAX_DATA.CIN?.CIN_NUMBER,
       MSME_NUMBER: location.state?.VENDOR_DATA?.TAX_DATA.MSME?.MSME_NUMBER,
-      AADHAR_NUMBER: location.state?.VENDOR_DATA?.TAX_DATA.AADHAR?.AADHAR_NUMBER,
+      AADHAR_NUMBER:location.state?.VENDOR_DATA?.TAX_DATA.AADHAR?.AADHAR_NUMBER,
+      MSME_DOC_URL: location.state?.VENDOR_DATA?.TAX_DATA.GST?.MSME_DOC_URL,
+      CIN_DOC_URL: location.state?.VENDOR_DATA?.TAX_DATA.GST?.CIN_DOC_URL,
+      PAN_DOC_URL: location.state?.VENDOR_DATA?.TAX_DATA.GST?.PAN_DOC_URL,
+      GST_DOC_URL: location.state?.VENDOR_DATA?.TAX_DATA.GST?.GST_DOC_URL,
+      AADHAR_DOC_URL:location.state?.VENDOR_DATA?.TAX_DATA.AADHAR?.AADHAR_DOC_URL,
+    };
+
+    let tempCompanyData = {
+      CURRENCY: {
+        label: location.state?.VENDOR_DATA?.COMPANY_DATA?.CURRENCY,
+        value: location.state?.VENDOR_DATA?.COMPANY_DATA?.CURRENCY,
+      },
+      INCO_TERM_1: {
+        label: location.state?.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_1,
+        value: location.state?.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_1,
+      },
+      INCO_TERM_2: {
+        label: location.state?.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_2,
+        value: location.state?.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_2,
+      },
+
+      PAYMENT_TERM: location.state?.VENDOR_DATA?.COMPANY_DATA?.PAYMENT_TERM,
+      PROCUREMENT_PLANT:
+        location.state?.VENDOR_DATA?.COMPANY_DATA?.PROCUREMENT_PLANT,
+      TURNOVER: location.state?.VENDOR_DATA?.COMPANY_DATA?.TURNOVER,
     };
 
     props.setGeneralDataAction(tempGeneralData);
     props.setTaxDataAction(tempTaxData);
+    props.setCompanyDataAction(tempCompanyData);
     props.setContactPersonAction(location.state?.VENDOR_DATA?.CONTACT_PERSON);
 
     props.setBankDetailsAction(location.state?.VENDOR_DATA?.BANK_DETAILS);
@@ -265,17 +295,23 @@ function VendorCreation(props) {
     var final_url = url[1];
     console.log("Latest url", final_url);
 
-    console.log("vendorVerificationOTP", vendorVerificationOTP);
+    console.log("vendorVerificationOTP", {
+      VENDOR_CREATE_TOKEN: final_url,
+      VENDOR_CREATE_INVITEE_OTP:
+        OTP == undefined ? parseInt(vendorVerificationOTP) : parseInt(OTP),
+    });
     if (OTP == undefined) {
       if (vendorVerificationOTP.length == 6) {
         axios
           .post(AXIOS.axiosUrl + AXIOS.vendor_create_otp_verification, {
             VENDOR_CREATE_TOKEN: final_url,
             VENDOR_CREATE_INVITEE_OTP:
-              OTP == undefined ? parseInt(vendorVerificationOTP) : OTP,
+              OTP == undefined
+                ? parseInt(vendorVerificationOTP)
+                : parseInt(OTP),
           })
           .then((response) => {
-            console.log("data", response.data.vendor_data[0]);
+            console.log("sldfjhdsbfhjds");
             if (response.data.OTP_verified == true) {
               localStorage.setItem("MDM_MasterOTPToken", vendorVerificationOTP);
               const countryIndex = CountryList.findIndex(
@@ -316,16 +352,64 @@ function VendorCreation(props) {
               // CIN: { CIN_NUMBER: props.TAX_DATA.CIN_NUMBER },
               // MSME: { MSME_NUMBER: props.TAX_DATA.MSME_NUMBER },
               // AADHAR: { AADHAR_NUMBER: props.TAX_DATA.AADHAR_NUMBER },
+              // let tempTaxData = {
+              //   GST_NUMBER: response.data.vendor_data[0].TAX_DATA.GST,
+              //   PAN_NUMBER: response.data.vendor_data[0].TAX_DATA.PAN,
+              //   CIN_NUMBER: response.data.vendor_data[0].TAX_DATA.CIN,
+              //   MSME_NUMBER: response.data.vendor_data[0].TAX_DATA.MSMSE,
+              //   AADHAR_NUMBER: response.data.vendor_data[0].TAX_DATA.AADHAR,
+              // };
               let tempTaxData = {
-                GST_NUMBER: response.data.vendor_data[0].TAX_DATA.GST,
-                PAN_NUMBER: response.data.vendor_data[0].TAX_DATA.PAN,
-                CIN_NUMBER: response.data.vendor_data[0].TAX_DATA.CIN,
-                MSME_NUMBER: response.data.vendor_data[0].TAX_DATA.MSMSE,
-                AADHAR_NUMBER: response.data.vendor_data[0].TAX_DATA.AADHAR,
+                GST_NUMBER:
+                  response.data.vendor_data[0]?.TAX_DATA?.GST?.GST_NUMBER,
+                PAN_NUMBER:
+                  response.data.vendor_data[0]?.TAX_DATA?.PAN?.PAN_NUMBER,
+                CIN_NUMBER:
+                  response.data.vendor_data[0]?.TAX_DATA?.CIN?.CIN_NUMBER,
+                MSME_NUMBER:
+                  response.data.vendor_data[0]?.TAX_DATA?.MSME?.MSME_NUMBER,
+                AADHAR_NUMBER:
+                  response.data.vendor_data[0]?.TAX_DATA?.AADHAR?.AADHAR_NUMBER,
+                MSME_DOC_URL:
+                  response.data.vendor_data[0]?.TAX_DATA?.GST?.MSME_DOC_URL,
+                CIN_DOC_URL:
+                  response.data.vendor_data[0]?.TAX_DATA?.GST?.CIN_DOC_URL,
+                PAN_DOC_URL:
+                  response.data.vendor_data[0]?.TAX_DATA?.GST?.PAN_DOC_URL,
+                GST_DOC_URL:
+                  response.data.vendor_data[0]?.TAX_DATA?.GST?.GST_DOC_URL,
+                AADHAR_DOC_URL:
+                  response.data.vendor_data[0]?.TAX_DATA?.AADHAR
+                    ?.AADHAR_DOC_URL,
+              };
+              let tempCompanyData = {
+                CURRENCY: {
+                  label: response.data.vendor_data[0]?.COMPANY_DATA?.CURRENCY,
+                  value: response.data.vendor_data[0]?.COMPANY_DATA?.CURRENCY,
+                },
+                INCO_TERM_1: {
+                  label:
+                    response.data.vendor_data[0]?.COMPANY_DATA?.INCO_TERM_1,
+                  value:
+                    response.data.vendor_data[0]?.COMPANY_DATA?.INCO_TERM_1,
+                },
+                INCO_TERM_2: {
+                  label:
+                    response.data.vendor_data[0]?.COMPANY_DATA?.INCO_TERM_2,
+                  value:
+                    response.data.vendor_data[0]?.COMPANY_DATA?.INCO_TERM_2,
+                },
+
+                PAYMENT_TERM:
+                  response.data.vendor_data[0]?.COMPANY_DATA?.PAYMENT_TERM,
+                PROCUREMENT_PLANT:
+                  response.data.vendor_data[0]?.COMPANY_DATA?.PROCUREMENT_PLANT,
+                TURNOVER: response.data.vendor_data[0]?.COMPANY_DATA?.TURNOVER,
               };
 
               props.setGeneralDataAction(tempGeneralData);
               props.setTaxDataAction(tempTaxData);
+              props.setCompanyDataAction(tempCompanyData);
               props.setContactPersonAction(
                 response.data.vendor_data[0].CONTACT_PERSON
               );
@@ -344,6 +428,7 @@ function VendorCreation(props) {
           })
           .catch((err) => {
             console.log(err);
+            console.log("kjsndhjdsbfhjdsbfhjdsb");
           });
       } else {
         cogoToast.error("Please enter OTP");
@@ -365,6 +450,7 @@ function VendorCreation(props) {
 
       // VendorFormData.append("NAME", props.GENERAL_DATA.NAME);
       VendorFormData.set("NAME", props.GENERAL_DATA?.NAME);
+      VendorFormData.set("APPROVAL_FLAG", "1");
       VendorFormData.set("EMAIL", props.GENERAL_DATA?.EMAIL);
       VendorFormData.set("COUNTRY", props.GENERAL_DATA?.COUNTRY?.value);
       VendorFormData.set("CITY", props.GENERAL_DATA?.CITY);
@@ -591,7 +677,7 @@ function VendorCreation(props) {
                     m: 2,
                   }}
                   onClick={() => {
-                    VendorApproveReject("2");
+                    VendorApproveReject("3");
                   }}
                 >
                   Approve
@@ -603,7 +689,7 @@ function VendorCreation(props) {
                     m: 2,
                   }}
                   onClick={() => {
-                    VendorApproveReject("3");
+                    VendorApproveReject("6");
                   }}
                 >
                   Reject

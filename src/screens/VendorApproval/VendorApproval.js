@@ -47,7 +47,7 @@ function VendorApproval() {
     "Vendor Name",
     "Email",
     "Contact",
-    "Submission Status",
+    // "Submission Status",
     "Approval Status",
     "Action",
   ];
@@ -195,16 +195,67 @@ function VendorApproval() {
                     </TableCell>
                     <TableCell align="center" key={"C1" + index}>
                       <Tooltip title="Vendor Details">
+                  
                         <h8
                           onClick={() => {
-                            navigate(VENDOR_CREATION, {
-                              state: {
-                                id: 1,
-                                name: val.USER_FULLNAME,
-                                VENDOR_DATA: val,
-                                SCREEN_NAME: "APPROVAL",
-                              },
-                            });
+                            {
+                              val.APPROVAL_FLAG == "2" ||
+                                (val.APPROVAL_FLAG == "6" &&
+                                  navigate(VENDOR_CREATION, {
+                                    state: {
+                                      id: 1,
+                                      name: val.USER_FULLNAME,
+                                      VENDOR_DATA: val,
+                                      SCREEN_NAME: "APPROVAL",
+                                    },
+                                  }));
+                            }
+                            {
+                              val.APPROVAL_FLAG == "3" &&
+                                navigate(VENDOR_DETAILS, {
+                                  state: {
+                                    id: 1,
+                                    name: val.USER_FULLNAME,
+                                    VENDOR_DATA: val,
+                                    SCREEN_NAME: "APPROVAL",
+                                    APPROVER_NO: "1",
+                                  },
+                                });
+                            }
+                                  {
+                                    /* // vendor master // through email, pending for submition 1
+                      // through email, pending for buyer approval 2 if approve
+                      3 if reject 6 // 2 level flow if status == 3. //
+                      approver_1 if approve 4 if rejected 7 // approver_2 if
+                      approve 5 if rejected 8 // approval master // schema //
+                      approver_1 approver_2 updated_on */
+                                  }
+                            {
+                              (val.APPROVAL_FLAG == "4" ||
+                                val.APPROVAL_FLAG == "7") &&
+                                navigate(VENDOR_DETAILS, {
+                                  state: {
+                                    id: 1,
+                                    name: val.USER_FULLNAME,
+                                    VENDOR_DATA: val,
+                                    SCREEN_NAME: "APPROVAL",
+                                    APPROVER_NO: "2",
+                                  },
+                                });
+                            }
+                            {
+                              val.APPROVAL_FLAG == "8" 
+                               &&
+                                navigate(VENDOR_DETAILS, {
+                                  state: {
+                                    id: 1,
+                                    name: val.USER_FULLNAME,
+                                    VENDOR_DATA: val,
+                                    SCREEN_NAME: "APPROVAL",
+                                    APPROVER_NO: "1",
+                                  },
+                                });
+                            }
                           }}
                           style={{
                             color: COLORS.primary,
@@ -226,7 +277,7 @@ function VendorApproval() {
                     <TableCell align="center" key={"C3" + index}>
                       {val.VENDOR_CONTACT}
                     </TableCell>
-                    <TableCell align="center" key={"C3" + index}>
+                    {/* <TableCell align="center" key={"C3" + index}>
                       {val.SUBMITTED_FLAG == false ? (
                         <Chip
                           size="small"
@@ -246,23 +297,86 @@ function VendorApproval() {
                           }}
                         />
                       )}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell align="center" key={"C3" + index}>
-                      {val.SUBMITTED_FLAG == false ? (
+                      {val.APPROVAL_FLAG == "1" && (
                         <Chip
                           size="small"
-                          label="Pending"
+                          label="Pending for submission"
                           sx={{
                             backgroundColor: COLORS.orange,
                             color: COLORS.white,
                           }}
                         />
-                      ) : (
+                      )}
+                      {val.APPROVAL_FLAG == "2" && (
                         <Chip
                           size="small"
-                          label="Submitted"
+                          label="Pending for Buyer Approval"
+                          sx={{
+                            backgroundColor: COLORS.orange,
+                            color: COLORS.white,
+                          }}
+                        />
+                      )}
+                      {val.APPROVAL_FLAG == "3" && (
+                        <Chip
+                          size="small"
+                          label="Approved By buyer"
                           sx={{
                             backgroundColor: COLORS.success,
+                            color: COLORS.white,
+                          }}
+                        />
+                      )}
+                      {val.APPROVAL_FLAG == "6" && (
+                        <Chip
+                          size="small"
+                          label="Rejected by buyer"
+                          sx={{
+                            backgroundColor: COLORS.danger,
+                            color: COLORS.white,
+                          }}
+                        />
+                      )}
+
+                      {val.APPROVAL_FLAG == "4" && (
+                        <Chip
+                          size="small"
+                          label="Approved by Approver 1"
+                          sx={{
+                            backgroundColor: COLORS.success,
+                            color: COLORS.white,
+                          }}
+                        />
+                      )}
+
+                      {val.APPROVAL_FLAG == "7" && (
+                        <Chip
+                          size="small"
+                          label="Rejected By Approver 1"
+                          sx={{
+                            backgroundColor: COLORS.danger,
+                            color: COLORS.white,
+                          }}
+                        />
+                      )}
+                      {val.APPROVAL_FLAG == "5" && (
+                        <Chip
+                          size="small"
+                          label="Approved by Approver 2"
+                          sx={{
+                            backgroundColor: COLORS.success,
+                            color: COLORS.white,
+                          }}
+                        />
+                      )}
+                      {val.APPROVAL_FLAG == "8" && (
+                        <Chip
+                          size="small"
+                          label="Rejected By Approver 2"
+                          sx={{
+                            backgroundColor: COLORS.danger,
                             color: COLORS.white,
                           }}
                         />
