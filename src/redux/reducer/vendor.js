@@ -1,9 +1,10 @@
 const initialState = {
-    general_data:[],
-    tax_data:[],
-    bank_details_data:[],
-    company_data:[],
-    contact_person:[],    
+  general_data: [],
+  tax_data: [],
+  bank_details_data: [],
+  company_data: [],
+  contact_person: [],
+  final_details: [],
 };
 
 const auth = (state = initialState, action) => {
@@ -32,6 +33,11 @@ const auth = (state = initialState, action) => {
       return {
         ...state,
         contact_person: action.contact_person,
+      };
+    case "SET_ADDITIONAL_INFO_DATA":
+      return {
+        ...state,
+        additional_info: action.additional_info,
       };
     default:
       return state;

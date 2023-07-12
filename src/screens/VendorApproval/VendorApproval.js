@@ -46,7 +46,7 @@ function VendorApproval() {
     "Application ID",
     "Vendor Name",
     "Email",
-    "Contact",
+    // "Contact",
     // "Submission Status",
     "Approval Status",
     "Action",
@@ -89,7 +89,7 @@ function VendorApproval() {
               alignItems: "center",
             }}
           >
-            <h1>Vendors</h1>
+            <h1>Vendor</h1>
             <Box>
               <Button
                 variant="outlined"
@@ -195,20 +195,19 @@ function VendorApproval() {
                     </TableCell>
                     <TableCell align="center" key={"C1" + index}>
                       <Tooltip title="Vendor Details">
-                  
                         <h8
                           onClick={() => {
                             {
-                              val.APPROVAL_FLAG == "2" ||
-                                (val.APPROVAL_FLAG == "6" &&
-                                  navigate(VENDOR_CREATION, {
-                                    state: {
-                                      id: 1,
-                                      name: val.USER_FULLNAME,
-                                      VENDOR_DATA: val,
-                                      SCREEN_NAME: "APPROVAL",
-                                    },
-                                  }));
+                              (val.APPROVAL_FLAG == "2" ||
+                                val.APPROVAL_FLAG == "6") &&
+                                navigate(VENDOR_CREATION, {
+                                  state: {
+                                    id: 1,
+                                    name: val.USER_FULLNAME,
+                                    VENDOR_DATA: val,
+                                    SCREEN_NAME: "APPROVAL",
+                                  },
+                                });
                             }
                             {
                               val.APPROVAL_FLAG == "3" &&
@@ -222,14 +221,14 @@ function VendorApproval() {
                                   },
                                 });
                             }
-                                  {
-                                    /* // vendor master // through email, pending for submition 1
+                            {
+                              /* // vendor master // through email, pending for submition 1
                       // through email, pending for buyer approval 2 if approve
                       3 if reject 6 // 2 level flow if status == 3. //
                       approver_1 if approve 4 if rejected 7 // approver_2 if
                       approve 5 if rejected 8 // approval master // schema //
                       approver_1 approver_2 updated_on */
-                                  }
+                            }
                             {
                               (val.APPROVAL_FLAG == "4" ||
                                 val.APPROVAL_FLAG == "7") &&
@@ -244,8 +243,7 @@ function VendorApproval() {
                                 });
                             }
                             {
-                              val.APPROVAL_FLAG == "8" 
-                               &&
+                              val.APPROVAL_FLAG == "8" &&
                                 navigate(VENDOR_DETAILS, {
                                   state: {
                                     id: 1,
@@ -258,7 +256,8 @@ function VendorApproval() {
                             }
                           }}
                           style={{
-                            color: COLORS.primary,
+                            color:
+                              val.APPROVAL_FLAG == "1" ? null : COLORS.primary,
                             fontSize: 16,
                             cursor: "pointer",
                           }}
@@ -274,9 +273,7 @@ function VendorApproval() {
                     <TableCell align="center" key={"C3" + index}>
                       {val.EMAIL}
                     </TableCell>
-                    <TableCell align="center" key={"C3" + index}>
-                      {val.VENDOR_CONTACT}
-                    </TableCell>
+
                     {/* <TableCell align="center" key={"C3" + index}>
                       {val.SUBMITTED_FLAG == false ? (
                         <Chip

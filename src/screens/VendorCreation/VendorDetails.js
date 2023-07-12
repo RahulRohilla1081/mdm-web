@@ -35,7 +35,7 @@ function VendorDetails() {
     useState(null);
 
   useEffect(() => {
-    console.log("akhdjsajydbas", location.state.APPROVER_NO);
+    console.log("akhdjsajydbas", location.state.VENDOR_DATA);
     if (location.state.SCREEN_NAME == "APPROVAL") {
       setShowApprovalRejectButton(true);
     } else {
@@ -47,6 +47,10 @@ function VendorDetails() {
       VENDOR_NAME: "Abcd",
     },
   ]);
+
+    const openURLInNewTab = (url) => {
+      window.open(url, "_blank", "noreferrer");
+    };
 
   const VendorApproveReject = (ClickedFlag) => {
 
@@ -66,6 +70,9 @@ function VendorDetails() {
 // schema
 // approver_1         approver_2        updated_on
 
+
+
+
     const vendorPayload = [
       {
         APPLICATION_ID: location.state.VENDOR_DATA.APPLICATION_ID,
@@ -84,6 +91,61 @@ function VendorDetails() {
       });
   };
   const [showDrawer, setShowDrawer] = useState(false);
+
+  const PushDaTaInSAP=()=>{
+    axios
+      .post(AXIOS.axiosUrl + AXIOS.createVendorSAP, {
+        Srno1: "004",
+        Companycode: location.state.VENDOR_DATA?.COMPANY_DATA?.COMPANY_CODE,
+        Purchasorgn: "",
+        Vendaccgrp: "",
+        Titlemedi: "",
+        Name1: "Ram",
+        Name2: "Lax",
+        Name3: "",
+        Sort1: "",
+        Street: "",
+        StrSuppl2: "",
+        StrSuppl3: "",
+        City2: "",
+        Postalcode: "",
+        City1: "",
+        Country: "",
+        Region: "",
+        Langu: "",
+        Telnum: "",
+        Mobnum: "",
+        Faxnum: "",
+        Emailid: "",
+        Recoaccgl: "",
+        Sortassign: "",
+        Paytermkey: "",
+        Pan: "",
+        Purchasecurr: "",
+        Grpcalcschem: "",
+        Grbasedinv: "",
+        Servbasdinv: "",
+        Bahns: "",
+        Ssino: "",
+        Remarks: "",
+        Busab: "",
+        Tradepartid: "00000000",
+        Tradepartid1: "00000000",
+        Tradepartid2: "00000000",
+        Brsch: "",
+        Inco1: "",
+        Inco2: "",
+        GstRegNum: "",
+        GstRegClas: "",
+        Zaadhar: "000000000000",
+      })
+      .then((response) => {
+        cogoToast.success("vendor Created in SAP");
+      })
+      .catch((err) => {
+        cogoToast.error("Something went wrong");
+      });
+  }
 
   return (
     <>
@@ -120,13 +182,11 @@ function VendorDetails() {
                     m: 2,
                   }}
                   onClick={() => {
-                     
-                    if (location.state.APPROVER_NO == "1"){
+                    if (location.state.APPROVER_NO == "1") {
                       VendorApproveReject("4");
-                    }
-                    else if(location.state.APPROVER_NO == "2"){
-                      
+                    } else if (location.state.APPROVER_NO == "2") {
                       VendorApproveReject("5");
+                      PushDaTaInSAP()
                     }
                   }}
                 >
@@ -139,12 +199,11 @@ function VendorDetails() {
                     m: 2,
                   }}
                   onClick={() => {
-                  
-                        if (location.state.APPROVER_NO == "1") {
-                          VendorApproveReject("7");
-                        } else if (location.state.APPROVER_NO == "2") {
-                          VendorApproveReject("8");
-                        }
+                    if (location.state.APPROVER_NO == "1") {
+                      VendorApproveReject("7");
+                    } else if (location.state.APPROVER_NO == "2") {
+                      VendorApproveReject("8");
+                    }
                   }}
                 >
                   Reject
@@ -189,7 +248,7 @@ function VendorDetails() {
                 Name
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                {location.state.VENDOR_DATA.NAME}
+                {location.state.VENDOR_DATA?.NAME}
               </Typography>
               <Divider />
               <Typography
@@ -198,7 +257,7 @@ function VendorDetails() {
                 Country
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                {location.state.VENDOR_DATA.COUNTRY}
+                {location.state.VENDOR_DATA?.COUNTRY}
               </Typography>
               <Divider />
               <Typography
@@ -207,7 +266,7 @@ function VendorDetails() {
                 Address
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                {location.state.VENDOR_DATA.ADDRESS}
+                {location.state.VENDOR_DATA?.ADDRESS}
               </Typography>
               <Divider />
               <Typography
@@ -216,7 +275,7 @@ function VendorDetails() {
                 Time Zone
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                ISO
+                IST
               </Typography>
               <Divider />
               <Typography
@@ -225,7 +284,7 @@ function VendorDetails() {
                 Business Role
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                {location.state.VENDOR_DATA.BUSINESS_ROLE}
+                {location.state.VENDOR_DATA?.BUSINESS_ROLE}
               </Typography>
               <Divider />
             </Grid>
@@ -236,7 +295,7 @@ function VendorDetails() {
                 Email ID
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                {location.state.VENDOR_DATA.EMAIL}
+                {location.state.VENDOR_DATA?.EMAIL}
               </Typography>
               <Divider />
               <Typography
@@ -245,7 +304,7 @@ function VendorDetails() {
                 City
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                {location.state.VENDOR_DATA.CITY}
+                {location.state.VENDOR_DATA?.CITY}
               </Typography>
               <Divider />
               <Typography
@@ -254,7 +313,7 @@ function VendorDetails() {
                 State
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                {location.state.VENDOR_DATA.STATE}
+                {location.state.VENDOR_DATA?.STATE}
               </Typography>
               <Divider />
               <Typography
@@ -263,7 +322,7 @@ function VendorDetails() {
                 Pin Code
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                {location.state.VENDOR_DATA.PINCODE}
+                {location.state.VENDOR_DATA?.PINCODE}
               </Typography>
               <Divider />
               <Typography
@@ -272,7 +331,7 @@ function VendorDetails() {
                 Fax Details
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                {location.state.VENDOR_DATA.FAX_DETAILS}
+                {location.state.VENDOR_DATA?.FAX_DETAILS}
               </Typography>
               <Divider />
             </Grid>
@@ -302,7 +361,7 @@ function VendorDetails() {
                 }}
               >
                 <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                  {location.state.VENDOR_DATA?.GST?.GST_NUMBER}
+                  {location.state.VENDOR_DATA?.TAX_DATA?.GST?.GST_NUMBER}
                 </Typography>
                 <Tooltip title={"View Document"}>
                   <Button variant="text" component={"label"}>
@@ -311,6 +370,11 @@ function VendorDetails() {
                       style={{
                         height: 30,
                         width: 30,
+                      }}
+                      onClick={() => {
+                        openURLInNewTab(
+                          location.state.VENDOR_DATA?.TAX_DATA?.GST?.GST_DOC_URL
+                        );
                       }}
                     />
                   </Button>
@@ -329,7 +393,7 @@ function VendorDetails() {
                 }}
               >
                 <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                  {location.state.VENDOR_DATA?.PAN?.PAN_NUMBER}
+                  {location.state.VENDOR_DATA?.TAX_DATA?.PAN?.PAN_NUMBER}
                 </Typography>
                 <Tooltip title={"View Document"}>
                   <Button variant="text" component={"label"}>
@@ -338,6 +402,11 @@ function VendorDetails() {
                       style={{
                         height: 30,
                         width: 30,
+                      }}
+                      onClick={() => {
+                        openURLInNewTab(
+                          location.state.VENDOR_DATA?.TAX_DATA?.PAN?.PAN_DOC_URL
+                        );
                       }}
                     />
                   </Button>
@@ -356,7 +425,7 @@ function VendorDetails() {
                 }}
               >
                 <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                  {location.state.VENDOR_DATA?.CIN?.CIN_NUMBER}
+                  {location.state.VENDOR_DATA?.TAX_DATA?.CIN?.CIN_NUMBER}
                 </Typography>
                 <Tooltip title={"View Document"}>
                   <Button variant="text" component={"label"}>
@@ -365,6 +434,11 @@ function VendorDetails() {
                       style={{
                         height: 30,
                         width: 30,
+                      }}
+                      onClick={() => {
+                        openURLInNewTab(
+                          location.state.VENDOR_DATA?.TAX_DATA?.CIN?.CIN_DOC_URL
+                        );
                       }}
                     />
                   </Button>
@@ -385,7 +459,7 @@ function VendorDetails() {
                 }}
               >
                 <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                  {location.state.VENDOR_DATA?.MSME?.MSME_NUMBER}
+                  {location.state.VENDOR_DATA?.TAX_DATA?.MSME?.MSME_NUMBER}
                 </Typography>
                 <Tooltip title={"View Document"}>
                   <Button variant="text" component={"label"}>
@@ -394,6 +468,12 @@ function VendorDetails() {
                       style={{
                         height: 30,
                         width: 30,
+                      }}
+                      onClick={() => {
+                        openURLInNewTab(
+                          location.state.VENDOR_DATA?.TAX_DATA?.MSME
+                            ?.MSME_DOC_URL
+                        );
                       }}
                     />
                   </Button>
@@ -412,7 +492,8 @@ function VendorDetails() {
                 }}
               >
                 <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                  {location.state.VENDOR_DATA?.AADHAR?.AADHAR_NUMBER}
+                  {/* {location.state.VENDOR_DATA?.AADHAR?.AADHAR_NUMBER} */}
+                  {location.state.VENDOR_DATA?.TAX_DATA?.AADHAR?.AADHAR_NUMBER}
                 </Typography>
                 <Tooltip title={"View Document"}>
                   <Button variant="text" component={"label"}>
@@ -421,6 +502,12 @@ function VendorDetails() {
                       style={{
                         height: 30,
                         width: 30,
+                      }}
+                      onClick={() => {
+                        openURLInNewTab(
+                          location.state.VENDOR_DATA?.TAX_DATA?.AADHAR
+                            ?.AADHAR_DOC_URL
+                        );
                       }}
                     />
                   </Button>
@@ -475,7 +562,7 @@ function VendorDetails() {
                 Bank key (IFSC)
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                DMS
+                {location.state.VENDOR_DATA?.BANK_DETAILS?.BANK_KEY}
               </Typography>
             </Grid>
             <Grid item xs={6}>
@@ -485,7 +572,7 @@ function VendorDetails() {
                 Bank Account
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Test@gmail.com
+                {location.state.VENDOR_DATA?.BANK_DETAILS?.BANK_ACCOUNT}
               </Typography>
               <Divider />
               <Typography
@@ -494,7 +581,7 @@ function VendorDetails() {
                 Account Holder
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {location.state.VENDOR_DATA?.BANK_DETAILS?.ACCOUNT_HOLDER}
               </Typography>
               <Divider />
               <Typography
@@ -503,7 +590,7 @@ function VendorDetails() {
                 Bank Name
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                UP
+                {location.state.VENDOR_DATA?.BANK_DETAILS?.ACCOUNT_HOLDER}
               </Typography>
               <Divider />
               <Typography
@@ -512,7 +599,7 @@ function VendorDetails() {
                 Bank City
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                220223
+                {location.state.VENDOR_DATA?.BANK_DETAILS?.BANK_CITY}
               </Typography>
               <Divider />
               <Typography
@@ -521,7 +608,7 @@ function VendorDetails() {
                 Mode Of Payment
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                No
+                {location.state.VENDOR_DATA?.BANK_DETAILS?.MODE_OF_PAYMENT}
               </Typography>
               <Divider />
             </Grid>
@@ -545,7 +632,7 @@ function VendorDetails() {
                 Currency
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Test Vendor
+                {location.state.VENDOR_DATA?.COMPANY_DATA?.BANK_KEY}
               </Typography>
               <Divider />
               <Typography
@@ -554,7 +641,7 @@ function VendorDetails() {
                 Turn Over
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                India
+                {location.state.VENDOR_DATA?.COMPANY_DATA?.TURNOVER}
               </Typography>
               <Divider />
               <Typography
@@ -563,7 +650,7 @@ function VendorDetails() {
                 Company Code
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {location.state.VENDOR_DATA?.COMPANY_DATA?.COMPANY_CODE}
               </Typography>
               <Divider />
             </Grid>
@@ -571,10 +658,18 @@ function VendorDetails() {
               <Typography
                 sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
               >
-                Inco Term
+                Inco Term 1
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Test@gmail.com
+                {location.state.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_1}
+              </Typography>
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Inco Term 2
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {location.state.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_2}
               </Typography>
               <Divider />
               <Typography
@@ -583,8 +678,103 @@ function VendorDetails() {
                 Procurement Plant
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {location.state.VENDOR_DATA?.COMPANY_DATA?.PROCUREMENT_PLANT}
               </Typography>
+            </Grid>
+          </Grid>
+          <Typography
+            sx={{
+              color: COLORS.white,
+              fontWeight: 700,
+              fontSize: 20,
+              p: 1,
+              backgroundColor: COLORS.primary,
+            }}
+          >
+            Additional Info
+          </Typography>
+          <Grid container spacing={1}>
+            <Grid item xs={6}>
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Reconciliation Account in General Ledger
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.ADDITIONAL_DETAILS
+                    ?.RECONCILIATION_ACCOUNT
+                }
+              </Typography>
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Group for Calculation Schema (Supplier)
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.ADDITIONAL_DETAILS
+                    ?.GROUP_FOR_CALCULATION_SCHEMA
+                }
+              </Typography>
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Train Station
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {location.state.VENDOR_DATA?.ADDITIONAL_DETAILS?.TRAIN_STATION}
+              </Typography>
+              <Divider />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Accounting Clerk Abbreviation
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.ADDITIONAL_DETAILS
+                    ?.ACCOUNTING_CLERK_ABBREVIATION
+                }
+              </Typography>
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Trade Partner ID 1
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {location.state.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_2}{" "}
+                {
+                  location.state.VENDOR_DATA?.ADDITIONAL_DETAILS
+                    ?.TRADE_PARTNER_ID_1
+                }{" "}
+              </Typography>
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Trade Partner ID 2
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {location.state.VENDOR_DATA?.COMPANY_DATA?.TRADE_PARTNER_ID_2}
+              </Typography>
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Trade Partner ID 3
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {location.state.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_2}{" "}
+                {
+                  location.state.VENDOR_DATA?.ADDITIONAL_DETAILS
+                    ?.TRADE_PARTNER_ID_3
+                }{" "}
+              </Typography>
+              <Divider />
             </Grid>
           </Grid>
           <Typography
@@ -599,9 +789,149 @@ function VendorDetails() {
             Contact Person
           </Typography>
           <Typography
-            sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+            sx={{
+              color: "#333",
+              fontWeight: 600,
+              fontSize: 18,
+              p: 1,
+              backgroundColor: "#e5e2f4",
+            }}
           >
             Details Of The User/Concern Person
+          </Typography>
+
+          <Grid container spacing={1}>
+            <Grid item xs={6}>
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Name
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
+                    ?.NAME
+                }
+              </Typography>
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Address
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
+                    ?.ADDRESS
+                }
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Mobile
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
+                    ?.MOBILE
+                }
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Gender
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
+                    ?.GENDER?.value
+                }
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Bithday Date
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
+                    ?.BIRTH_DATE?.value
+                }
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Bithday Month
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
+                    ?.BIRTH_MONTH?.value
+                }
+              </Typography>
+
+              <Divider />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Email
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
+                    ?.EMAIL
+                }
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Landline
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
+                    ?.LANDLINE
+                }
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Designation
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
+                    ?.DESIGNATION
+                }
+              </Typography>
+
+              <Divider />
+            </Grid>
+          </Grid>
+          <Typography
+            sx={{
+              color: "#333",
+              fontWeight: 600,
+              fontSize: 18,
+              p: 1,
+              backgroundColor: "#e5e2f4",
+            }}
+          >
+            Vendor Contact Person
           </Typography>
           <Grid container spacing={1}>
             <Grid item xs={6}>
@@ -611,58 +941,48 @@ function VendorDetails() {
                 Name
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON
+                    ?.VENDOR_CONTACT_PERSON?.NAME
+                }
               </Typography>
-
               <Divider />
-            </Grid>
-            <Grid item xs={6}>
               <Typography
                 sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
               >
-                Employee Code
+                Address
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
-              </Typography>
-
-              <Divider />
-            </Grid>
-          </Grid>
-          <Typography
-            sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
-          >
-            Vendor
-          </Typography>
-          <Grid container spacing={1}>
-            <Grid item xs={6}>
-              <Typography
-                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
-              >
-                Telephone/Fax
-              </Typography>
-              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON
+                    ?.VENDOR_CONTACT_PERSON?.ADDRESS
+                }
               </Typography>
 
               <Divider />
               <Typography
                 sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
               >
-                Phone local
+                Mobile
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON
+                    ?.VENDOR_CONTACT_PERSON?.MOBILE
+                }
               </Typography>
 
               <Divider />
               <Typography
                 sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
               >
-                Cellular
+                Gender
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON
+                    ?.VENDOR_CONTACT_PERSON?.GENDER?.value
+                }
               </Typography>
 
               <Divider />
@@ -672,7 +992,23 @@ function VendorDetails() {
                 Bithday Date
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON
+                    ?.VENDOR_CONTACT_PERSON?.BIRTH_DATE?.value
+                }
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Bithday Month
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON
+                    ?.VENDOR_CONTACT_PERSON?.BIRTH_MONTH?.value
+                }
               </Typography>
 
               <Divider />
@@ -684,95 +1020,49 @@ function VendorDetails() {
                 Email
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON
+                    ?.VENDOR_CONTACT_PERSON?.EMAIL
+                }
               </Typography>
 
               <Divider />
               <Typography
                 sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
               >
-                Owner Gender
+                Landline
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON
+                    ?.VENDOR_CONTACT_PERSON?.LANDLINE
+                }
               </Typography>
 
               <Divider />
               <Typography
                 sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
               >
-                Whatsapp Number
+                Designation
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON
+                    ?.VENDOR_CONTACT_PERSON?.DESIGNATION
+                }
               </Typography>
 
               <Divider />
             </Grid>
           </Grid>
           <Typography
-            sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
-          >
-            Vendor Contact Person
-          </Typography>
-          <Grid container spacing={1}>
-            <Grid item xs={6}>
-              <Typography
-                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
-              >
-                Name With Post
-              </Typography>
-              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
-              </Typography>
-
-              <Divider />
-              <Typography
-                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
-              >
-                Mobile Number
-              </Typography>
-              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
-              </Typography>
-
-              <Divider />
-              <Typography
-                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
-              >
-                Cellular
-              </Typography>
-              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
-              </Typography>
-
-              <Divider />
-              <Typography
-                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
-              >
-                Bithday Date
-              </Typography>
-              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
-              </Typography>
-
-              <Divider />
-            </Grid>
-            <Grid item xs={6}>
-              <Typography
-                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
-              >
-                Email
-              </Typography>
-              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
-              </Typography>
-
-              <Divider />
-            </Grid>
-          </Grid>
-          <Typography
-            sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+            sx={{
+              color: "#333",
+              fontWeight: 600,
+              fontSize: 18,
+              p: 1,
+              backgroundColor: "#e5e2f4",
+            }}
           >
             Promoter
           </Typography>
@@ -781,20 +1071,68 @@ function VendorDetails() {
               <Typography
                 sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
               >
-                Promoter Name
+                Name
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {location.state.VENDOR_DATA?.CONTACT_PERSON?.PROMOTER?.NAME}
+              </Typography>
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Address
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {location.state.VENDOR_DATA?.CONTACT_PERSON?.PROMOTER?.ADDRESS}
               </Typography>
 
               <Divider />
               <Typography
                 sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
               >
-                Mobile Number
+                Mobile
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {location.state.VENDOR_DATA?.CONTACT_PERSON?.PROMOTER?.MOBILE}
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Gender
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.PROMOTER?.GENDER
+                    ?.value
+                }
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Bithday Date
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.PROMOTER
+                    ?.BIRTH_DATE?.value
+                }
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Bithday Month
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.PROMOTER
+                    ?.BIRTH_MONTH?.value
+                }
               </Typography>
 
               <Divider />
@@ -806,24 +1144,49 @@ function VendorDetails() {
                 Email
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
+                    ?.EMAIL
+                }
               </Typography>
 
               <Divider />
               <Typography
                 sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
               >
-                Address
+                Landline
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
+                    ?.LANDLINE
+                }
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Designation
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
+                    ?.DESIGNATION
+                }
               </Typography>
 
               <Divider />
             </Grid>
           </Grid>
           <Typography
-            sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+            sx={{
+              color: "#333",
+              fontWeight: 600,
+              fontSize: 18,
+              p: 1,
+              backgroundColor: "#e5e2f4",
+            }}
           >
             Director/Partenr/Proprietor'S Name
           </Typography>
@@ -835,17 +1198,74 @@ function VendorDetails() {
                 Name
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON
+                    ?.DIRECTOR_PARTNER_PROPRIETOR?.NAME
+                }
+              </Typography>
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Address
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON
+                    ?.DIRECTOR_PARTNER_PROPRIETOR?.ADDRESS
+                }
               </Typography>
 
               <Divider />
               <Typography
                 sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
               >
-                Mobile Number
+                Mobile
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON
+                    ?.DIRECTOR_PARTNER_PROPRIETOR?.MOBILE
+                }
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Gender
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON
+                    ?.DIRECTOR_PARTNER_PROPRIETOR?.GENDER?.value
+                }
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Bithday Date
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON
+                    ?.DIRECTOR_PARTNER_PROPRIETOR?.BIRTH_DATE?.value
+                }
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Bithday Month
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON
+                    ?.DIRECTOR_PARTNER_PROPRIETOR?.BIRTH_MONTH?.value
+                }
               </Typography>
 
               <Divider />
@@ -857,7 +1277,36 @@ function VendorDetails() {
                 Email
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                Noida
+                {
+                  location.state.VENDOR_DATA?.DIRECTOR_PARTNER_PROPRIETOR
+                    ?.DETAILS_OF_USER?.EMAIL
+                }
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Landline
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.DIRECTOR_PARTNER_PROPRIETOR
+                    ?.DETAILS_OF_USER?.LANDLINE
+                }
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Designation
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.DIRECTOR_PARTNER_PROPRIETOR
+                    ?.DETAILS_OF_USER?.DESIGNATION
+                }
               </Typography>
 
               <Divider />

@@ -31,19 +31,22 @@ import ContactPerson from "./VendorsTabs/ContactPerson";
 import { Countertops, Height } from "@mui/icons-material";
 import AXIOS from "../../utils/AXIOS";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { RxCross1 } from "react-icons/rx";
 import { connect } from "react-redux";
+import BackButtonImage from "../../assets/images/back.png";
 import {
   setGeneralDataAction,
   setCompanyDataAction,
   setContactPersonAction,
   setBankDetailsAction,
+  setAdditionalInformationAction,
   setTaxDataAction,
 } from "../../redux/action/vendorAction";
 import cogoToast from "cogo-toast";
 
 import "./style.css";
+import FinalVendorDetails from "./VendorsTabs/AdditionalInformation";
 
 const drawerWidth = 280;
 
@@ -62,6 +65,9 @@ const style = {
   bgcolor: "white",
 };
 function VendorCreation(props) {
+
+  const navigate=useNavigate();
+
   const [showDrawerAppBar, setShowDrawerAppBar] = useState(null);
 
   const [sendOTPTimer, setSendOTPTimer] = useState(null);
@@ -93,7 +99,9 @@ function VendorCreation(props) {
         props.setGeneralDataAction([]);
         props.setTaxDataAction([]);
         props.setContactPersonAction([]);
+        props.setCompanyDataAction([]);
         props.setBankDetailsAction([]);
+        props.setAdditionalInformationAction([]);
         setRoutedFromApprovalScreen(false);
       }
       setShowDrawerAppBar(true);
@@ -197,6 +205,7 @@ console.log("a,jbhjadbhjesb f", SecuredOTP);
     props.setGeneralDataAction(tempGeneralData);
     props.setTaxDataAction(tempTaxData);
     props.setCompanyDataAction(tempCompanyData);
+    props.setCompanyDataAction(location.state?.VENDOR_DATA?.ADDITIONAL_DETAILS);
     props.setContactPersonAction(location.state?.VENDOR_DATA?.CONTACT_PERSON);
 
     props.setBankDetailsAction(location.state?.VENDOR_DATA?.BANK_DETAILS);
@@ -233,7 +242,7 @@ console.log("a,jbhjadbhjesb f", SecuredOTP);
     // console.log("URL", url);
     url = url.split("=");
     var final_url = url[1];
-    // console.log("Latest url", final_url);
+    console.log("Latest url", final_url);
     if (final_url.length > 0) {
       axios
         .post(AXIOS.axiosUrl + AXIOS.vendor_create_otp_send, {
@@ -242,6 +251,9 @@ console.log("a,jbhjadbhjesb f", SecuredOTP);
         .then((response) => {
           if (response.data.daysLimitError == true) {
             cogoToast.error("Application expired, Please contact buyer");
+          }
+          else{
+            cogoToast.success("OTP sent to Email ID")
           }
 
           console.log("valid token", response.data);
@@ -311,7 +323,7 @@ console.log("a,jbhjadbhjesb f", SecuredOTP);
                 : parseInt(OTP),
           })
           .then((response) => {
-            console.log("sldfjhdsbfhjds");
+            console.log("sldfjhdsbfhjds",response.data);
             if (response.data.OTP_verified == true) {
               localStorage.setItem("MDM_MasterOTPToken", vendorVerificationOTP);
               const countryIndex = CountryList.findIndex(
@@ -319,31 +331,32 @@ console.log("a,jbhjadbhjesb f", SecuredOTP);
               );
 
               let tempGeneralData = {
-                NAME: response.data.vendor_data[0].NAME,
-                EMAIL: response.data.vendor_data[0].EMAIL,
+                APPLICATION_ID: response.data.vendor_data[0]?.APPLICATION_ID,
+                NAME: response.data.vendor_data[0]?.NAME,
+                EMAIL: response.data.vendor_data[0]?.EMAIL,
                 COUNTRY: CountryList[countryIndex],
                 STATE: {
-                  label: response.data.vendor_data[0].STATE,
-                  value: response.data.vendor_data[0].STATE,
+                  label: response.data.vendor_data[0]?.STATE,
+                  value: response.data.vendor_data[0]?.STATE,
                 },
                 CITY:
-                  response.data.vendor_data[0].CITY != "undefined"
+                  response.data.vendor_data[0]?.CITY != "undefined"
                     ? response.data.vendor_data[0].CITY
                     : "",
-                ADDRESS_LINE_1: response.data.vendor_data[0].ADDRESS_LINE_1,
-                ADDRESS_LINE_2: response.data.vendor_data[0].ADDRESS_LINE_2,
-                ADDRESS_LINE_3: response.data.vendor_data[0].ADDRESS_LINE_3,
-                PINCODE: response.data.vendor_data[0].PINCODE,
+                ADDRESS_LINE_1: response.data.vendor_data[0]?.ADDRESS_LINE_1,
+                ADDRESS_LINE_2: response.data.vendor_data[0]?.ADDRESS_LINE_2,
+                ADDRESS_LINE_3: response.data.vendor_data[0]?.ADDRESS_LINE_3,
+                PINCODE: response.data.vendor_data[0]?.PINCODE,
                 FAX:
-                  response.data.vendor_data[0].FAX_DETAILS != "undefined"
-                    ? response.data.vendor_data[0].FAX_DETAILS
+                  response.data.vendor_data[0]?.FAX_DETAILS != "undefined"
+                    ? response.data.vendor_data[0]?.FAX_DETAILS
                     : "",
-                TIME_ZONE: response.data.vendor_data[0].TIME_ZONE_MOBILE,
+                TIME_ZONE: response.data.vendor_data[0]?.TIME_ZONE_MOBILE,
                 COMPANY_CODE:
-                  response.data.vendor_data[0].COMPANY_DATA.COMPANY_CODE,
+                  response.data.vendor_data[0]?.COMPANY_DATA.COMPANY_CODE,
                 BUSINESS_ROLE: {
-                  label: response.data.vendor_data[0].BUSINESS_ROLE,
-                  value: response.data.vendor_data[0].BUSINESS_ROLE,
+                  label: response.data.vendor_data[0]?.BUSINESS_ROLE,
+                  value: response.data.vendor_data[0]?.BUSINESS_ROLE,
                 },
               };
 
@@ -417,8 +430,12 @@ console.log("a,jbhjadbhjesb f", SecuredOTP);
               props.setBankDetailsAction(
                 response.data.vendor_data[0].BANK_DETAILS
               );
+              props.setAdditionalInformationAction(
+                response.data.vendor_data[0].ADDITIONAL_DETAILS
+              );
               setVendorOTPModalFlag(false);
             } else {
+              cogoToast.error("OTP does not matched")
               setVendorOTPModalFlag(true);
               localStorage.removeItem(
                 "MDM_MasterOTPToken",
@@ -449,27 +466,27 @@ console.log("a,jbhjadbhjesb f", SecuredOTP);
       let VendorFormData = new FormData();
 
       // VendorFormData.append("NAME", props.GENERAL_DATA.NAME);
-      VendorFormData.set("NAME", props.GENERAL_DATA?.NAME);
+      VendorFormData.set("NAME", props.GENERAL_DATA?.NAME!=undefined ? props.GENERAL_DATA?.NAME :"");
       VendorFormData.set("APPROVAL_FLAG", "1");
-      VendorFormData.set("EMAIL", props.GENERAL_DATA?.EMAIL);
-      VendorFormData.set("COUNTRY", props.GENERAL_DATA?.COUNTRY?.value);
-      VendorFormData.set("CITY", props.GENERAL_DATA?.CITY);
-      VendorFormData.set("STATE", props.GENERAL_DATA?.STATE?.value);
-      VendorFormData.set("ADDRESS_LINE_1", props.GENERAL_DATA?.ADDRESS_LINE_1);
-      VendorFormData.set("ADDRESS_LINE_2", props.GENERAL_DATA?.ADDRESS_LINE_2);
-      VendorFormData.set("ADDRESS_LINE_3", props.GENERAL_DATA?.ADDRESS_LINE_3);
-      VendorFormData.set("PINCODE", props.GENERAL_DATA?.PINCODE);
-      VendorFormData.set("DISTRICT", props.GENERAL_DATA?.DISTRICT);
+      VendorFormData.set("EMAIL", props.GENERAL_DATA?.EMAIL!=undefined ?props.GENERAL_DATA?.EMAIL:"");
+      VendorFormData.set("COUNTRY", props.GENERAL_DATA?.COUNTRY?.value!=undefined?props.GENERAL_DATA?.COUNTRY?.value:"");
+      VendorFormData.set("CITY", props.GENERAL_DATA?.CITY!=undefined ? props.GENERAL_DATA?.CITY:"");
+      VendorFormData.set("STATE", props.GENERAL_DATA?.STATE?.value!=undefined ? props.GENERAL_DATA?.STATE?.value :"");
+      VendorFormData.set("ADDRESS_LINE_1", props.GENERAL_DATA?.ADDRESS_LINE_1!=undefined ? props.GENERAL_DATA?.ADDRESS_LINE_1 :"");
+      VendorFormData.set("ADDRESS_LINE_2", props.GENERAL_DATA?.ADDRESS_LINE_2!=undefined ?props.GENERAL_DATA?.ADDRESS_LINE_2 :"");
+      VendorFormData.set("ADDRESS_LINE_3", props.GENERAL_DATA?.ADDRESS_LINE_3!=undefined ?props.GENERAL_DATA?.ADDRESS_LINE_3 :"");
+      VendorFormData.set("PINCODE", props.GENERAL_DATA?.PINCODE!=undefined ? props.GENERAL_DATA?.PINCODE :"");
+      VendorFormData.set("DISTRICT", props.GENERAL_DATA?.DISTRICT!=undefined ?props.GENERAL_DATA?.DISTRICT :"");
 
       VendorFormData.set(
         "TIME_ZONE_MOBILE",
-        props.GENERAL_DATA.COUNTRY?.timezone
+        props.GENERAL_DATA.COUNTRY?.timezone!=undefined ?  props.GENERAL_DATA.COUNTRY?.timezone :""
       );
-      VendorFormData.set("FAX_DETAILS", props.GENERAL_DATA?.FAX);
+      VendorFormData.set("FAX_DETAILS", props.GENERAL_DATA?.FAX!=undefined ?props.GENERAL_DATA?.FAX :"");
 
       VendorFormData.set(
         "BUSINESS_ROLE",
-        props.GENERAL_DATA?.BUSINESS_ROLE?.value
+        props.GENERAL_DATA?.BUSINESS_ROLE?.value!=undefined?   props.GENERAL_DATA?.BUSINESS_ROLE?.value:""
       );
       VendorFormData.set(
         "TAX_DATA",
@@ -509,6 +526,21 @@ console.log("a,jbhjadbhjesb f", SecuredOTP);
           INCO_TERM_1: props.COMPANY_DATA?.INCO_TERM_1?.value,
           INCO_TERM_2: props.COMPANY_DATA?.INCO_TERM_2?.value,
           PROCUREMENT_PLANT: props.COMPANY_DATA?.PROCUREMENT_PLANT,
+        })
+      );
+
+
+
+      VendorFormData.set(
+        "ADDITIONAL_DETAILS",
+        JSON.stringify({
+          RECONCILIATION_ACCOUNT: props.ADDITIONAL_DETAILS?.RECONCILIATION_ACCOUNT,
+          GROUP_FOR_CALCULATION_SCHEMA: props.ADDITIONAL_DETAILS?.GROUP_FOR_CALCULATION_SCHEMA,
+          TRAIN_STATION: props.ADDITIONAL_DETAILS?.TRAIN_STATION,
+          TRADE_PARTNER_ID_1: props.ADDITIONAL_DETAILS?.TRADE_PARTNER_ID_1,
+          TRADE_PARTNER_ID_2: props.ADDITIONAL_DETAILS?.TRADE_PARTNER_ID_2,
+          TRADE_PARTNER_ID_3: props.ADDITIONAL_DETAILS?.TRADE_PARTNER_ID_3,
+          PROCUREMENT_PLANT: props.ADDITIONAL_DETAILS?.PROCUREMENT_PLANT,
         })
       );
       VendorFormData.set(
@@ -665,7 +697,33 @@ console.log("a,jbhjadbhjesb f", SecuredOTP);
             justifyContent: "space-between",
           }}
         >
-          <h1>Vendor Creation</h1>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            {showDrawerAppBar && (
+              <img
+                src={BackButtonImage}
+                style={{
+                  width: 35,
+                  height: 20,
+                  marginRight: 15,
+                  marginBottom: 7,
+                  cursor: "pointer",
+                }}
+                onClick={() => navigate(-1)}
+              />
+            )}
+
+            <h1>
+              {RoutedFromApprovalScreen
+                ? location.state?.VENDOR_DATA?.APPLICATION_ID
+                : "Vendor Creation"}
+            </h1>
+          </Box>
+
           {/* <Box></Box> */}
           {showDrawerAppBar &&
             (RoutedFromApprovalScreen ? (
@@ -797,8 +855,20 @@ console.log("a,jbhjadbhjesb f", SecuredOTP);
               textTransform: "none",
             }}
           />
+          {showDrawerAppBar && (
+            <Tab
+              value={5}
+              label="Additional information"
+              sx={{
+                fontSize: { xs: 14, md: 18 },
+                fontWeight: 600,
+                textTransform: "none",
+              }}
+            />
+          )}
+
           <Tab
-            value={5}
+            value={6}
             label="Contact Person"
             sx={{
               fontSize: { xs: 14, md: 18 },
@@ -811,7 +881,13 @@ console.log("a,jbhjadbhjesb f", SecuredOTP);
         {VendorTab == 2 && <TaxData />}
         {VendorTab == 3 && <BankDetails />}
         {VendorTab == 4 && <CompanyData />}
-        {VendorTab == 5 && <ContactPerson />}
+        {showDrawerAppBar && VendorTab == 5 && (
+          <FinalVendorDetails showDrawerAppBar={showDrawerAppBar} />
+        )}
+
+        {VendorTab == 6 && (
+          <ContactPerson showDrawerAppBar={showDrawerAppBar} />
+        )}
         <Modal
           open={vendorOTPModalFlag}
           // onClose={()=>{
@@ -961,6 +1037,7 @@ const mapStateToProps = (state) => ({
   COMPANY_DATA: state.vendor.company_data,
   TAX_DATA: state.vendor.tax_data,
   GENERAL_DATA: state.vendor.general_data,
+  ADDITIONAL_DETAILS: state.vendor.additional_info,
 });
 
 export default connect(mapStateToProps, {
@@ -969,4 +1046,5 @@ export default connect(mapStateToProps, {
   setContactPersonAction,
   setBankDetailsAction,
   setTaxDataAction,
+  setAdditionalInformationAction,
 })(VendorCreation);

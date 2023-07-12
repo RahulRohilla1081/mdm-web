@@ -31,9 +31,7 @@ const auth = (state = initialState, action) => {
         session_token: action.session_token,
         roles_access: action.roles_access,
         customer_id: action.customer_id,
-        institute_logo: action.institute_logo,
-        institute_name: action.institute_name,
-        institute_address: action.institute_address,
+
       };
     case "AUTH_SESSION_LOGOUT":
       return {
@@ -49,9 +47,7 @@ const auth = (state = initialState, action) => {
         session_token: action.session_token,
         roles_access: action.roles_access,
         customer_id: action.customer_id,
-        institute_logo: action.institute_logo,
-        institute_name: action.institute_name,
-        institute_address: action.institute_address,
+
       };
     default:
       return state;

@@ -51,6 +51,8 @@ function ContactPerson(props) {
   ];
   let DayArray = Array.from(Array(32).keys());
 
+  console.log("props.showDrawerAppBar", props.showDrawerAppBar);
+
   const [TbodyDETAILS_OF_USER, setTbodyDETAILS_OF_USER] = useState([]);
   const [TbodyVENDOR, setTbodyVENDOR] = useState([]);
   const [TbodyVENDOR_CONTACT_PERSON, setTbodyVENDOR_CONTACT_PERSON] = useState(
@@ -180,7 +182,7 @@ function ContactPerson(props) {
     // VendorFormData.append("NAME", props.GENERAL_DATA.NAME);
     VendorFormData.set("APPLICATION_ID", props.GENERAL_DATA?.APPLICATION_ID);
     VendorFormData.set("NAME", props.GENERAL_DATA?.NAME);
-          VendorFormData.set("APPROVAL_FLAG", "2");
+          VendorFormData.set("APPROVAL_FLAG", props.showDrawerAppBar==true? "3":"2");
     VendorFormData.set("EMAIL", props.GENERAL_DATA?.EMAIL);
     VendorFormData.set("COUNTRY", props.GENERAL_DATA?.COUNTRY?.value);
     VendorFormData.set("CITY", props.GENERAL_DATA.CITY?.value);
@@ -226,6 +228,21 @@ function ContactPerson(props) {
         MODE_OF_PAYMENT: props.BANK_DETAILS_DATA?.MODE_OF_PAYMENT?.value,
       })
     );
+    
+      VendorFormData.set(
+        "ADDITIONAL_DETAILS",
+        JSON.stringify({
+          RECONCILIATION_ACCOUNT:
+            props.ADDITIONAL_DETAILS?.RECONCILIATION_ACCOUNT,
+          GROUP_FOR_CALCULATION_SCHEMA:
+            props.ADDITIONAL_DETAILS?.GROUP_FOR_CALCULATION_SCHEMA,
+          TRAIN_STATION: props.ADDITIONAL_DETAILS?.TRAIN_STATION,
+          TRADE_PARTNER_ID_1: props.ADDITIONAL_DETAILS?.TRADE_PARTNER_ID_1,
+          TRADE_PARTNER_ID_2: props.ADDITIONAL_DETAILS?.TRADE_PARTNER_ID_2,
+          TRADE_PARTNER_ID_3: props.ADDITIONAL_DETAILS?.TRADE_PARTNER_ID_3,
+          PROCUREMENT_PLANT: props.ADDITIONAL_DETAILS?.PROCUREMENT_PLANT,
+        })
+      );
     VendorFormData.set(
       "COMPANY_DATA",
       JSON.stringify({
@@ -380,15 +397,10 @@ function ContactPerson(props) {
                   ...prevState,
                   NAME: e.target.value,
                 }));
-                // setTbody((prev) => ({
-                //   ...prev,
-                //   DETAILS_OF_USER: TbodyDETAILS_OF_USER,
-                // }));
+               
               }}
 
-              // onChange={(e) => {
-              //   handleVendorInput(e.target.value, index, "NAME");
-              // }}
+             
             />
 
             <Label LabelText="Address" />
@@ -1290,6 +1302,7 @@ const mapStateToProps = (state) => ({
   COMPANY_DATA: state.vendor.company_data,
   TAX_DATA: state.vendor.tax_data,
   GENERAL_DATA: state.vendor.general_data,
+  ADDITIONAL_DETAILS: state.vendor.additional_info,
 });
 
 export default connect(mapStateToProps, {

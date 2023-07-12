@@ -28,3 +28,9 @@ export const setContactPersonAction = (ContactPerson) => (dispatch) => {
       contact_person: ContactPerson,
     });
 }
+export const setAdditionalInformationAction = (Additional_info) => (dispatch) => {
+  dispatch({
+    type: "SET_ADDITIONAL_INFO_DATA",
+    additional_info: Additional_info,
+  });
+};
