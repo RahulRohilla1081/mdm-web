@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, ButtonGroup, Grid, Tooltip } from "@mui/material";
+import { Avatar, Box, Button, ButtonGroup, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, Tooltip } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CustomInput from "../../../components/CustomInput/CustomInput";
 import IconButton from "../../../components/IconButton/IconButton";
@@ -11,6 +11,7 @@ import cogoToast from "cogo-toast";
 
 function TaxData(props) {
   const [TaxData, setTaxData] = useState([]);
+  const [TaxDataErrorFlag, setTaxDataErrorFlag] = useState([]);
 
   useEffect(() => {
     
@@ -19,7 +20,23 @@ function TaxData(props) {
   }, [props.TAX_DATA]);
 
   const saveTaxData = () => {
-    props.setTaxDataAction(TaxData);
+    if (TaxData.IS_GST_APPLICABLE=="YES" ) {
+      if(TaxData.GST_NUMBER=="" || TaxData.GST_NUMBER==undefined ){
+        setTaxDataErrorFlag((prev)=>({
+          ...prev,
+          GST_NUMBER_ERROR_FLAG:true
+        }));
+      }
+    }else {
+
+      setTaxData((prev)=>({
+        ...prev,
+        GST_NUMBER:""
+      }))
+
+    } 
+
+     props.setTaxDataAction(TaxData);
   };
 
   return (
@@ -56,6 +73,45 @@ function TaxData(props) {
       >
         <Grid xs={6} md={0} item>
           <Label LabelText="GST Number" />
+          <FormControl>
+            {/* <FormLabel id="demo-radio-buttons-group-label">Gender</FormLabel> */}
+            <RadioGroup
+              aria-labelledby="demo-radio-buttons-group-label"
+              defaultValue="female"
+              name="radio-buttons-group"
+            >
+              <FormControlLabel
+                checked={TaxData?.IS_GST_APPLICABLE == "YES" ? true : false}
+                control={<Radio />}
+                label="Applicable"
+                onChange={(e) => {
+                  console.log(e.target.value);
+                  setTaxData((prevState) => ({
+                    ...prevState,
+                    IS_GST_APPLICABLE: "YES",
+                  }));
+                }}
+              />
+              <FormControlLabel
+                checked={
+                  TaxData?.IS_GST_APPLICABLE == "NA" ||
+                  TaxData?.IS_GST_APPLICABLE == undefined
+                    ? true
+                    : false
+                }
+                control={<Radio />}
+                label="Not Applicable"
+                onChange={(e) => {
+                  console.log(e.target.value);
+                  setTaxData((prevState) => ({
+                    ...prevState,
+                    IS_GST_APPLICABLE: "NA",
+                  }));
+                }}
+              />
+            </RadioGroup>
+          </FormControl>
+
           <Box
             sx={{
               display: "flex",
@@ -65,11 +121,22 @@ function TaxData(props) {
             <CustomInput
               Placeholder="GST Number"
               Value={TaxData?.GST_NUMBER}
+              error={TaxDataErrorFlag?.GST_NUMBER_ERROR_FLAG}
+              Disabled={
+                TaxData?.IS_GST_APPLICABLE == "NA" ||
+                TaxData?.IS_GST_APPLICABLE == undefined
+                  ? true
+                  : false
+              }
               onChange={(e) => {
                 if (e.target.value.length <= 15) {
                   setTaxData((prevState) => ({
                     ...prevState,
                     GST_NUMBER: e.target.value,
+                  }));
+                  setTaxDataErrorFlag((prevState) => ({
+                    ...prevState,
+                    GST_NUMBER_ERROR_FLAG: false,
                   }));
                 } else {
                   cogoToast.warn("Maximum length 15 only");
@@ -78,9 +145,23 @@ function TaxData(props) {
               Style={{
                 width: "100%",
               }}
+              helperText={
+                TaxDataErrorFlag?.GST_NUMBER_ERROR_FLAG
+                  ? "Please enter a valid GST Number"
+                  : ""
+              }
             />
             <Tooltip title={"Upload Image"}>
-              <Button variant="text" component={"label"}>
+              <Button
+                variant="text"
+                component={"label"}
+                disabled={
+                  TaxData?.IS_GST_APPLICABLE == "NA" ||
+                  TaxData?.IS_GST_APPLICABLE == undefined
+                    ? true
+                    : false
+                }
+              >
                 <img
                   src={ICONS.folder}
                   style={{

@@ -9,6 +9,7 @@ import {
   ListItemButton,
   useMediaQuery,
   useTheme,
+  Box,
 } from "@mui/material";
 
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
@@ -23,6 +24,7 @@ import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 import { useNavigate } from "react-router-dom";
 import { DASHBOARD, PROFILE, VENDOR, VENDOR_APPROVAL, VENDOR_CREATION } from "../../utils/Routes";
 import { COLORS } from "../../utils/Theme";
+import "./styles.css"
 
 const listItem = [
   {
@@ -61,25 +63,26 @@ export default function AppDrawer(props) {
   };
 
   return (
-    <>
+    <Box>
       <Drawer
         open={props.showDrawer}
         variant={`${breakPointlg ? "permanent" : "temporary"}`}
         ModalProps={{
           keepMounted: true,
         }}
+        className="back-ground-drawer"
         onClose={handleDrawerToggle}
         sx={{
           "& .MuiDrawer-paper": {
             zIndex: (theme) => theme.zIndex.drawer - 200,
             boxSizing: "border-box",
             width: props.drawerWidth,
-            backgroundColor: "#f7f7f7",
+            backgroundColor: "#cfe2ff",
           },
         }}
       >
-        <Toolbar />
-        <Toolbar>
+        {/* <Toolbar /> */}
+        <Toolbar className="back-ground-drawer">
           <List sx={{ width: 1 }}>
             {listItem.map((navItem, index) => (
               <ListItem
@@ -89,13 +92,14 @@ export default function AppDrawer(props) {
                   borderRadius: 4,
                   overflow: "hidden",
                   backgroundColor:
-                    props.ActiveKey == navItem.path ? COLORS.secondary : null,
+                    props.ActiveKey == navItem.path ? "#0e86d4" : null,
+                  color: props.ActiveKey == navItem.path ? "#fff" : null,
                 }}
                 onClick={(e) => {
-                  navigate(navItem.path,{
-                    state:{
-                      path:navItem.path
-                    }
+                  navigate(navItem.path, {
+                    state: {
+                      path: navItem.path,
+                    },
                   });
                 }}
               >
@@ -108,6 +112,6 @@ export default function AppDrawer(props) {
           </List>
         </Toolbar>
       </Drawer>
-    </>
+    </Box>
   );
 }

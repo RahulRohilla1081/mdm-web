@@ -1,0 +1,8 @@
+.ModalScroll{
+      height: 400px;
+  /* width: 700px; */
+  /* overflow-y: hidden; */
+  
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}

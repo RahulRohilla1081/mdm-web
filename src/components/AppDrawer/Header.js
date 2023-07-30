@@ -48,6 +48,7 @@ function Header(props) {
         width: { lg: `calc(100% - ${props.drawerWidth}px)` },
         backgroundColor: "rgba(255,255,255,0.7)",
         backdropFilter: "blur(10px)",
+        
       }}
     >
       <Toolbar>

@@ -107,9 +107,9 @@ getIncoTermData();
               }));
             }}
           />
-          <Label LabelText="Turnover*" />
+          <Label LabelText="Turnover in Rupees*" />
           <CustomInput
-            Placeholder="Turnover"
+            Placeholder="Turnover in Rupees"
             Value={Tbody?.TURNOVER}
             onChange={(e) => {
               console.log(Tbody);

@@ -9,6 +9,7 @@ import { connect, useDispatch } from "react-redux";
 import { setGeneralDataAction } from "../../../redux/action/vendorAction";
 import { COLORS } from "../../../utils/Theme";
 import cogoToast from "cogo-toast";
+import "../style.css"
 
 function General(props) {
   const dispatch = useDispatch();
@@ -212,6 +213,7 @@ function General(props) {
           display: "flex",
           justifyContent: "flex-end",
         }}
+
       >
         <Button
           variant="outlined"
@@ -234,7 +236,10 @@ function General(props) {
           borderRadius: 3,
           marginLeft: 0,
           width: "100%",
+         
+
         }}
+        className="card-background"
       >
         <Grid xs={6} md={0} item>
           <Label LabelText="Name*" />
@@ -424,7 +429,28 @@ function General(props) {
               }));
             }}
           />
-          {GeneralDataErrorFlags?.BUSINESS_ROLE_ERROR && (
+          <Label LabelText="Vendor Group*" />
+          <CustomInput
+            Placeholder="Vendor Group"
+            error={GeneralDataErrorFlags?.VENDOR_GROUP}
+            Value={GeneralData.VENDOR_GROUP}
+            onChange={(e) => {
+              setGeneralData((prevState) => ({
+                ...prevState,
+                VENDOR_GROUP: e.target.value,
+              }));
+              setGeneralDataErrorFlags((prev) => ({
+                ...prev,
+                CITY_ERROR: false,
+              }));
+            }}
+            // helperText={
+            //   GeneralDataErrorFlags?.CITY_ERROR
+            //     ? "Please enter a valid City"
+            //     : ""
+            // }
+          />
+          {/* {GeneralDataErrorFlags?.BUSINESS_ROLE_ERROR && (
             <Typography
               sx={{
                 fontSize: 12,
@@ -434,7 +460,7 @@ function General(props) {
             >
               Please select Business role
             </Typography>
-          )}
+          )} */}
         </Grid>
         <Grid xs={6} md={0} item>
           <Label LabelText="Email*" />
@@ -545,23 +571,25 @@ function General(props) {
             error={GeneralDataErrorFlags?.PIN_CODE_ERROR}
             Value={GeneralData.PINCODE}
             onChange={(e) => {
-              if (e.target.value.length<=GeneralData?.COUNTRY?.postal_code_length){
-
+              if (
+                e.target.value.length <=
+                GeneralData?.COUNTRY?.postal_code_length
+              ) {
                 setGeneralData((prevState) => ({
                   ...prevState,
                   PINCODE: e.target.value,
                 }));
-              setGeneralDataErrorFlags((prev) => ({
-                ...prev,
-                PIN_CODE_ERROR: false,
-              }));
-              }
-              else{
+                setGeneralDataErrorFlags((prev) => ({
+                  ...prev,
+                  PIN_CODE_ERROR: false,
+                }));
+              } else {
                 cogoToast.warn(
-                  "Maximum " + GeneralData?.COUNTRY?.postal_code_length+" latter allowed"
+                  "Maximum " +
+                    GeneralData?.COUNTRY?.postal_code_length +
+                    " latter allowed"
                 );
               }
-
             }}
             helperText={
               GeneralDataErrorFlags?.PIN_CODE_ERROR

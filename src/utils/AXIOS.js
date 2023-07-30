@@ -16,6 +16,7 @@ const VendorDataFromApplication =
   const logoutSession ="api/login/logout_session_delete";
   const vendor_approve_reject = "api/vendor/vendor_approval_update";
   const createVendorSAP ="api/vendor/data_send_to_sap";
+  const sap_created_vendor_get ="api/vendor/sap_created_vendor_get";
 export default {
   axiosUrl,
   vendorCreate,
@@ -32,4 +33,5 @@ export default {
   logoutSession,
   vendor_approve_reject,
   createVendorSAP,
+  sap_created_vendor_get,
 };

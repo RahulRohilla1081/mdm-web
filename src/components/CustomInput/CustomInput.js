@@ -98,6 +98,7 @@ export default function CustomInput({
       helperText={helperText}
       sx={{
         width: "100%",
+        backgroundColor:"#fff"
       }}
       onBlur={onBlur}
     />

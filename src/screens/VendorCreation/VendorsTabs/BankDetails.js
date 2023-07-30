@@ -162,7 +162,7 @@ function BankDetails(props) {
             onChange={(e) => {
               setTbody((prevState) => ({
                 ...prevState,
-                DMS: e.target.value,
+                DMS: e.target.files[0]
               }));
             }}
           />
