@@ -13,7 +13,7 @@ import {
   TextField,
   Tooltip,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AppDrawer from "../../components/AppDrawer/AppDrawer";
 import MainScreen from "../../components/AppDrawer/MainScreen";
 import Header from "../../components/AppDrawer/Header";
@@ -22,23 +22,32 @@ import { useNavigate } from "react-router-dom";
 import { COLORS } from "../../utils/Theme";
 import { SlOptionsVertical } from "react-icons/sl";
 import MenuDropdown from "../../components/MenuDropdown/MenuDropdown";
+import AXIOS from "../../utils/AXIOS";
+import axios from "axios";
 
 const drawerWidth = 280;
 function Vendor() {
   const navigate = useNavigate();
   const [Tbody, setTbody] = useState([
-    {
-      VENDOR_ID: "V00001",
-      VENDOR_NAME: "Test vendor",
-      VENDOR_EMAIL: "vendor@gmail.com",
-      VENDOR_CONTACT: "12344875438",
-    },
+
   ]);
 
   const [showBlockUnblockButton, setShowBlockUnblockButton] = useState(false);
   const [showDrawer, setShowDrawer] = useState(false);
 
-  const TableHeader = ["Vendor ID", "Vendor Name", "Email", "Contact","Status","Action"];
+  useEffect(()=>{
+    getSAPVendorsList();
+  },[])
+
+
+  const getSAPVendorsList=()=>{
+    axios.get(AXIOS.axiosUrl + AXIOS.sap_created_vendor_get).then((response)=>{
+
+        setTbody(response.data);
+    })
+  }
+
+  const TableHeader = ["Vendor ID", "Vendor Name", "Email", "Status","Action"];
   return (
     <>
       <Box sx={{ display: "flex", backgroundColor: "#fff", height: "100vh" }}>
@@ -191,14 +200,12 @@ function Vendor() {
                     </TableCell>
 
                     <TableCell align="center" key={"C2" + index}>
-                      {val.VENDOR_NAME}
+                      {val.NAME}
                     </TableCell>
                     <TableCell align="center" key={"C3" + index}>
-                      {val.VENDOR_EMAIL}
+                      {val.EMAIL}
                     </TableCell>
-                    <TableCell align="center" key={"C3" + index}>
-                      {val.VENDOR_CONTACT}
-                    </TableCell>
+                   
                     <TableCell align="center" key={"C3" + index}>
                       <Chip
                         size="small"

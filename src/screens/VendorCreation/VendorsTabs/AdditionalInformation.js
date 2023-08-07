@@ -85,8 +85,8 @@ function AdditionalInformation(props) {
           marginLeft: 0,
           width: "100%",
         }}
+        className="card-background"
       >
-
         <Grid xs={6} md={0} item>
           <Label LabelText="Reconciliation Account in General Ledger*" />
           <CustomInput

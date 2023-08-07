@@ -30,6 +30,7 @@ function CustomDropdown({Options,Value,OnChange,Label,error}) {
         control: (baseStyles, state) => ({
           ...baseStyles,
           borderColor: error ? COLORS.red : "#b3b3b3",
+          height: 57,
           ":hover": {
             borderColor: error ? COLORS.red : null,
           },

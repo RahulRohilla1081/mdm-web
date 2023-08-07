@@ -9,6 +9,8 @@ import {
   ListItemButton,
   useMediaQuery,
   useTheme,
+  Box,
+  Divider,
 } from "@mui/material";
 
 import HomeRoundedIcon from "@mui/icons-material/HomeRounded";
@@ -21,8 +23,9 @@ import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 
 // import { ACCOUNT, CUSTOMER, LOGIN } from "../util/Routes";
 import { useNavigate } from "react-router-dom";
-import { DASHBOARD, PROFILE, VENDOR, VENDOR_APPROVAL, VENDOR_CREATION } from "../../utils/Routes";
+import { CUSTOMER_CREATION, DASHBOARD, PROFILE, VENDOR, VENDOR_APPROVAL, VENDOR_CREATION } from "../../utils/Routes";
 import { COLORS } from "../../utils/Theme";
+import "./styles.css"
 
 const listItem = [
   {
@@ -50,6 +53,11 @@ const listItem = [
     icon: <AccountBalanceRoundedIcon />,
     path: VENDOR_APPROVAL,
   },
+  {
+    label: "Customer Creation",
+    icon: <AccountBalanceRoundedIcon />,
+    path: CUSTOMER_CREATION,
+  },
 ];
 
 export default function AppDrawer(props) {
@@ -61,53 +69,63 @@ export default function AppDrawer(props) {
   };
 
   return (
-    <>
+    <Box>
       <Drawer
         open={props.showDrawer}
         variant={`${breakPointlg ? "permanent" : "temporary"}`}
         ModalProps={{
           keepMounted: true,
         }}
+        className="back-ground-drawer"
         onClose={handleDrawerToggle}
         sx={{
           "& .MuiDrawer-paper": {
             zIndex: (theme) => theme.zIndex.drawer - 200,
             boxSizing: "border-box",
             width: props.drawerWidth,
-            backgroundColor: "#f7f7f7",
+            // backgroundColor: "#02055a",
           },
         }}
       >
-        <Toolbar />
-        <Toolbar>
+        {/* <Toolbar /> */}
+        <Toolbar className="back-ground-drawer">
           <List sx={{ width: 1 }}>
             {listItem.map((navItem, index) => (
-              <ListItem
-                key={navItem.label}
-                disablePadding
-                sx={{
-                  borderRadius: 4,
-                  overflow: "hidden",
-                  backgroundColor:
-                    props.ActiveKey == navItem.path ? COLORS.secondary : null,
-                }}
-                onClick={(e) => {
-                  navigate(navItem.path,{
-                    state:{
-                      path:navItem.path
-                    }
-                  });
-                }}
-              >
-                <ListItemButton>
-                  <ListItemIcon>{navItem.icon}</ListItemIcon>
-                  <ListItemText primary={navItem.label} />
-                </ListItemButton>
-              </ListItem>
+              <>
+                <ListItem
+                  key={navItem.label}
+                  disablePadding
+                  sx={{
+                    borderRadius: 4,
+                    overflow: "hidden",
+                    backgroundColor:
+                      props.ActiveKey == navItem.path ? "#141a30" : null,
+                    color: props.ActiveKey == navItem.path ? "#fff" : null,
+                  }}
+                  onClick={(e) => {
+                    navigate(navItem.path, {
+                      state: {
+                        path: navItem.path,
+                      },
+                    });
+                  }}
+                >
+                  <ListItemButton>
+                    <ListItemIcon className="icon-image">
+                      {navItem.icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={navItem.label}
+                      sx={{ color: "white" }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+                <Divider />
+              </>
             ))}
           </List>
         </Toolbar>
       </Drawer>
-    </>
+    </Box>
   );
 }

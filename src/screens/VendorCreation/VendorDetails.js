@@ -31,6 +31,12 @@ const drawerWidth = 280;
 function VendorDetails() {
   const location = useLocation();
 
+    const [ApproveRejectButtonState, setApproveRejectButtonState] = useState({
+      SHOW_APPROVE_BUTTON: false,
+      SHOW_RETURN_BUTTON: false,
+      SHOW_REJECT_BUTTON: false,
+    });
+
   const [showApprovalRejectButton, setShowApprovalRejectButton] =
     useState(null);
 
@@ -41,6 +47,39 @@ function VendorDetails() {
     } else {
       setShowApprovalRejectButton(false);
     }
+    console.log(
+      "location.state.VENDOR_DATA.APPROVER_NO",
+      location.state
+    );
+    if (location.state.VENDOR_DATA.APPROVER_NO = "1") {
+      if (
+        location.state.VENDOR_DATA.APPROVAL_FLAG == "4" ||
+        location.state.VENDOR_DATA.APPROVAL_FLAG == "7"
+      ) {
+        setApproveRejectButtonState({
+          SHOW_APPROVE_BUTTON: true,
+          SHOW_RETURN_BUTTON: true,
+          SHOW_REJECT_BUTTON: true,
+        });
+      }
+    } else if ((location.state.VENDOR_DATA.APPROVER_NO = "2")) {
+      if (
+        location.state.VENDOR_DATA.APPROVAL_FLAG == "4" ||
+        location.state.VENDOR_DATA.APPROVAL_FLAG == "7"
+      ) {
+        setApproveRejectButtonState({
+          SHOW_APPROVE_BUTTON: true,
+          SHOW_RETURN_BUTTON: true,
+          SHOW_REJECT_BUTTON: true,
+        });
+      }
+    } else {
+      setApproveRejectButtonState({
+        SHOW_APPROVE_BUTTON: false,
+        SHOW_RETURN_BUTTON: false,
+        SHOW_REJECT_BUTTON: false,
+      });
+    }
   }, []);
   const [Tbody, setTbody] = useState([
     {
@@ -48,35 +87,45 @@ function VendorDetails() {
     },
   ]);
 
-    const openURLInNewTab = (url) => {
-      window.open(url, "_blank", "noreferrer");
-    };
+
+
+  const openURLInNewTab = (url) => {
+    window.open(url, "_blank", "noreferrer");
+  };
 
   const VendorApproveReject = (ClickedFlag) => {
+    console.log("aksjbhsajdjhsabdhjsabdj", ClickedFlag);
+    //     vendor master
+    // through email, pending for submition 1
+    // through email, pending for buyer approval 2 if approve 3 if reject 6
 
-//     vendor master
-// through email, pending for submition 1 
-// through email, pending for buyer approval 2 if approve 3 if reject 6
+    // 2 level flow if status == 3.
+    // approver_1 if approve 4 if rejected 7
+    // approver_2 if approve 5 if rejected 8
 
- 
+    // approval master
+    // schema
+    // approver_1         approver_2        updated_on
 
-// 2 level flow if status == 3.
-// approver_1 if approve 4 if rejected 7
-// approver_2 if approve 5 if rejected 8
-
- 
-
-// approval master
-// schema
-// approver_1         approver_2        updated_on
-
-
-
+    let tempActionName;
+    if (ClickedFlag == "4") {
+      tempActionName = "Approved by Approver 1";
+    } else if (ClickedFlag == "5") {
+      tempActionName = "Approved by Approver 2";
+    } else if (ClickedFlag == "7") {
+      tempActionName = "Rejected by Approver 1";
+    } else if (ClickedFlag == "8") {
+      tempActionName = "Rejected by Approver 2";
+    }
 
     const vendorPayload = [
       {
         APPLICATION_ID: location.state.VENDOR_DATA.APPLICATION_ID,
         APPROVAL_FLAG: ClickedFlag,
+        TIMELINE: {
+          ACTION_NAME: tempActionName,
+          ACTION_TIME: new Date(),
+        },
       },
     ];
 
@@ -84,7 +133,7 @@ function VendorDetails() {
       .post(AXIOS.axiosUrl + AXIOS.vendor_approve_reject, vendorPayload)
       .then((response) => {
         console.log(response.data);
-        cogoToast.success("Action Completed")
+        cogoToast.success("Action Completed");
       })
       .catch((err) => {
         console.log(err);
@@ -92,60 +141,164 @@ function VendorDetails() {
   };
   const [showDrawer, setShowDrawer] = useState(false);
 
-  const PushDaTaInSAP=()=>{
+  const PushDaTaInSAP = () => {
+    console.log(
+      "location.state.VENDOR_DATA.APPLICATION_ID",
+      location.state.VENDOR_DATA.APPLICATION_ID
+    );
+
     axios
       .post(AXIOS.axiosUrl + AXIOS.createVendorSAP, {
-        Srno1: "004",
-        Companycode: location.state.VENDOR_DATA?.COMPANY_DATA?.COMPANY_CODE,
-        Purchasorgn: "",
-        Vendaccgrp: "",
-        Titlemedi: "",
-        Name1: "Ram",
-        Name2: "Lax",
-        Name3: "",
-        Sort1: "",
-        Street: "",
-        StrSuppl2: "",
-        StrSuppl3: "",
-        City2: "",
-        Postalcode: "",
-        City1: "",
-        Country: "",
-        Region: "",
-        Langu: "",
-        Telnum: "",
-        Mobnum: "",
-        Faxnum: "",
-        Emailid: "",
-        Recoaccgl: "",
-        Sortassign: "",
-        Paytermkey: "",
-        Pan: "",
-        Purchasecurr: "",
-        Grpcalcschem: "",
-        Grbasedinv: "",
-        Servbasdinv: "",
-        Bahns: "",
-        Ssino: "",
-        Remarks: "",
-        Busab: "",
-        Tradepartid: "00000000",
-        Tradepartid1: "00000000",
-        Tradepartid2: "00000000",
-        Brsch: "",
-        Inco1: "",
-        Inco2: "",
-        GstRegNum: "",
-        GstRegClas: "",
-        Zaadhar: "000000000000",
+        APPLICATION_ID: location.state.VENDOR_DATA.APPLICATION_ID,
+        TIMELINE: {
+          ACTION_NAME: "Vendor Created Successfully",
+          ACTION_TIME: new Date(),
+        },
+        // Srno1: "004",
+        // Companycode:
+        //   location.state.VENDOR_DATA?.COMPANY_DATA?.COMPANY_CODE != undefined
+        //     ? location.state.VENDOR_DATA?.COMPANY_DATA?.COMPANY_CODE
+        //     : "",
+        // Purchasorgn:
+        //   location.state.VENDOR_DATA?.COMPANY_DATA?.PROCUREMENT_PLANT !=
+        //   undefined
+        //     ? location.state.VENDOR_DATA?.COMPANY_DATA?.PROCUREMENT_PLANT
+        //     : "",
+        // Vendaccgrp: "",
+        // Titlemedi: "",
+        // Name1:
+        //   location.state.VENDOR_DATA?.NAME != undefined
+        //     ? location.state.VENDOR_DATA?.NAME
+        //     : "",
+        // Name2: "",
+        // Name3: "",
+        // Sort1:
+        //   location.state.VENDOR_DATA?.BUSINESS_ROLE != undefined
+        //     ? location.state.VENDOR_DATA?.BUSINESS_ROLE
+        //     : "",
+        // Street: "",
+        // StrSuppl2: "",
+        // StrSuppl3: "",
+        // City2: "",
+        // Postalcode:
+        //   location.state.VENDOR_DATA?.PINCODE != undefined
+        //     ? location.state.VENDOR_DATA?.PINCODE
+        //     : "",
+        // City1:
+        //   location.state.VENDOR_DATA?.CITY != undefined
+        //     ? location.state.VENDOR_DATA?.CITY
+        //     : "",
+        // Country:
+        //   location.state.VENDOR_DATA?.COUNTRY != undefined
+        //     ? location.state.VENDOR_DATA?.COUNTRY
+        //     : "",
+        // Region:
+        //   location.state.VENDOR_DATA?.DISTRICT != undefined
+        //     ? location.state.VENDOR_DATA?.DISTRICT
+        //     : "",
+        // Langu: "en",
+        // Telnum:
+        //   location.state.VENDOR_DATA?.CONTACT_PERSON?.VENDOR?.LANDLINE !=
+        //   undefined
+        //     ? location.state.VENDOR_DATA?.CONTACT_PERSON?.VENDOR?.LANDLINE
+        //     : "",
+        // Mobnum:
+        //   location.state.VENDOR_DATA?.CONTACT_PERSON?.VENDOR?.MOBILE !=
+        //   undefined
+        //     ? location.state.VENDOR_DATA?.CONTACT_PERSON?.VENDOR?.MOBILE
+        //     : "",
+        // Faxnum:
+        //   location.state.VENDOR_DATA?.FAX_DETAILS != undefined
+        //     ? location.state.VENDOR_DATA?.FAX_DETAILS
+        //     : "",
+        // Emailid:
+        //   location.state.VENDOR_DATA?.CONTACT_PERSON?.VENDOR?.EMAIL != undefined
+        //     ? location.state.VENDOR_DATA?.CONTACT_PERSON?.VENDOR?.EMAIL
+        //     : "",
+        // Recoaccgl:
+        //   location.state.VENDOR_DATA?.ADDITIONAL_DETAILS
+        //     ?.RECONCILIATION_ACCOUNT != undefined
+        //     ? location.state.VENDOR_DATA?.ADDITIONAL_DETAILS
+        //         ?.RECONCILIATION_ACCOUNT
+        //     : "",
+        // Sortassign: "",
+        // Paytermkey:
+        //   location.state.VENDOR_DATA?.COMPANY_DATA?.PAYMENT_TERM != undefined
+        //     ? location.state.VENDOR_DATA?.COMPANY_DATA?.PAYMENT_TERM
+        //     : "",
+        // Pan:
+        //   location.state.VENDOR_DATA?.TAX_DATA?.PAN?.PAN_NUMBER != undefined
+        //     ? location.state.VENDOR_DATA?.TAX_DATA?.PAN?.PAN_NUMBER
+        //     : "",
+        // Purchasecurr: "",
+        // Grpcalcschem:
+        //   location.state.VENDOR_DATA?.ADDITIONAL_DETAILS
+        //     ?.GROUP_FOR_CALCULATION_SCHEMA != undefined
+        //     ? location.state.VENDOR_DATA?.ADDITIONAL_DETAILS
+        //         ?.GROUP_FOR_CALCULATION_SCHEMA
+        //     : "",
+        // Grbasedinv: "x",
+        // Servbasdinv: "x",
+        // Bahns:
+        //   location.state.VENDOR_DATA?.ADDITIONAL_DETAILS?.TRAIN_STATION !=
+        //   undefined
+        //     ? location.state.VENDOR_DATA?.ADDITIONAL_DETAILS?.TRAIN_STATION
+        //     : "",
+        // Ssino: "",
+        // Remarks: "",
+        // Busab:
+        //   location.state.VENDOR_DATA?.ADDITIONAL_DETAILS
+        //     ?.ACCOUNTING_CLERK_ABBREVIATION != undefined
+        //     ? location.state.VENDOR_DATA?.ADDITIONAL_DETAILS
+        //         ?.ACCOUNTING_CLERK_ABBREVIATION
+        //     : "",
+        // Tradepartid:
+        //   location.state.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_1 != undefined
+        //     ? location.state.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_1
+        //     : "",
+        // Tradepartid1:
+        //   location.state.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_2 != undefined
+        //     ? location.state.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_2
+        //     : "",
+        // Tradepartid2:
+        //   location.state.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_3 != undefined
+        //     ? location.state.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_3
+        //     : "",
+        // Brsch: "",
+        // Inco2:
+        //   location.state.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_1 != undefined
+        //     ? location.state.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_1
+        //     : "",
+        // Inco1:
+        //   location.state.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_2 != undefined
+        //     ? location.state.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_2
+        //     : "",
+        // GstRegNum:
+        //   location.state.VENDOR_DATA?.TAX_DATA?.GST?.GST_NUMBER != undefined
+        //     ? location.state.VENDOR_DATA?.TAX_DATA?.GST?.GST_NUMBER
+        //     : "",
+        // GstRegClas: "",
+        // Zaadhar:
+        //   location.state.VENDOR_DATA?.TAX_DATA?.AADHAR?.AADHAR_NUMBER !=
+        //   undefined
+        //     ? location.state.VENDOR_DATA?.TAX_DATA?.AADHAR?.AADHAR_NUMBER
+        //     : "",
       })
       .then((response) => {
-        cogoToast.success("vendor Created in SAP");
+        console.log(response);
+        cogoToast.success("vendor Created in SAP", response);
       })
       .catch((err) => {
         cogoToast.error("Something went wrong");
       });
-  }
+  };
+
+  console.log(
+    "askdhbsad",
+    location.state.VENDOR_DATA.APPROVAL_FLAG,
+    location.state.VENDOR_DATA.APPROVAL_FLAG == "7",
+    location.state.VENDOR_DATA.APPROVER_NO == "1"
+  );
 
   return (
     <>
@@ -177,6 +330,24 @@ function VendorDetails() {
               <Box>
                 <Button
                   color="success"
+                  variant="contained"
+                  disabled={ApproveRejectButtonState.SHOW_APPROVE_BUTTON}
+                  sx={{
+                    m: 2,
+                  }}
+                  onClick={() => {
+                    if (location.state.APPROVER_NO == "1") {
+                      VendorApproveReject("4");
+                    } else if (location.state.APPROVER_NO == "2") {
+                      VendorApproveReject("5");
+                      PushDaTaInSAP();
+                    }
+                  }}
+                >
+                  Approve
+                </Button>
+                <Button
+                  color="warning"
                   variant="outlined"
                   sx={{
                     m: 2,
@@ -186,11 +357,12 @@ function VendorDetails() {
                       VendorApproveReject("4");
                     } else if (location.state.APPROVER_NO == "2") {
                       VendorApproveReject("5");
-                      PushDaTaInSAP()
+                      PushDaTaInSAP();
                     }
                   }}
+                  disabled={ApproveRejectButtonState.SHOW_RETURN_BUTTON}
                 >
-                  Approve
+                  Return to Supplier
                 </Button>
                 <Button
                   color="error"
@@ -198,6 +370,7 @@ function VendorDetails() {
                   sx={{
                     m: 2,
                   }}
+                  disabled={ApproveRejectButtonState.SHOW_REJECT_BUTTON}
                   onClick={() => {
                     if (location.state.APPROVER_NO == "1") {
                       VendorApproveReject("7");
@@ -652,6 +825,14 @@ function VendorDetails() {
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
                 {location.state.VENDOR_DATA?.COMPANY_DATA?.COMPANY_CODE}
               </Typography>
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Payment term
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {location.state.VENDOR_DATA?.COMPANY_DATA?.PAYMENT_TERM}
+              </Typography>
               <Divider />
             </Grid>
             <Grid item xs={6}>
@@ -747,7 +928,6 @@ function VendorDetails() {
                 Trade Partner ID 1
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                {location.state.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_2}{" "}
                 {
                   location.state.VENDOR_DATA?.ADDITIONAL_DETAILS
                     ?.TRADE_PARTNER_ID_1
@@ -760,7 +940,10 @@ function VendorDetails() {
                 Trade Partner ID 2
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                {location.state.VENDOR_DATA?.COMPANY_DATA?.TRADE_PARTNER_ID_2}
+                {
+                  location.state.VENDOR_DATA?.ADDITIONAL_DETAILS
+                    ?.TRADE_PARTNER_ID_2
+                }
               </Typography>
               <Typography
                 sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
@@ -768,7 +951,6 @@ function VendorDetails() {
                 Trade Partner ID 3
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                {location.state.VENDOR_DATA?.COMPANY_DATA?.INCO_TERM_2}{" "}
                 {
                   location.state.VENDOR_DATA?.ADDITIONAL_DETAILS
                     ?.TRADE_PARTNER_ID_3
@@ -915,6 +1097,125 @@ function VendorDetails() {
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
                 {
                   location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
+                    ?.DESIGNATION
+                }
+              </Typography>
+
+              <Divider />
+            </Grid>
+          </Grid>
+          <Typography
+            sx={{
+              color: "#333",
+              fontWeight: 600,
+              fontSize: 18,
+              p: 1,
+              backgroundColor: "#e5e2f4",
+            }}
+          >
+            Vendor
+          </Typography>
+
+          <Grid container spacing={1}>
+            <Grid item xs={6}>
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Name
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {location.state.VENDOR_DATA?.CONTACT_PERSON?.VENDOR?.NAME}
+              </Typography>
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Address
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {location.state.VENDOR_DATA?.CONTACT_PERSON?.VENDOR?.ADDRESS}
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Mobile
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {location.state.VENDOR_DATA?.CONTACT_PERSON?.VENDOR?.MOBILE}
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Gender
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.VENDOR?.GENDER
+                    ?.value
+                }
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Bithday Date
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.VENDOR?.BIRTH_DATE
+                    ?.value
+                }
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Bithday Month
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.VENDOR
+                    ?.BIRTH_MONTH?.value
+                }
+              </Typography>
+
+              <Divider />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Email
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {location.state.VENDOR_DATA?.CONTACT_PERSON?.VENDOR?.EMAIL}
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Landline
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {location.state.VENDOR_DATA?.CONTACT_PERSON?.VENDOR?.LANDLINE}
+              </Typography>
+
+              <Divider />
+              <Typography
+                sx={{ color: "#333", fontWeight: 600, fontSize: 18, p: 1 }}
+              >
+                Designation
+              </Typography>
+              <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.VENDOR
                     ?.DESIGNATION
                 }
               </Typography>

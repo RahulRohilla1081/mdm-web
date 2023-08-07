@@ -1,0 +1,15 @@
+.back-ground-drawer {
+  /* background: linear-gradient(45deg, #6558b4, #d7a2eb); */
+  height: 100vh;
+    /* background-color: #f2e5ff; */
+      background: rgb(191, 129, 250);
+  background: radial-gradient(
+    circle,
+   rgba(123, 88, 170, 1) 0%,  
+    rgba(15, 23, 42, 1) 90%
+  );
+/* background-image: linear-gradient(62deg, #f2e5ff 0%, #f2e5ff 100%); */
+}
+.icon-image{
+  filter: brightness(0) invert(1);
+}

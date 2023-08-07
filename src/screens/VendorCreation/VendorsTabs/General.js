@@ -9,6 +9,7 @@ import { connect, useDispatch } from "react-redux";
 import { setGeneralDataAction } from "../../../redux/action/vendorAction";
 import { COLORS } from "../../../utils/Theme";
 import cogoToast from "cogo-toast";
+import "../style.css";
 
 function General(props) {
   const dispatch = useDispatch();
@@ -26,6 +27,22 @@ function General(props) {
     ADDRESS_LINE_3_ERROR: false,
     PIN_CODE_ERROR: false,
     BUSINESS_ROLE_ERROR: false,
+  });
+  const [GeneralDataDisableFlags, setGeneralDataDisableFlags] = useState({
+    NAME_DISABLE_FLAG: false,
+    EMAIl_DISABLE_FLAG: false,
+    COUNTRY_DISABLE_FLAG: false,
+    CITY_DISABLE_FLAG: false,
+    STATE_DISABLE_FLAG: false,
+    ADDRESS_LINE_1_DISABLE_FLAG: false,
+    ADDRESS_LINE_2_DISABLE_FLAG: false,
+    ADDRESS_LINE_3_DISABLE_FLAG: false,
+    PIN_CODE_DISABLE_FLAG: false,
+    BUSINESS_ROLE_DISABLE_FLAG: false,
+    DISTRICT_DISABLE_FLAG: false,
+
+    COMPANY_CODE_DISABLE_FLAG: false,
+    FAX_DISABLE_FLAG: false,
   });
 
   useEffect(() => {
@@ -45,15 +62,13 @@ function General(props) {
         // val.STATE.map((innerVal) => {
         //   StateArray.push({ label: innerVal, value: innerVal })
         // });
-        if(val.STATE.length>0){
-
+        if (val.STATE.length > 0) {
           val.STATE.map((item) => {
-            if(item!=""){
+            if (item != "") {
               stateArray.push({ label: item, value: item });
-
             }
             // console.log("item", { label: item, value: item });
-          })
+          });
         }
 
         // console.log("stateArray", stateArray);
@@ -61,7 +76,7 @@ function General(props) {
         tempCountryList.push({
           label: val.COUNTRY_NAME,
           value: val.COUNTRY_KEY,
-          state_array:stateArray,
+          state_array: stateArray,
           timezone: val.TIME_ZONE,
           postal_code_length: val.POSTAL_CODE_LENGTH,
         });
@@ -206,7 +221,7 @@ function General(props) {
   };
 
   return (
-    <>
+    <Box>
       <Box
         sx={{
           display: "flex",
@@ -214,7 +229,7 @@ function General(props) {
         }}
       >
         <Button
-          variant="outlined"
+          variant="contained"
           color="primary"
           sx={{ marginRight: 5 }}
           onClick={() => {
@@ -235,6 +250,7 @@ function General(props) {
           marginLeft: 0,
           width: "100%",
         }}
+        className="card-background"
       >
         <Grid xs={6} md={0} item>
           <Label LabelText="Name*" />
@@ -255,6 +271,7 @@ function General(props) {
             helperText={
               GeneralDataErrorFlags?.NAME_ERROR ? "Please enter Name" : ""
             }
+            Disabled={GeneralDataDisableFlags?.NAME_DISABLE_FLAG}
           />
 
           <Label LabelText="Address*" />
@@ -262,6 +279,7 @@ function General(props) {
             <CustomInput
               Placeholder="Address line 1"
               Value={GeneralData.ADDRESS_LINE_1}
+              Disabled={GeneralDataDisableFlags?.ADDRESS_LINE_1_DISABLE_FLAG}
               error={GeneralDataErrorFlags?.ADDRESS_LINE_1_ERROR}
               onChange={(e) => {
                 setGeneralData((prevState) => ({
@@ -281,6 +299,7 @@ function General(props) {
             />
             <CustomInput
               Placeholder="Address line 2"
+              Disabled={GeneralDataDisableFlags?.ADDRESS_LINE_2_DISABLE_FLAG}
               Value={GeneralData.ADDRESS_LINE_2}
               onChange={(e) => {
                 if (e.target.value.length < 40) {
@@ -296,6 +315,7 @@ function General(props) {
             <CustomInput
               Placeholder="Address line 3"
               Value={GeneralData.ADDRESS_LINE_3}
+              Disabled={GeneralDataDisableFlags?.ADDRESS_LINE_3_DISABLE_FLAG}
               onChange={(e) => {
                 if (e.target.value.length < 40) {
                   setGeneralData((prevState) => ({
@@ -312,6 +332,7 @@ function General(props) {
           <CustomInput
             Placeholder="City"
             error={GeneralDataErrorFlags?.CITY_ERROR}
+            Disabled={GeneralDataDisableFlags?.CITY_DISABLE_FLAG}
             Value={GeneralData.CITY}
             onChange={(e) => {
               setGeneralData((prevState) => ({
@@ -361,6 +382,7 @@ function General(props) {
           <CustomInput
             Placeholder="District"
             error={GeneralDataErrorFlags?.DISTRICT_ERROR}
+            Disabled={GeneralDataDisableFlags?.DISTRICT_DISABLE_FLAG}
             Value={GeneralData.DISTRICT}
             onChange={(e) => {
               setGeneralData((prevState) => ({
@@ -411,6 +433,7 @@ function General(props) {
           <CustomDropdown
             Options={CountryList}
             Value={GeneralData.BUSINESS_ROLE}
+            Disabled={GeneralDataDisableFlags?.BUSINESS_ROLE_DISABLE_FLAG}
             error={GeneralDataErrorFlags?.BUSINESS_ROLE_ERROR}
             Label="Business role"
             OnChange={(e) => {
@@ -424,7 +447,29 @@ function General(props) {
               }));
             }}
           />
-          {GeneralDataErrorFlags?.BUSINESS_ROLE_ERROR && (
+          <Label LabelText="Vendor Group*" />
+          <CustomInput
+            Placeholder="Vendor Group"
+            error={GeneralDataErrorFlags?.VENDOR_GROUP}
+            Disabled={GeneralDataDisableFlags?.VENDOR_GROUP_DISABLE_FLAG}
+            Value={GeneralData.VENDOR_GROUP}
+            onChange={(e) => {
+              setGeneralData((prevState) => ({
+                ...prevState,
+                VENDOR_GROUP: e.target.value,
+              }));
+              setGeneralDataErrorFlags((prev) => ({
+                ...prev,
+                CITY_ERROR: false,
+              }));
+            }}
+            // helperText={
+            //   GeneralDataErrorFlags?.CITY_ERROR
+            //     ? "Please enter a valid City"
+            //     : ""
+            // }
+          />
+          {/* {GeneralDataErrorFlags?.BUSINESS_ROLE_ERROR && (
             <Typography
               sx={{
                 fontSize: 12,
@@ -434,12 +479,13 @@ function General(props) {
             >
               Please select Business role
             </Typography>
-          )}
+          )} */}
         </Grid>
         <Grid xs={6} md={0} item>
           <Label LabelText="Email*" />
           <CustomInput
             Placeholder="Email"
+            Disabled={GeneralDataDisableFlags?.EMAIL_DISABLE_FLAG}
             onBlur={(e) => {
               console.log(e.target.value);
               if (e.target.value != "") {
@@ -485,6 +531,7 @@ function General(props) {
             Value={GeneralData?.COUNTRY}
             Label="Country"
             error={GeneralDataErrorFlags?.COUNTRY_ERROR}
+            Disabled={GeneralDataDisableFlags?.COUNTRY_FLAG}
             OnChange={(e) => {
               console.log(e);
               setGeneralData((prevState) => ({
@@ -514,6 +561,7 @@ function General(props) {
             Options={GeneralData?.COUNTRY?.state_array}
             Label="State"
             error={GeneralDataErrorFlags?.STATE_ERROR}
+            Disabled={GeneralDataDisableFlags?.STATE_DISABLE_FLAG}
             Value={GeneralData.STATE}
             OnChange={(e) => {
               console.log(e);
@@ -542,26 +590,29 @@ function General(props) {
           <Label LabelText="Pincode*" />
           <CustomInput
             Placeholder="Pincode"
+            Disabled={GeneralDataDisableFlags?.PIN_CODE_DISABLE_FLAG}
             error={GeneralDataErrorFlags?.PIN_CODE_ERROR}
             Value={GeneralData.PINCODE}
             onChange={(e) => {
-              if (e.target.value.length<=GeneralData?.COUNTRY?.postal_code_length){
-
+              if (
+                e.target.value.length <=
+                GeneralData?.COUNTRY?.postal_code_length
+              ) {
                 setGeneralData((prevState) => ({
                   ...prevState,
                   PINCODE: e.target.value,
                 }));
-              setGeneralDataErrorFlags((prev) => ({
-                ...prev,
-                PIN_CODE_ERROR: false,
-              }));
-              }
-              else{
+                setGeneralDataErrorFlags((prev) => ({
+                  ...prev,
+                  PIN_CODE_ERROR: false,
+                }));
+              } else {
                 cogoToast.warn(
-                  "Maximum " + GeneralData?.COUNTRY?.postal_code_length+" latter allowed"
+                  "Maximum " +
+                    GeneralData?.COUNTRY?.postal_code_length +
+                    " latter allowed"
                 );
               }
-
             }}
             helperText={
               GeneralDataErrorFlags?.PIN_CODE_ERROR
@@ -585,6 +636,7 @@ function General(props) {
           <Label LabelText="Fax Details" />
           <CustomInput
             Placeholder="Fax Details"
+            Disabled={GeneralDataDisableFlags?.FAX_DISABLE_FLAG}
             Value={GeneralData.FAX}
             onChange={(e) => {
               setGeneralData((prevState) => ({
@@ -597,6 +649,7 @@ function General(props) {
           <CustomInput
             Placeholder="Company Code"
             Value={GeneralData?.COMPANY_CODE}
+            Disabled={GeneralDataDisableFlags?.COMPANY_CODE_DISABLE_FLAG}
             onChange={(e) => {
               setGeneralData((prevState) => ({
                 ...prevState,
@@ -609,7 +662,7 @@ function General(props) {
           />
         </Grid>
       </Grid>
-    </>
+    </Box>
   );
 }
 
@@ -620,4 +673,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { setGeneralDataAction })(General);
-

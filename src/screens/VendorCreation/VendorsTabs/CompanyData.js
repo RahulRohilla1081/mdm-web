@@ -92,6 +92,7 @@ getIncoTermData();
           marginLeft: 0,
           width: "100%",
         }}
+        className="card-background"
       >
         <Grid xs={6} md={0} item>
           <Label LabelText="Currency*" />
@@ -107,9 +108,9 @@ getIncoTermData();
               }));
             }}
           />
-          <Label LabelText="Turnover*" />
+          <Label LabelText="Turnover in Rupees*" />
           <CustomInput
-            Placeholder="Turnover"
+            Placeholder="Turnover in Rupees"
             Value={Tbody?.TURNOVER}
             onChange={(e) => {
               console.log(Tbody);

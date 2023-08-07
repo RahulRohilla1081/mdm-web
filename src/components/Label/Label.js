@@ -7,6 +7,7 @@ function Label({ LabelText }) {
       style={{
         fontSize: 16,
         fontWeight: "bold",
+        color:"white"
       }}
     >
       {LabelText}

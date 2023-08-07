@@ -40,70 +40,76 @@ function Header(props) {
         };
   const [showSearchBackdrop, setShowSearchBackdrop] = useState(false);
   return (
-    <AppBar
-      position="fixed"
-      color="inherit"
-      elevation={0}
-      sx={{
-        width: { lg: `calc(100% - ${props.drawerWidth}px)` },
-        backgroundColor: "rgba(255,255,255,0.7)",
-        backdropFilter: "blur(10px)",
-      }}
-    >
-      <Toolbar>
-        <IconButton
-          aria-label="open drawer"
-          size="large"
-          color="inherit"
-          sx={{ display: { lg: "none", xl: "none" } }}
-          onClick={() => props.toggleDrawer(!props.showDrawer)}
-        >
-          <MenuRoundedIcon />
-        </IconButton>
-        {/* <IconButton
-          aria-label="search button"
-          size="large"
-          color="inherit"
-          onClick={() => setShowSearchBackdrop(!showSearchBackdrop)}
-        >
-          <SearchRoundedIcon />
-          <SearchWithBackdrop
-            showDialog={showSearchBackdrop}
-            setShowDialog={setShowSearchBackdrop}
-          />
-        </IconButton> */}
-        <Box
-          sx={{
-            display: "flex",
-            flexGrow: 1,
-            justifyContent: "flex-end",
-            alignItems: "center",
-          }}
-        >
-          <IconButton
-            aria-label="show notification"
-            size="large"
-            color="inherit"
-            sx={{ mr: 2 }}
-          >
-            <Badge badgeContent={4} color="error">
-              <NotificationsNoneRoundedIcon />
-            </Badge>
-          </IconButton>
-          <IconButton
-            aria-label="show notification"
-            size="large"
-            color="inherit"
-            sx={{ mr: 2 }}
-          >
-            {/* <Badge badgeContent={4} color="error"> */}
-            <LoginRoundedIcon onClick={() => logoutSession("SINGLE")} />
-            {/* </Badge> */}
-          </IconButton>
-          {/* <AppAvatar /> */}
-        </Box>
-      </Toolbar>
-    </AppBar>
+    // <AppBar
+    //   position="fixed"
+    //   color="inherit"
+    //   elevation={0}
+    //   sx={{
+    //     width: { lg: `calc(100% - ${props.drawerWidth}px)` },
+    //     backgroundColor: "rgb(243,250,255,0.7)",
+    //     // rgb(243, 250, 255)
+    //     backdropFilter: "blur(10px)",
+        
+    //   }}
+      
+    // >
+    //   <Toolbar>
+    //     <IconButton
+    //       aria-label="open drawer"
+    //       size="large"
+    //       color="inherit"
+    //       sx={{ display: { lg: "none", xl: "none" } }}
+    //       onClick={() => props.toggleDrawer(!props.showDrawer)}
+    //     >
+    //       <MenuRoundedIcon />
+    //     </IconButton>
+    //     {/* <IconButton
+    //       aria-label="search button"
+    //       size="large"
+    //       color="inherit"
+    //       onClick={() => setShowSearchBackdrop(!showSearchBackdrop)}
+    //     >
+    //       <SearchRoundedIcon />
+    //       <SearchWithBackdrop
+    //         showDialog={showSearchBackdrop}
+    //         setShowDialog={setShowSearchBackdrop}
+    //       />
+    //     </IconButton> */}
+    //     <Box
+    //       sx={{
+    //         display: "flex",
+    //         flexGrow: 1,
+    //         justifyContent: "flex-end",
+    //         alignItems: "center",
+    //       }}
+    //     >
+    //       <IconButton
+    //         aria-label="show notification"
+    //         size="large"
+    //         color="inherit"
+    //         sx={{ mr: 2 }}
+    //       >
+    //         <Badge badgeContent={4} color="error">
+    //           <NotificationsNoneRoundedIcon />
+    //         </Badge>
+    //       </IconButton>
+    //       <IconButton
+    //         aria-label="show notification"
+    //         size="large"
+    //         color="inherit"
+    //         sx={{ mr: 2 }}
+    //       >
+    //         {/* <Badge badgeContent={4} color="error"> */}
+    //         <LoginRoundedIcon onClick={() => logoutSession("SINGLE")} />
+    //         {/* </Badge> */}
+    //       </IconButton>
+    //       {/* <AppAvatar /> */}
+    //     </Box>
+    //   </Toolbar>
+    // </AppBar>
+    <div>
+      
+    </div>
   );
 }
 

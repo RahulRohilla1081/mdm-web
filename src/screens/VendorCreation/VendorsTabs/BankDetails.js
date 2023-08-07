@@ -107,6 +107,7 @@ function BankDetails(props) {
           marginLeft: 0,
           width: "100%",
         }}
+        className="card-background"
       >
         <Grid xs={6} md={0} item>
           {/* <Label LabelText="Bank Serial Number" />
@@ -162,7 +163,7 @@ function BankDetails(props) {
             onChange={(e) => {
               setTbody((prevState) => ({
                 ...prevState,
-                DMS: e.target.value,
+                DMS: e.target.files[0],
               }));
             }}
           />
