@@ -8,45 +8,66 @@ import { COLORS } from "../../../../utils/Theme";
 import { setCustomerGeneralDataAction } from "../../../../redux/action/customerAction";
 import { connect } from "react-redux";
 
-function CustomerCompanyTab(props) {
-  const [customerCustomerData, setCustomerCustomerData] = useState([]);
+function CustomerCreditSegment(props) {
+  const [customerGeneralData, setCustomerGeneralData] = useState([]);
 
-  const [customerCompanyFields, setCustomerCompanyFields] = useState([
+  const [customerGeneralFields, setCustomerGeneralFields] = useState([
     {
-      TITLE: "Company Data*",
+      TITLE: "Customer's credit limit",
       VALUE: "",
       IS_DISABLED: false,
       DROPDOWN: false,
-      KEY: "COMPANY_DATA",
+      KEY: "NAME",
       REQUIRED: true,
       ERROR_FLAG: false,
       DROPDOWN_OPTIONS: [],
     },
     {
-      TITLE: "Reconciliation Account in General Ledger*",
+      TITLE: "Risk Class Credit*",
+      VALUE: "",
       IS_DISABLED: false,
       DROPDOWN: true,
-      KEY: "RECONCILIATION_ACCOUNT",
+      KEY: "SALES_ORGANIZATION",
       REQUIRED: true,
       ERROR_FLAG: false,
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Credit Rules*",
       VALUE: "",
+      IS_DISABLED: false,
+      DROPDOWN: true,
+      KEY: "SEARCH_TERM",
+      REQUIRED: true,
+      ERROR_FLAG: false,
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Credit control area*",
+      VALUE: "",
+      IS_DISABLED: false,
+      DROPDOWN: true,
+      KEY: "ADDRESS",
+      REQUIRED: true,
+      ERROR_FLAG: false,
       DROPDOWN_OPTIONS: [],
     },
   ]);
+  
 
   const storeFieldsValuesInState = (InputValue, InputKey, index) => {
-    let tempCustomerCompanyData = [...customerCustomerData];
-    let tempCustomerCustomerFields = [...customerCompanyFields];
-    tempCustomerCompanyData[InputKey] = InputValue;
-    tempCustomerCustomerFields[index].VALUE = InputValue;
-    console.log("tempCustomerGeneralData", tempCustomerCustomerFields);
-    setCustomerCustomerData(tempCustomerCompanyData);
-    setCustomerCompanyFields(tempCustomerCustomerFields);
+    let tempCustomerGeneralData = [...customerGeneralData];
+    let tempCustomerGeneralFields = [...customerGeneralFields];
+    tempCustomerGeneralData[InputKey] = InputValue;
+    tempCustomerGeneralFields[index].VALUE = InputValue;
+    console.log("tempCustomerGeneralData", tempCustomerGeneralFields);
+    setCustomerGeneralData(tempCustomerGeneralData);
+    setCustomerGeneralFields(tempCustomerGeneralFields);
   };
 
   const CustomerGeneralDataInRedux = () => {
     let ErrorFound = false;
-    let tempCustomerGeneralField = [...customerCompanyFields];
+    let tempCustomerGeneralField = [...customerGeneralFields];
     tempCustomerGeneralField.map((val) => {
       if (
         (val.VALUE == "" && val.REQUIRED == true) ||
@@ -66,21 +87,46 @@ function CustomerCompanyTab(props) {
 
       props.setCustomerGeneralDataAction(tempGeneralData);
     }
-    setCustomerCompanyFields(tempCustomerGeneralField);
+    setCustomerGeneralFields(tempCustomerGeneralField);
   };
   useEffect(() => {
-    let tempCustomerGeneralFields = [...customerCompanyFields];
+    let tempCustomerGeneralFields = [...customerGeneralFields];
 
-    props.CUSTOMER_COMPANY_DATA.map((val, index) => {
+    props.CUSTOMER_GENERAL_DATA.map((val, index) => {
       console.log("index", val?.KEY == tempCustomerGeneralFields[index].KEY);
       if (val?.KEY == tempCustomerGeneralFields[index].KEY) {
         tempCustomerGeneralFields[index].VALUE = val.VALUE;
       }
 
       console.log("asdjvsad", tempCustomerGeneralFields);
-      setCustomerCompanyFields(tempCustomerGeneralFields);
+      setCustomerGeneralFields(tempCustomerGeneralFields);
     });
   }, []);
+
+  const submitCustomerForm = () => {
+    if (props.CUSTOMER_GENERAL_DATA.length == 0) {
+      cogoToast.error("Please fill data in General Tab");
+    }
+    if (props.CUSTOMER_COMPANY_DATA.length == 0) {
+      cogoToast.error("Please fill data in Company Data Tab");
+    }
+    if (props.CUSTOMER_FINANCE_DATA.length == 0) {
+      cogoToast.error("Please fill data in Finance Tab");
+    }
+    if (props.CUSTOMER_SALES_DISTRIBUTION_DATA.length == 0) {
+      cogoToast.error("Please fill data in Sale and Distribution Tab");
+    }
+    if (props.CUSTOMER_CREDIT_SEGMENT_DATA.length == 0) {
+      cogoToast.error("Please fill data in Credit Segment Tab");
+    }
+    if(props.CUSTOMER_GENERAL_DATA.length!=0 && props.CUSTOMER_COMPANY_DATA.length!=0 && props.CUSTOMER_FINANCE_DATA.length!=0 && props.CUSTOMER_SALES_DISTRIBUTION_DATA.length!=0 && props.CUSTOMER_CREDIT_SEGMENT_DATA.length!=0)
+    {
+
+    }
+    else{
+      cogoToast.warn("Please fill all Mandatory fields")
+    }
+  };
 
   return (
     <>
@@ -96,8 +142,19 @@ function CustomerCompanyTab(props) {
           onClick={() => {
             CustomerGeneralDataInRedux();
           }}
+          style={{
+            marginRight: 10,
+          }}
         >
           Save
+        </button>
+        <button
+          className="save-button"
+          onClick={() => {
+            submitCustomerForm();
+          }}
+        >
+          Submit
         </button>
       </Box>
       <Box
@@ -114,7 +171,7 @@ function CustomerCompanyTab(props) {
         className="card-background"
       >
         <Box className="grid-container">
-          {customerCompanyFields.map((val, index) => {
+          {customerGeneralFields.map((val, index) => {
             return (
               <Box className="grid-item">
                 <Label LabelText={val.TITLE} />
@@ -198,10 +255,16 @@ function CustomerCompanyTab(props) {
   );
 }
 
+// export default CustomerGeneralTab;
+
 const mapStateToProps = (state) => ({
+  CUSTOMER_GENERAL_DATA: state.customer.customer_general,
   CUSTOMER_COMPANY_DATA: state.customer.customer_company,
+  CUSTOMER_FINANCE_DATA: state.customer.customer_finance,
+  CUSTOMER_SALES_DISTRIBUTION_DATA: state.customer.customer_sales_distribution,
+  CUSTOMER_CREDIT_SEGMENT_DATA: state.customer.customer_credit_segment,
 });
 
 export default connect(mapStateToProps, { setCustomerGeneralDataAction })(
-  CustomerCompanyTab
+  CustomerCreditSegment
 );

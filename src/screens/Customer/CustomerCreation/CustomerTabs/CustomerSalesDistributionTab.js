@@ -8,25 +8,126 @@ import { COLORS } from "../../../../utils/Theme";
 import { setCustomerGeneralDataAction } from "../../../../redux/action/customerAction";
 import { connect } from "react-redux";
 
-function CustomerCompanyTab(props) {
-  const [customerCustomerData, setCustomerCustomerData] = useState([]);
+function CustomerSalesDistributionTab(props) {
+  const [customerGeneralData, setCustomerGeneralData] = useState([]);
 
-  const [customerCompanyFields, setCustomerCompanyFields] = useState([
+  const [customerGeneralFields, setCustomerGeneralFields] = useState([
     {
-      TITLE: "Company Data*",
-      VALUE: "",
+      TITLE: "Customer Classification for PPD*",
       IS_DISABLED: false,
       DROPDOWN: false,
-      KEY: "COMPANY_DATA",
+      KEY: "CUSTOMER_CREDIT_LIMIT",
       REQUIRED: true,
+      VALUE: "",
       ERROR_FLAG: false,
       DROPDOWN_OPTIONS: [],
     },
     {
-      TITLE: "Reconciliation Account in General Ledger*",
+      TITLE: "Order Combination Indicator*",
+      IS_DISABLED: false,
+      DROPDOWN: false,
+      KEY: "CUSTOMER_CREDIT_LIMIT",
+      REQUIRED: true,
+      VALUE: "",
+      ERROR_FLAG: false,
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Shipping Conditions*",
       IS_DISABLED: false,
       DROPDOWN: true,
-      KEY: "RECONCILIATION_ACCOUNT",
+      KEY: "CUSTOMER_CREDIT_LIMIT",
+      REQUIRED: true,
+      VALUE: "",
+      ERROR_FLAG: false,
+      DROPDOWN_OPTIONS: [],
+    },
+
+    {
+      TITLE: "Inco Term 1*",
+      IS_DISABLED: false,
+      DROPDOWN: true,
+      KEY: "INCO_TERM_1",
+      REQUIRED: true,
+      ERROR_FLAG: false,
+      VALUE: "",
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Inco Term 2*",
+      IS_DISABLED: false,
+      DROPDOWN: true,
+      KEY: "INCO_TERM_2",
+      REQUIRED: false,
+      ERROR_FLAG: false,
+      VALUE: "",
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Currency*",
+      IS_DISABLED: false,
+      DROPDOWN: false,
+      KEY: "CURRENCY",
+      REQUIRED: true,
+      ERROR_FLAG: false,
+      VALUE: "",
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Distribution Channel*",
+      IS_DISABLED: false,
+      DROPDOWN: true,
+      KEY: "DISTRIBUTION_CHANNEL",
+      REQUIRED: true,
+      ERROR_FLAG: false,
+      VALUE: "",
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Division",
+      IS_DISABLED: false,
+      DROPDOWN: true,
+      KEY: "DIVISION",
+      REQUIRED: true,
+      ERROR_FLAG: false,
+      VALUE: "",
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Sales Office",
+      IS_DISABLED: false,
+      DROPDOWN: true,
+      KEY: "SALES_OFFICE",
+      REQUIRED: true,
+      ERROR_FLAG: false,
+      VALUE: "",
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Customer Group",
+      IS_DISABLED: false,
+      DROPDOWN: true,
+      KEY: "CUSTOMER_GROUP",
+      REQUIRED: false,
+      VALUE: "",
+      ERROR_FLAG: false,
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Sales Group*",
+      IS_DISABLED: false,
+      DROPDOWN: true,
+      KEY: "SALES_GROUP",
+      REQUIRED: false,
+      ERROR_FLAG: false,
+      VALUE: "",
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Delivery Plant",
+      IS_DISABLED: false,
+      DROPDOWN: true,
+      KEY: "DELIVERY_PLANT",
       REQUIRED: true,
       ERROR_FLAG: false,
       VALUE: "",
@@ -35,18 +136,18 @@ function CustomerCompanyTab(props) {
   ]);
 
   const storeFieldsValuesInState = (InputValue, InputKey, index) => {
-    let tempCustomerCompanyData = [...customerCustomerData];
-    let tempCustomerCustomerFields = [...customerCompanyFields];
-    tempCustomerCompanyData[InputKey] = InputValue;
-    tempCustomerCustomerFields[index].VALUE = InputValue;
-    console.log("tempCustomerGeneralData", tempCustomerCustomerFields);
-    setCustomerCustomerData(tempCustomerCompanyData);
-    setCustomerCompanyFields(tempCustomerCustomerFields);
+    let tempCustomerGeneralData = [...customerGeneralData];
+    let tempCustomerGeneralFields = [...customerGeneralFields];
+    tempCustomerGeneralData[InputKey] = InputValue;
+    tempCustomerGeneralFields[index].VALUE = InputValue;
+    console.log("tempCustomerGeneralData", tempCustomerGeneralFields);
+    setCustomerGeneralData(tempCustomerGeneralData);
+    setCustomerGeneralFields(tempCustomerGeneralFields);
   };
 
   const CustomerGeneralDataInRedux = () => {
     let ErrorFound = false;
-    let tempCustomerGeneralField = [...customerCompanyFields];
+    let tempCustomerGeneralField = [...customerGeneralFields];
     tempCustomerGeneralField.map((val) => {
       if (
         (val.VALUE == "" && val.REQUIRED == true) ||
@@ -66,19 +167,19 @@ function CustomerCompanyTab(props) {
 
       props.setCustomerGeneralDataAction(tempGeneralData);
     }
-    setCustomerCompanyFields(tempCustomerGeneralField);
+    setCustomerGeneralFields(tempCustomerGeneralField);
   };
   useEffect(() => {
-    let tempCustomerGeneralFields = [...customerCompanyFields];
+    let tempCustomerGeneralFields = [...customerGeneralFields];
 
-    props.CUSTOMER_COMPANY_DATA.map((val, index) => {
+    props.CUSTOMER_GENERAL_DATA.map((val, index) => {
       console.log("index", val?.KEY == tempCustomerGeneralFields[index].KEY);
       if (val?.KEY == tempCustomerGeneralFields[index].KEY) {
         tempCustomerGeneralFields[index].VALUE = val.VALUE;
       }
 
       console.log("asdjvsad", tempCustomerGeneralFields);
-      setCustomerCompanyFields(tempCustomerGeneralFields);
+      setCustomerGeneralFields(tempCustomerGeneralFields);
     });
   }, []);
 
@@ -114,7 +215,7 @@ function CustomerCompanyTab(props) {
         className="card-background"
       >
         <Box className="grid-container">
-          {customerCompanyFields.map((val, index) => {
+          {customerGeneralFields.map((val, index) => {
             return (
               <Box className="grid-item">
                 <Label LabelText={val.TITLE} />
@@ -198,10 +299,12 @@ function CustomerCompanyTab(props) {
   );
 }
 
+// export default CustomerGeneralTab;
+
 const mapStateToProps = (state) => ({
-  CUSTOMER_COMPANY_DATA: state.customer.customer_company,
+  CUSTOMER_GENERAL_DATA: state.customer.customer_general,
 });
 
 export default connect(mapStateToProps, { setCustomerGeneralDataAction })(
-  CustomerCompanyTab
+  CustomerSalesDistributionTab
 );

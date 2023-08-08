@@ -27,6 +27,7 @@ function General(props) {
     ADDRESS_LINE_3_ERROR: false,
     PIN_CODE_ERROR: false,
     BUSINESS_ROLE_ERROR: false,
+    SCH_GRP_VEND_ERROR: false,
   });
   const [GeneralDataDisableFlags, setGeneralDataDisableFlags] = useState({
     NAME_DISABLE_FLAG: false,
@@ -40,7 +41,7 @@ function General(props) {
     PIN_CODE_DISABLE_FLAG: false,
     BUSINESS_ROLE_DISABLE_FLAG: false,
     DISTRICT_DISABLE_FLAG: false,
-
+    SCH_GRP_VEND_DISABLE_FLAG:false,
     COMPANY_CODE_DISABLE_FLAG: false,
     FAX_DISABLE_FLAG: false,
   });
@@ -50,6 +51,20 @@ function General(props) {
     setGeneralData(props.GENERAL_DATA);
     getCountryData();
   }, [props.GENERAL_DATA]);
+
+
+  // const [vendorGeneralFields, setVendorGeneralFields] = useState([
+  //   {
+  //     TITLE: "Name*",
+  //     IS_DISABLED: false,
+  //     DROPDOWN: false,
+  //     KEY: "CUSTOMER_GROUP_2",
+  //     REQUIRED: true,
+  //     ERROR_FLAG: false,
+  //     VALUE: "",
+  //     DROPDOWN_OPTIONS: [],
+  //   },
+  // ]);
 
   const getCountryData = () => {
     axios.get(AXIOS.axiosUrl + AXIOS.country_master).then((response) => {
@@ -660,6 +675,36 @@ function General(props) {
               props.setGeneralDataAction(GeneralData);
             }}
           />
+          <Label LabelText="SCH GRP VEND*" />
+          <CustomDropdown
+            Options={CountryList}
+            Label="SCH GRP VEND"
+            error={GeneralDataErrorFlags?.SCH_GRP_VEND_ERROR}
+            Disabled={GeneralDataDisableFlags?.SCH_GRP_VEND_DISABLE_FLAG}
+            Value={GeneralData.SCH_GRP_VEND}
+            OnChange={(e) => {
+              console.log(e);
+              setGeneralData((prevState) => ({
+                ...prevState,
+                SCH_GRP_VEND: e,
+              }));
+              setGeneralDataErrorFlags((prev) => ({
+                ...prev,
+                SCH_GRP_VEND_ERROR: false,
+              }));
+            }}
+          />
+          {GeneralDataErrorFlags?.SCH_GRP_VEND_ERROR && (
+            <Typography
+              sx={{
+                fontSize: 12,
+                ml: 2,
+                color: COLORS.red,
+              }}
+            >
+              Please select SCH GRP VEND
+            </Typography>
+          )}
         </Grid>
       </Grid>
     </Box>

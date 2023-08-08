@@ -8,6 +8,7 @@ import { setContactPersonAction } from "../../../redux/action/vendorAction";
 import axios from "axios";
 import AXIOS from "../../../utils/AXIOS";
 import cogoToast from "cogo-toast";
+import { COLORS } from "../../../utils/Theme";
 
 function ContactPerson(props) {
   const GenderList = [
@@ -213,10 +214,19 @@ function ContactPerson(props) {
 
     let VendorFormData = new FormData();
 
-    console.log(
-      "props.GENERAL_DATA?.APPLICATION_ID",
-      props.GENERAL_DATA?.APPLICATION_ID
-    );
+    if (
+      props.GENERAL_DATA.length == 0 &&
+      props.TAX_DATA.length == 0 &&
+      props.BANK_DETAILS_DATA.length == 0 &&
+      props.COMPANY_DATA.length == 0 && 
+      TbodyDETAILS_OF_USER.length == 0 
+    ){
+
+    }
+      console.log(
+        "props.GENERAL_DATA?.APPLICATION_ID",
+        props.GENERAL_DATA?.APPLICATION_ID
+      );
 
     // VendorFormData.append("NAME", props.GENERAL_DATA.NAME);
     VendorFormData.set("APPLICATION_ID", props.GENERAL_DATA?.APPLICATION_ID);
@@ -232,6 +242,12 @@ function ContactPerson(props) {
     VendorFormData.set("ADDRESS_LINE_3", props.GENERAL_DATA?.ADDRESS_LINE_3!=undefined? props.GENERAL_DATA?.ADDRESS_LINE_3:"");
     VendorFormData.set("PINCODE", props.GENERAL_DATA?.PINCODE!=undefined?props.GENERAL_DATA?.PINCODE:"");
     VendorFormData.set("DISTRICT", props.GENERAL_DATA?.DISTRICT!=undefined? props.GENERAL_DATA?.DISTRICT:"");
+    VendorFormData.set(
+      "SCH_GRP_VEND",
+      props.GENERAL_DATA?.SCH_GRP_VEND?.value != undefined
+        ? props.GENERAL_DATA?.SCH_GRP_VEND?.value
+        : ""
+    );
      VendorFormData.set(
        "TIMELINE",
         JSON.stringify({
@@ -457,7 +473,14 @@ function ContactPerson(props) {
         }}
         className="card-background"
       >
-        <h3> Details Of The User/Concern Person</h3>
+        <h3
+          style={{
+            color: COLORS.white,
+          }}
+        >
+          {" "}
+          Details Of The User/Concern Person
+        </h3>
         <Grid container p={4} spacing={2} my={1}>
           <Grid xs={6} md={0} item>
             <Label LabelText="Name*" />
@@ -640,7 +663,13 @@ function ContactPerson(props) {
         }}
         className="card-background"
       >
-        <h3>Vendor</h3>
+        <h3
+          style={{
+            color: COLORS.white,
+          }}
+        >
+          Vendor
+        </h3>
         <Grid container p={4} spacing={2} my={1}>
           <Grid xs={6} md={0} item>
             <Label LabelText="Name*" />
@@ -824,7 +853,13 @@ function ContactPerson(props) {
         }}
         className="card-background"
       >
-        <h3>Vendor Contact Person</h3>
+        <h3
+          style={{
+            color: COLORS.white,
+          }}
+        >
+          Vendor Contact Person
+        </h3>
         <Grid container p={4} spacing={2} my={1}>
           <Grid xs={6} md={0} item>
             <Label LabelText="Name*" />
@@ -1008,7 +1043,13 @@ function ContactPerson(props) {
         }}
         className="card-background"
       >
-        <h3>Promoter</h3>
+        <h3
+          style={{
+            color: COLORS.white,
+          }}
+        >
+          Promoter
+        </h3>
         <Grid container p={4} spacing={2} my={1}>
           <Grid xs={6} md={0} item>
             <Label LabelText="Name*" />
@@ -1192,7 +1233,13 @@ function ContactPerson(props) {
         }}
         className="card-background"
       >
-        <h3>Director/Partenr/Proprietor'S Name</h3>
+        <h3
+          style={{
+            color: COLORS.white,
+          }}
+        >
+          Director/Partenr/Proprietor'S Name
+        </h3>
         <Grid container p={4} spacing={2} my={1}>
           <Grid xs={6} md={0} item>
             <Label LabelText="Name*" />

@@ -29,6 +29,6 @@ export const setCreditSegmentAction =
   (creditSegmentData) => (dispatch) => {
     dispatch({
       type: "SET_CREDIT_SEGMENT_DATA",
-      credit_segment: creditSegmentData,
+      customer_credit_segment: creditSegmentData,
     });
   };

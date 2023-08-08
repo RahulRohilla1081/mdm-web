@@ -482,6 +482,12 @@ console.log("a,jbhjadbhjesb f", SecuredOTP);
       VendorFormData.set("ADDRESS_LINE_3", props.GENERAL_DATA?.ADDRESS_LINE_3!=undefined ?props.GENERAL_DATA?.ADDRESS_LINE_3 :"");
       VendorFormData.set("PINCODE", props.GENERAL_DATA?.PINCODE!=undefined ? props.GENERAL_DATA?.PINCODE :"");
       VendorFormData.set("DISTRICT", props.GENERAL_DATA?.DISTRICT!=undefined ?props.GENERAL_DATA?.DISTRICT :"");
+          VendorFormData.set(
+            "SCH_GRP_VEND",
+            props.GENERAL_DATA?.SCH_GRP_VEND?.value != undefined
+              ? props.GENERAL_DATA?.SCH_GRP_VEND?.value
+              : ""
+          );
      VendorFormData.set(
        "TIMELINE",
        JSON.stringify({

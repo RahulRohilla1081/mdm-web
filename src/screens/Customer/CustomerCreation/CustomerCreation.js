@@ -10,6 +10,8 @@ import "./customerStyle.css";
 import CustomerGeneralTab from "./CustomerTabs/CustomerGeneralTab";
 import CustomerCompanyTab from "./CustomerTabs/CustomerCompanyTab";
 import CustomerFinanceTab from "./CustomerTabs/CustomerFinanceTab";
+import CustomerSalesDistributionTab from "./CustomerTabs/CustomerSalesDistributionTab";
+import CustomerCreditSegment from "./CustomerTabs/CustomerCreditSegment";
 
 const drawerWidth = 280;
 
@@ -130,7 +132,7 @@ function CustomerCreation() {
             />
 
             <Tab
-              value={6}
+              value={5}
               label="Credit Segment"
               sx={{
                 fontSize: { xs: 14, md: 18 },
@@ -142,6 +144,8 @@ function CustomerCreation() {
           {VendorTab == 1 && <CustomerGeneralTab />}
           {VendorTab == 2 && <CustomerCompanyTab />}
           {VendorTab == 3 && <CustomerFinanceTab />}
+          {VendorTab == 4 && <CustomerSalesDistributionTab />}
+          {VendorTab == 5 && <CustomerCreditSegment />}
           {/* {VendorTab == 2 && <TaxData />}
             {VendorTab == 3 && <BankDetails />}
             {VendorTab == 4 && <CompanyData />}

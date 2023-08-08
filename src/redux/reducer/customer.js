@@ -3,7 +3,7 @@ const initialState = {
   customer_company: [],
   customer_finance: [],
   customer_sales_distribution: [],
-  credit_segment: [],
+  customer_credit_segment: [],
 };
 
 const auth = (state = initialState, action) => {
@@ -32,7 +32,7 @@ const auth = (state = initialState, action) => {
     case "SET_CREDIT_SEGMENT_DATA":
       return {
         ...state,
-        credit_segment: action.credit_segment,
+        customer_credit_segment: action.customer_credit_segment,
       };
     default:
       return state;

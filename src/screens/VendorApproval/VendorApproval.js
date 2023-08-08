@@ -52,6 +52,34 @@ function VendorApproval() {
     // },
   ]);
 
+  function timeSince(date) {
+    console.log("datasdade", date);
+    var seconds = Math.floor((new Date() - date) / 1000);
+
+    var interval = seconds / 31536000;
+
+    if (interval > 1) {
+      return Math.floor(interval) + " years";
+    }
+    interval = seconds / 2592000;
+    if (interval > 1) {
+      return Math.floor(interval) + " months";
+    }
+    interval = seconds / 86400;
+    if (interval > 1) {
+      return Math.floor(interval) + " days";
+    }
+    interval = seconds / 3600;
+    if (interval > 1) {
+      return Math.floor(interval) + " hours";
+    }
+    interval = seconds / 60;
+    if (interval > 1) {
+      return Math.floor(interval) + " minutes";
+    }
+    return Math.floor(seconds) + " seconds";
+  }
+
   const style = {
     position: "absolute",
     top: "50%",
@@ -248,8 +276,8 @@ function VendorApproval() {
                         <h8
                           onClick={() => {
                             {
-                              (val.APPROVAL_FLAG == "2" ||
-                                val.APPROVAL_FLAG == "6") &&
+                              (val?.APPROVAL_FLAG == "2" ||
+                                val?.APPROVAL_FLAG == "6") &&
                                 navigate(VENDOR_CREATION, {
                                   state: {
                                     id: 1,
@@ -260,7 +288,7 @@ function VendorApproval() {
                                 });
                             }
                             {
-                              val.APPROVAL_FLAG == "3" &&
+                              val?.APPROVAL_FLAG == "3" &&
                                 navigate(VENDOR_DETAILS, {
                                   state: {
                                     id: 1,
@@ -280,20 +308,20 @@ function VendorApproval() {
                       approver_1 approver_2 updated_on */
                             }
                             {
-                              (val.APPROVAL_FLAG == "4" ||
-                                val.APPROVAL_FLAG == "7") &&
+                              (val?.APPROVAL_FLAG == "4" ||
+                                val?.APPROVAL_FLAG == "7") &&
                                 navigate(VENDOR_DETAILS, {
                                   state: {
                                     id: 1,
                                     name: val.USER_FULLNAME,
                                     VENDOR_DATA: val,
                                     SCREEN_NAME: "APPROVAL",
-                                    APPROVER_NO: "",
+                                    APPROVER_NO: "2",
                                   },
                                 });
                             }
                             {
-                              val.APPROVAL_FLAG == "8" &&
+                              val?.APPROVAL_FLAG == "8" &&
                                 navigate(VENDOR_DETAILS, {
                                   state: {
                                     id: 1,
@@ -307,7 +335,7 @@ function VendorApproval() {
                           }}
                           style={{
                             color:
-                              val.APPROVAL_FLAG == "1" ? null : COLORS.white,
+                              val?.APPROVAL_FLAG == "1" ? null : COLORS.white,
                             fontSize: 16,
                             fontWeight: "bold",
                             cursor: "pointer",
@@ -374,7 +402,7 @@ function VendorApproval() {
                         color: "white",
                       }}
                     >
-                      {val.APPROVAL_FLAG == "1" && (
+                      {val?.APPROVAL_FLAG == "1" && (
                         <Chip
                           size="small"
                           label="Pending for submission"
@@ -384,7 +412,7 @@ function VendorApproval() {
                           }}
                         />
                       )}
-                      {val.APPROVAL_FLAG == "2" && (
+                      {val?.APPROVAL_FLAG == "2" && (
                         <Chip
                           size="small"
                           label="Pending for Buyer Approval"
@@ -394,7 +422,7 @@ function VendorApproval() {
                           }}
                         />
                       )}
-                      {val.APPROVAL_FLAG == "3" && (
+                      {val?.APPROVAL_FLAG == "3" && (
                         <Chip
                           size="small"
                           label="Approved By buyer"
@@ -404,7 +432,7 @@ function VendorApproval() {
                           }}
                         />
                       )}
-                      {val.APPROVAL_FLAG == "6" && (
+                      {val?.APPROVAL_FLAG == "6" && (
                         <Chip
                           size="small"
                           label="Rejected by buyer"
@@ -415,7 +443,7 @@ function VendorApproval() {
                         />
                       )}
 
-                      {val.APPROVAL_FLAG == "4" && (
+                      {val?.APPROVAL_FLAG == "4" && (
                         <Chip
                           size="small"
                           label="Approved by Approver 1"
@@ -426,7 +454,7 @@ function VendorApproval() {
                         />
                       )}
 
-                      {val.APPROVAL_FLAG == "7" && (
+                      {val?.APPROVAL_FLAG == "7" && (
                         <Chip
                           size="small"
                           label="Rejected By Approver 1"
@@ -436,7 +464,7 @@ function VendorApproval() {
                           }}
                         />
                       )}
-                      {val.APPROVAL_FLAG == "5" && (
+                      {val?.APPROVAL_FLAG == "5" && (
                         <Chip
                           size="small"
                           label="Approved by Approver 2"
@@ -446,7 +474,7 @@ function VendorApproval() {
                           }}
                         />
                       )}
-                      {val.APPROVAL_FLAG == "8" && (
+                      {val?.APPROVAL_FLAG == "8" && (
                         <Chip
                           size="small"
                           label="Rejected By Approver 2"
@@ -547,7 +575,11 @@ function VendorApproval() {
                       contentArrowStyle={{
                         borderRight: "7px solid  #000",
                       }}
-                      date={convertIndianStandardIntoYMD(val.ACTION_TIME)}
+                      date={
+                        index == TimelineData.length - 1
+                          ? timeSince(new Date(val.ACTION_TIME))
+                          : convertIndianStandardIntoYMD(val.ACTION_TIME) 
+                      }
                       iconStyle={{
                         background:
                           index % 2 == 0

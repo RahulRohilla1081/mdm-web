@@ -19,13 +19,11 @@ function CustomerGeneralTab(props) {
       DROPDOWN: false,
       KEY: "NAME",
       REQUIRED: true,
-      VALUE: "",
       ERROR_FLAG: false,
       DROPDOWN_OPTIONS: [],
     },
     {
       TITLE: "Sales Organization*",
-      VALUE: "",
       IS_DISABLED: false,
       DROPDOWN: false,
       KEY: "SALES_ORGANIZATION",
@@ -36,7 +34,6 @@ function CustomerGeneralTab(props) {
     },
     {
       TITLE: "Search Term*",
-      VALUE: "",
       IS_DISABLED: false,
       DROPDOWN: false,
       KEY: "SEARCH_TERM",
@@ -47,7 +44,6 @@ function CustomerGeneralTab(props) {
     },
     {
       TITLE: "Address*",
-      VALUE: "",
       IS_DISABLED: false,
       DROPDOWN: false,
       KEY: "ADDRESS",
@@ -64,12 +60,10 @@ function CustomerGeneralTab(props) {
       KEY: "DISTRICT",
       REQUIRED: true,
       ERROR_FLAG: false,
-      VALUE: "",
       DROPDOWN_OPTIONS: [],
     },
     {
       TITLE: "Country*",
-      VALUE: "",
       IS_DISABLED: false,
       DROPDOWN: false,
       KEY: "COUNTRY",
@@ -80,7 +74,6 @@ function CustomerGeneralTab(props) {
     },
     {
       TITLE: "City*",
-      VALUE: "",
       IS_DISABLED: false,
       DROPDOWN: false,
       KEY: "CITY",
@@ -91,18 +84,15 @@ function CustomerGeneralTab(props) {
     },
     {
       TITLE: "Postal Code*",
-      VALUE: "",
       IS_DISABLED: false,
       DROPDOWN: false,
       KEY: "POSTAL_CODE",
       REQUIRED: true,
       ERROR_FLAG: false,
-      VALUE: "",
       DROPDOWN_OPTIONS: [],
     },
     {
       TITLE: "Customer Group 1",
-      VALUE: "",
       IS_DISABLED: false,
       DROPDOWN: false,
       KEY: "CUSTOMER_GROUP_1",
@@ -113,7 +103,6 @@ function CustomerGeneralTab(props) {
     },
     {
       TITLE: "Customer Group 2",
-      VALUE: "",
       IS_DISABLED: false,
       DROPDOWN: false,
       KEY: "CUSTOMER_GROUP_2",
@@ -124,7 +113,6 @@ function CustomerGeneralTab(props) {
     },
     {
       TITLE: "Customer Group 3",
-      VALUE: "",
       IS_DISABLED: false,
       DROPDOWN: false,
       KEY: "CUSTOMER_GROUP_3",
@@ -141,12 +129,10 @@ function CustomerGeneralTab(props) {
       KEY: "MOBILE_NUMBER",
       REQUIRED: true,
       ERROR_FLAG: false,
-      VALUE: "",
       DROPDOWN_OPTIONS: [],
     },
     {
       TITLE: "Fax",
-      VALUE: "",
       IS_DISABLED: false,
       DROPDOWN: false,
       KEY: "FAX",

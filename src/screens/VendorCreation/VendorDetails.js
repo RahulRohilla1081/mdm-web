@@ -49,9 +49,10 @@ function VendorDetails() {
     }
     console.log(
       "location.state.VENDOR_DATA.APPROVER_NO",
-      location.state
+      location.state.VENDOR_DATA.APPROVAL_FLAG == "5" ,
+        location.state.VENDOR_DATA.APPROVAL_FLAG == "8"
     );
-    if (location.state.VENDOR_DATA.APPROVER_NO = "1") {
+    if (location.state.APPROVER_NO == "1") {
       if (
         location.state.VENDOR_DATA.APPROVAL_FLAG == "4" ||
         location.state.VENDOR_DATA.APPROVAL_FLAG == "7"
@@ -62,18 +63,20 @@ function VendorDetails() {
           SHOW_REJECT_BUTTON: true,
         });
       }
-    } else if ((location.state.VENDOR_DATA.APPROVER_NO = "2")) {
+    } else if (location.state.APPROVER_NO == "2") {
       if (
-        location.state.VENDOR_DATA.APPROVAL_FLAG == "4" ||
-        location.state.VENDOR_DATA.APPROVAL_FLAG == "7"
+        location.state.VENDOR_DATA.APPROVAL_FLAG == "5" ||
+        location.state.VENDOR_DATA.APPROVAL_FLAG == "8"
       ) {
         setApproveRejectButtonState({
           SHOW_APPROVE_BUTTON: true,
           SHOW_RETURN_BUTTON: true,
           SHOW_REJECT_BUTTON: true,
         });
+        console.log("inside uffff");
       }
     } else {
+      console.log("inside elseeeee");
       setApproveRejectButtonState({
         SHOW_APPROVE_BUTTON: false,
         SHOW_RETURN_BUTTON: false,
@@ -118,6 +121,8 @@ function VendorDetails() {
       tempActionName = "Rejected by Approver 2";
     }
 
+    
+    
     const vendorPayload = [
       {
         APPLICATION_ID: location.state.VENDOR_DATA.APPLICATION_ID,
@@ -296,8 +301,8 @@ function VendorDetails() {
   console.log(
     "askdhbsad",
     location.state.VENDOR_DATA.APPROVAL_FLAG,
-    location.state.VENDOR_DATA.APPROVAL_FLAG == "7",
-    location.state.VENDOR_DATA.APPROVER_NO == "1"
+    location.state.APPROVAL_FLAG == "7",
+    location.state.APPROVER_NO == "1"
   );
 
   return (
