@@ -4,11 +4,11 @@ const initialState = {
   customer_finance: [],
   customer_sales_distribution: [],
   customer_credit_segment: [],
+  customer_contact_person: [],
 };
 
 const auth = (state = initialState, action) => {
   switch (action.type) {
-   
     case "SET_CUSTOMER_GENERAL_DATA":
       return {
         ...state,
@@ -33,6 +33,11 @@ const auth = (state = initialState, action) => {
       return {
         ...state,
         customer_credit_segment: action.customer_credit_segment,
+      };
+    case "SET_CONTACT_PERSON_DATA":
+      return {
+        ...state,
+        customer_contact_person: action.customer_contact_person,
       };
     default:
       return state;

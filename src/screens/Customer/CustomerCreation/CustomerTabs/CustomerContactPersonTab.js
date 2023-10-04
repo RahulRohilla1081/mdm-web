@@ -1,3 +1,5 @@
+
+
 import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CustomInput from "../../../../components/CustomInput/CustomInput";
@@ -5,38 +7,117 @@ import Label from "../../../../components/Label/Label";
 import CustomDropdown from "../../../../components/CustomDropdown/CustomDropdown";
 import cogoToast from "cogo-toast";
 import { COLORS } from "../../../../utils/Theme";
-import { setCustomerCompanyDataAction } from "../../../../redux/action/customerAction";
+import { setContactPersonAction } from "../../../../redux/action/customerAction";
 import { connect } from "react-redux";
 import axios from "axios";
 import AXIOS from "../../../../utils/AXIOS";
 
-function CustomerCompanyTab(props) {
+function CustomerContactPersonTab(props) {
   const [customerCustomerData, setCustomerCustomerData] = useState([]);
 
   const [customerCompanyFields, setCustomerCompanyFields] = useState([
+    
     {
-      TITLE: "Company Code*",
+      TITLE: "Name",
       VALUE: "",
+      TYPE: "text",
       IS_DISABLED: false,
       DROPDOWN: false,
-      KEY: "COMPANY_CODE",
-      REQUIRED: true,
+      KEY: "NAME",
+      REQUIRED: false,
       ERROR_FLAG: false,
       DROPDOWN_OPTIONS: [],
     },
     {
-      TITLE: "Reconciliation Account in General Ledger*",
-      IS_DISABLED: false,
-      DROPDOWN: true,
-      KEY: "RECONCILIATION_ACCOUNT",
-      REQUIRED: true,
-      ERROR_FLAG: false,
+      TITLE: "Email",
       VALUE: "",
+      IS_DISABLED: false,
+      DROPDOWN: false,
+      TYPE: "text",
+      KEY: "EMAIL",
+      REQUIRED: false,
+      ERROR_FLAG: false,
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Address",
+      VALUE: "",
+      IS_DISABLED: false,
+      DROPDOWN: false,
+      TYPE: "text",
+      KEY: "ADDRESS",
+      REQUIRED: false,
+      ERROR_FLAG: false,
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Mobile",
+      VALUE: "",
+      IS_DISABLED: false,
+      TYPE: "text",
+      DROPDOWN: false,
+      KEY: "MOBILE_NUMBER",
+      REQUIRED: false,
+      ERROR_FLAG: false,
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Gender",
+      VALUE: "",
+      IS_DISABLED: false,
+      TYPE: "text",
+      DROPDOWN: false,
+      KEY: "GENDER",
+      REQUIRED: false,
+      ERROR_FLAG: false,
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Landline",
+      VALUE: "",
+      IS_DISABLED: false,
+      TYPE: "text",
+      DROPDOWN: false,
+      KEY: "LANDLINE",
+      REQUIRED: false,
+      ERROR_FLAG: false,
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Birth Date",
+      VALUE: "",
+      IS_DISABLED: false,
+      TYPE: "text",
+      DROPDOWN: true,
+      KEY: "PERSON_BIRTH_DATE",
+      REQUIRED: false,
+      ERROR_FLAG: false,
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Birth Month",
+      VALUE: "",
+      IS_DISABLED: false,
+      TYPE: "text",
+      DROPDOWN: true,
+      KEY: "PERSON_BIRTH_MONTH",
+      REQUIRED: false,
+      ERROR_FLAG: false,
+      DROPDOWN_OPTIONS: [],
+    },
+    {
+      TITLE: "Designation",
+      VALUE: "",
+      IS_DISABLED: false,
+      TYPE: "text",
+      DROPDOWN: false,
+      KEY: "DESIGNATION",
+      REQUIRED: false,
+      ERROR_FLAG: false,
       DROPDOWN_OPTIONS: [],
     },
   ]);
 
-  
   useEffect(() => {
     getCountryData();
   }, []);
@@ -78,7 +159,6 @@ function CustomerCompanyTab(props) {
         if (val.KEY == "RECONCILIATION_ACCOUNT") {
           val.DROPDOWN_OPTIONS = tempCountryList;
         }
-     
       });
 
       setCustomerCustomerData(tempGeneralFields);
@@ -120,14 +200,14 @@ function CustomerCompanyTab(props) {
       });
       console.log("tempGeneralData", tempGeneralData);
 
-      props.setCustomerCompanyDataAction(tempGeneralData);
+      props.setContactPersonAction(tempGeneralData);
     }
     setCustomerCompanyFields(tempCustomerGeneralField);
   };
   useEffect(() => {
     let tempCustomerGeneralFields = [...customerCompanyFields];
 
-    props.CUSTOMER_COMPANY_DATA.map((val, index) => {
+    props.CUSTOMER_CONTACT_PERSON.map((val, index) => {
       console.log("index", val?.KEY == tempCustomerGeneralFields[index].KEY);
       if (val?.KEY == tempCustomerGeneralFields[index].KEY) {
         tempCustomerGeneralFields[index].VALUE = val.VALUE;
@@ -255,9 +335,9 @@ function CustomerCompanyTab(props) {
 }
 
 const mapStateToProps = (state) => ({
-  CUSTOMER_COMPANY_DATA: state.customer.customer_company,
+  CUSTOMER_CONTACT_PERSON: state.customer.customer_contact_person,
 });
 
-export default connect(mapStateToProps, { setCustomerCompanyDataAction })(
-  CustomerCompanyTab
+export default connect(mapStateToProps, { setContactPersonAction })(
+  CustomerContactPersonTab
 );

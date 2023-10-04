@@ -6,4 +6,6 @@ export const VENDOR="/v1/vendor"
 export const VENDOR_DETAILS="/v1/vendor-details"
 export const VENDOR_APPROVAL = "/v1/vendor-approval";
 export const CUSTOMER_CREATION = "/v1/customer-creation";
+export const CUSTOMER = "/v1/customer";
+export const CUSTOMER_DETAILS = "/v1/customer-details";
 

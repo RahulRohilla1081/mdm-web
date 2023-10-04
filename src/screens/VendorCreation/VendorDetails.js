@@ -49,9 +49,20 @@ function VendorDetails() {
     }
     console.log(
       "location.state.VENDOR_DATA.APPROVER_NO",
-      location.state.VENDOR_DATA.APPROVAL_FLAG == "5" ,
-        location.state.VENDOR_DATA.APPROVAL_FLAG == "8"
+      location.state.VENDOR_DATA.APPROVAL_FLAG == "5",
+      location.state.VENDOR_DATA.APPROVAL_FLAG == "8"
     );
+    //     vendor master
+    // through email, pending for submition 1
+    // through email, pending for buyer approval 2 if approve 3 if reject 6
+
+    // 2 level flow if status == 3.
+    // approver_1 if approve 4 if rejected 7
+    // approver_2 if approve 5 if rejected 8
+
+    // approval master
+    // schema
+    // approver_1         approver_2        updated_on
     if (location.state.APPROVER_NO == "1") {
       if (
         location.state.VENDOR_DATA.APPROVAL_FLAG == "4" ||
@@ -75,14 +86,32 @@ function VendorDetails() {
         });
         console.log("inside uffff");
       }
-    } else {
+    } 
+  else {
       console.log("inside elseeeee");
       setApproveRejectButtonState({
-        SHOW_APPROVE_BUTTON: false,
-        SHOW_RETURN_BUTTON: false,
-        SHOW_REJECT_BUTTON: false,
+        SHOW_APPROVE_BUTTON: true,
+        SHOW_RETURN_BUTTON: true,
+        SHOW_REJECT_BUTTON: true,
       });
     }
+
+       if (
+         location.state.VENDOR_DATA.APPROVAL_FLAG == "6" ||
+         location.state.VENDOR_DATA.APPROVAL_FLAG == "7" ||
+         location.state.VENDOR_DATA.APPROVAL_FLAG == "8"
+       ) {
+            setShowApprovalRejectButton(false);
+        // console.log(
+        //   "ajsdjasdjsabdhhasb",
+        //   location.state.VENDOR_DATA.APPROVAL_FLAG
+        // );
+        //  setApproveRejectButtonState({
+        //    SHOW_APPROVE_BUTTON: false,
+        //    SHOW_RETURN_BUTTON: false,
+        //    SHOW_REJECT_BUTTON: false,
+        //  });
+       }
   }, []);
   const [Tbody, setTbody] = useState([
     {
@@ -128,7 +157,7 @@ function VendorDetails() {
         APPLICATION_ID: location.state.VENDOR_DATA.APPLICATION_ID,
         APPROVAL_FLAG: ClickedFlag,
         TIMELINE: {
-          ACTION_NAME: tempActionName,
+          ACTION_NAME: "Return to Suppler",
           ACTION_TIME: new Date(),
         },
       },
@@ -358,12 +387,13 @@ function VendorDetails() {
                     m: 2,
                   }}
                   onClick={() => {
-                    if (location.state.APPROVER_NO == "1") {
-                      VendorApproveReject("4");
-                    } else if (location.state.APPROVER_NO == "2") {
-                      VendorApproveReject("5");
-                      PushDaTaInSAP();
-                    }
+                    VendorApproveReject("2");
+                    // if (location.state.APPROVER_NO == "1") {
+                    //   VendorApproveReject("4");
+                    // } else if (location.state.APPROVER_NO == "2") {
+                    //   VendorApproveReject("5");
+                    //   PushDaTaInSAP();
+                    // }
                   }}
                   disabled={ApproveRejectButtonState.SHOW_RETURN_BUTTON}
                 >
@@ -1022,7 +1052,7 @@ function VendorDetails() {
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
                 {
                   location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
-                    ?.MOBILE
+                    ?.MOBILE_NUMBER
                 }
               </Typography>
 
@@ -1035,7 +1065,7 @@ function VendorDetails() {
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
                 {
                   location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
-                    ?.GENDER?.value
+                    ?.GENDER
                 }
               </Typography>
 
@@ -1148,7 +1178,10 @@ function VendorDetails() {
                 Mobile
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                {location.state.VENDOR_DATA?.CONTACT_PERSON?.VENDOR?.MOBILE}
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.VENDOR
+                    ?.MOBILE_NUMBER
+                }
               </Typography>
 
               <Divider />
@@ -1274,7 +1307,7 @@ function VendorDetails() {
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
                 {
                   location.state.VENDOR_DATA?.CONTACT_PERSON
-                    ?.VENDOR_CONTACT_PERSON?.MOBILE
+                    ?.VENDOR_CONTACT_PERSON?.MOBILE_NUMBER
                 }
               </Typography>
 
@@ -1399,7 +1432,10 @@ function VendorDetails() {
                 Mobile
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                {location.state.VENDOR_DATA?.CONTACT_PERSON?.PROMOTER?.MOBILE}
+                {
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.PROMOTER
+                    ?.MOBILE_NUMBER
+                }
               </Typography>
 
               <Divider />
@@ -1450,10 +1486,7 @@ function VendorDetails() {
                 Email
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                {
-                  location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
-                    ?.EMAIL
-                }
+                {location.state.VENDOR_DATA?.CONTACT_PERSON?.PROMOTER?.EMAIL}
               </Typography>
 
               <Divider />
@@ -1463,10 +1496,7 @@ function VendorDetails() {
                 Landline
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
-                {
-                  location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
-                    ?.LANDLINE
-                }
+                {location.state.VENDOR_DATA?.CONTACT_PERSON?.PROMOTER?.LANDLINE}
               </Typography>
 
               <Divider />
@@ -1477,7 +1507,7 @@ function VendorDetails() {
               </Typography>
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
                 {
-                  location.state.VENDOR_DATA?.CONTACT_PERSON?.DETAILS_OF_USER
+                  location.state.VENDOR_DATA?.CONTACT_PERSON?.PROMOTER
                     ?.DESIGNATION
                 }
               </Typography>
@@ -1531,7 +1561,7 @@ function VendorDetails() {
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
                 {
                   location.state.VENDOR_DATA?.CONTACT_PERSON
-                    ?.DIRECTOR_PARTNER_PROPRIETOR?.MOBILE
+                    ?.DIRECTOR_PARTNER_PROPRIETOR?.MOBILE_NUMBER
                 }
               </Typography>
 
@@ -1544,7 +1574,7 @@ function VendorDetails() {
               <Typography sx={{ color: "#333", fontSize: 18, p: 1 }}>
                 {
                   location.state.VENDOR_DATA?.CONTACT_PERSON
-                    ?.DIRECTOR_PARTNER_PROPRIETOR?.GENDER?.value
+                    ?.DIRECTOR_PARTNER_PROPRIETOR?.GENDER
                 }
               </Typography>
 

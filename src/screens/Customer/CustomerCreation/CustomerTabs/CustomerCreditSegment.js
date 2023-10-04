@@ -5,8 +5,10 @@ import Label from "../../../../components/Label/Label";
 import CustomDropdown from "../../../../components/CustomDropdown/CustomDropdown";
 import cogoToast from "cogo-toast";
 import { COLORS } from "../../../../utils/Theme";
-import { setCustomerGeneralDataAction } from "../../../../redux/action/customerAction";
+import { setCreditSegmentAction } from "../../../../redux/action/customerAction";
 import { connect } from "react-redux";
+import axios from "axios";
+import AXIOS from "../../../../utils/AXIOS";
 
 function CustomerCreditSegment(props) {
   const [customerGeneralData, setCustomerGeneralData] = useState([]);
@@ -17,7 +19,7 @@ function CustomerCreditSegment(props) {
       VALUE: "",
       IS_DISABLED: false,
       DROPDOWN: false,
-      KEY: "NAME",
+      KEY: "CUSTOMER_CREDIT_LIMIT",
       REQUIRED: true,
       ERROR_FLAG: false,
       DROPDOWN_OPTIONS: [],
@@ -27,33 +29,47 @@ function CustomerCreditSegment(props) {
       VALUE: "",
       IS_DISABLED: false,
       DROPDOWN: true,
-      KEY: "SALES_ORGANIZATION",
+      KEY: "RISK_CLASS_CREDIT",
       REQUIRED: true,
       ERROR_FLAG: false,
-      DROPDOWN_OPTIONS: [],
+      DROPDOWN_OPTIONS: [
+        {
+          label: "Risk Class Credit",
+          value: "Risk Class Credit",
+        },
+      ],
     },
     {
       TITLE: "Credit Rules*",
       VALUE: "",
       IS_DISABLED: false,
       DROPDOWN: true,
-      KEY: "SEARCH_TERM",
+      KEY: "CREDIT_RULE",
       REQUIRED: true,
       ERROR_FLAG: false,
-      DROPDOWN_OPTIONS: [],
+      DROPDOWN_OPTIONS: [
+        {
+          label: "Credit Rules",
+          value: "Credit Rules",
+        },
+      ],
     },
     {
       TITLE: "Credit control area*",
       VALUE: "",
       IS_DISABLED: false,
       DROPDOWN: true,
-      KEY: "ADDRESS",
+      KEY: "CREDIT_CONTROL_AREA",
       REQUIRED: true,
       ERROR_FLAG: false,
-      DROPDOWN_OPTIONS: [],
+      DROPDOWN_OPTIONS: [
+        {
+          label: "Credit control area",
+          value: "Credit control area",
+        },
+      ],
     },
   ]);
-  
 
   const storeFieldsValuesInState = (InputValue, InputKey, index) => {
     let tempCustomerGeneralData = [...customerGeneralData];
@@ -75,6 +91,8 @@ function CustomerCreditSegment(props) {
       ) {
         val.ERROR_FLAG = true;
         ErrorFound = true;
+      } else {
+        val.ERROR_FLAG = false;
       }
     });
 
@@ -85,14 +103,16 @@ function CustomerCreditSegment(props) {
       });
       console.log("tempGeneralData", tempGeneralData);
 
-      props.setCustomerGeneralDataAction(tempGeneralData);
+      props.setCreditSegmentAction(tempGeneralData);
     }
     setCustomerGeneralFields(tempCustomerGeneralField);
   };
   useEffect(() => {
+
+
     let tempCustomerGeneralFields = [...customerGeneralFields];
 
-    props.CUSTOMER_GENERAL_DATA.map((val, index) => {
+    props.CUSTOMER_CREDIT_SEGMENT_DATA.map((val, index) => {
       console.log("index", val?.KEY == tempCustomerGeneralFields[index].KEY);
       if (val?.KEY == tempCustomerGeneralFields[index].KEY) {
         tempCustomerGeneralFields[index].VALUE = val.VALUE;
@@ -101,30 +121,290 @@ function CustomerCreditSegment(props) {
       console.log("asdjvsad", tempCustomerGeneralFields);
       setCustomerGeneralFields(tempCustomerGeneralFields);
     });
-  }, []);
+  }, [props.CUSTOMER_CREDIT_SEGMENT_DATA]);
 
   const submitCustomerForm = () => {
-    if (props.CUSTOMER_GENERAL_DATA.length == 0) {
+        console.log(
+          "aksjbdasdsa",
+          props.CUSTOMER_GENERAL_DATA,
+          props.CUSTOMER_FINANCE_DATA,
+          props.CUSTOMER_COMPANY_DATA,
+          props.CUSTOMER_SALES_DISTRIBUTION_DATA,
+          props.CUSTOMER_CREDIT_SEGMENT_DATA
+        );
+    if (props.CUSTOMER_GENERAL_DATA?.length == 0) {
       cogoToast.error("Please fill data in General Tab");
     }
-    if (props.CUSTOMER_COMPANY_DATA.length == 0) {
+    if (props.CUSTOMER_COMPANY_DATA?.length == 0) {
       cogoToast.error("Please fill data in Company Data Tab");
     }
-    if (props.CUSTOMER_FINANCE_DATA.length == 0) {
+    if (props.CUSTOMER_FINANCE_DATA?.length == 0) {
       cogoToast.error("Please fill data in Finance Tab");
     }
-    if (props.CUSTOMER_SALES_DISTRIBUTION_DATA.length == 0) {
+    if (props.CUSTOMER_SALES_DISTRIBUTION_DATA?.length == 0) {
       cogoToast.error("Please fill data in Sale and Distribution Tab");
     }
-    if (props.CUSTOMER_CREDIT_SEGMENT_DATA.length == 0) {
-      cogoToast.error("Please fill data in Credit Segment Tab");
+    if (props.CUSTOMER_CREDIT_SEGMENT_DATA?.length == 0) {
+      cogoToast.error("Please fill data in Sale and Distribution Tab");
     }
-    if(props.CUSTOMER_GENERAL_DATA.length!=0 && props.CUSTOMER_COMPANY_DATA.length!=0 && props.CUSTOMER_FINANCE_DATA.length!=0 && props.CUSTOMER_SALES_DISTRIBUTION_DATA.length!=0 && props.CUSTOMER_CREDIT_SEGMENT_DATA.length!=0)
-    {
 
-    }
-    else{
-      cogoToast.warn("Please fill all Mandatory fields")
+    if (
+      props.CUSTOMER_GENERAL_DATA?.length != 0 &&
+   
+      props.CUSTOMER_FINANCE_DATA?.length != 0 &&
+      props.CUSTOMER_SALES_DISTRIBUTION_DATA?.length != 0 &&
+      props.CUSTOMER_CREDIT_SEGMENT_DATA?.length != 0
+    ) {
+      // let CustomerFormData = new FormData();
+
+      // props.CUSTOMER_GENERAL_DATA.map((val) => {
+      //   if (val.VALUE?.value != undefined) {
+      //     CustomerFormData.set([val.KEY], val.VALUE.value);
+      //   } else {
+      //     CustomerFormData.set([val.KEY], val.VALUE);
+      //   }
+      // });
+      //      let sales_distributionDetail = {};
+      //      props.CUSTOMER_SALES_DISTRIBUTION_DATA.map((val) => {
+      //        if (val.VALUE?.value != undefined) {
+      //          sales_distributionDetail = {
+      //            ...sales_distributionDetail,
+      //            [val.KEY]: val.VALUE.value,
+      //          };
+      //        } else {
+      //          sales_distributionDetail = {
+      //            ...sales_distributionDetail,
+      //            [val.KEY]: val.VALUE,
+      //          };
+      //        }
+      //      });
+      //           CustomerFormData.set(
+      //             "SALES_DISTRIBUTION",
+      //             JSON.stringify(sales_distributionDetail)
+      //           );
+      //      let CompanyDataDetail = {};
+      //      props.CUSTOMER_COMPANY_DATA.map((val) => {
+      //        if (val.VALUE?.value != undefined) {
+      //          CompanyDataDetail = {
+      //            ...CompanyDataDetail,
+      //            [val.KEY]: val.VALUE.value,
+      //          };
+      //        } else {
+      //          CompanyDataDetail = {
+      //            ...CompanyDataDetail,
+      //            [val.KEY]: val.VALUE,
+      //          };
+      //        }
+      //      });
+      //           CustomerFormData.set(
+      //             "COMPANY_DATA",
+      //             JSON.stringify(sales_distributionDetail)
+      //           );
+      //      let FinancialDetail = {};
+      //      props.CUSTOMER_FINANCE_DATA.map((val) => {
+      //        if (val.VALUE?.value != undefined) {
+      //          FinancialDetail = {
+      //            ...CompanyDataDetail,
+      //            [val.KEY]: val.VALUE.value,
+      //          };
+      //        } else {
+      //          FinancialDetail = {
+      //            ...FinancialDetail,
+      //            [val.KEY]: val.VALUE,
+      //          };
+      //        }
+      //      });
+      //           CustomerFormData.set(
+      //             "FINANCE",
+      //             JSON.stringify(FinancialDetail)
+      //           );
+      //                 let creditSegmentDetail = {};
+      //                 props.CUSTOMER_SALES_DISTRIBUTION_DATA.map((val) => {
+      //                   if (val.VALUE?.value != undefined) {
+      //                     creditSegmentDetail = {
+      //                       ...creditSegmentDetail,
+      //                       [val.KEY]: val.VALUE.value,
+      //                     };
+      //                   } else {
+      //                     creditSegmentDetail = {
+      //                       ...creditSegmentDetail,
+      //                       [val.KEY]: val.VALUE,
+      //                     };
+      //                   }
+      //                 });
+      //                    CustomerFormData.set(
+      //                      "CREDIT_SEGMENT",
+      //                      JSON.stringify(creditSegmentDetail)
+      //                    );
+
+      //   for (var pair of CustomerFormData.entries()) {
+      //     console.log("VendorFormDataasdbhs", pair[0] + ", " + pair[1]);
+      //   }
+
+      let finalCustomerObject = {};
+      let finalCustomerFromData=new FormData()
+
+      props.CUSTOMER_GENERAL_DATA.map((val) => {
+      // console.log("asdhbasjd",val.VALUE.value!=undefined);
+        if(val?.FILE_NAME!=""){
+          console.log("FIle FOund",val.KEY);
+          //    console.log("asdhbasjdasdhjasd", val.KEY);
+          finalCustomerFromData.append([val.KEY],val.FILE);
+        }else{
+        if (val.VALUE?.value != undefined) {
+           finalCustomerFromData.set([val.KEY], val.VALUE.value);
+            //  console.log("asdasdsdasdasdas", val.VALUE.value);
+           // finalCustomerObject = {
+             //   ...finalCustomerObject,
+             //   [val.KEY]: val.VALUE.value,
+             // };
+             // finalCustomerObject=([val.KEY]: val.VALUE.value);
+            } else {
+                console.log("ajsdjasbdja", val.VALUE);
+          finalCustomerFromData.set([val.KEY], val.VALUE);
+          
+          // finalCustomerObject = {
+          //   ...finalCustomerObject,
+          //   [val.KEY]: val.VALUE,
+          // };
+        }
+      }
+      });
+      let CompanyDataDetail = {};
+      props.CUSTOMER_COMPANY_DATA.map((val) => {
+        if (val.VALUE?.value != undefined) {
+          CompanyDataDetail = {
+            ...CompanyDataDetail,
+            [val.KEY]: val.VALUE.value,
+          };
+          // finalCustomerObject=([val.KEY]: val.VALUE.value);
+        } else {
+          CompanyDataDetail = {
+            ...CompanyDataDetail,
+            [val.KEY]: val.VALUE,
+          };
+        }
+      });
+
+      let sales_distributionDetail = {};
+      props.CUSTOMER_SALES_DISTRIBUTION_DATA.map((val) => {
+        if (val.VALUE?.value != undefined) {
+          sales_distributionDetail = {
+            ...sales_distributionDetail,
+            [val.KEY]: val.VALUE.value,
+          };
+          // finalCustomerObject=([val.KEY]: val.VALUE.value);
+        } else {
+          sales_distributionDetail = {
+            ...sales_distributionDetail,
+            [val.KEY]: val.VALUE,
+          };
+        }
+      });
+
+      let FinancialDetail = {};
+      props.CUSTOMER_FINANCE_DATA.map((val) => {
+        if (val.KEY != "APPLICABLE") {
+          if (val.VALUE?.value != undefined) {
+            FinancialDetail = {
+              ...FinancialDetail,
+              [val.KEY]: val.VALUE.value,
+            };
+            // finalCustomerObject=([val.KEY]: val.VALUE.value);
+          } else {
+            FinancialDetail = {
+              ...FinancialDetail,
+              [val.KEY]: val.VALUE,
+            };
+          }
+        }
+      });
+      let creditSegmentDataDetail = {};
+      props.CUSTOMER_CREDIT_SEGMENT_DATA.map((val) => {
+        if (val.VALUE?.value != undefined) {
+          creditSegmentDataDetail = {
+            ...creditSegmentDataDetail,
+            [val.KEY]: val.VALUE.value,
+          };
+          // finalCustomerObject=([val.KEY]: val.VALUE.value);
+        } else {
+          creditSegmentDataDetail = {
+            ...creditSegmentDataDetail,
+            [val.KEY]: val.VALUE,
+          };
+        }
+      });
+      let contactPersonDetail = {};
+      props.CUSTOMER_CONTACT_PERSON.map((val) => {
+        if (val.VALUE?.value != undefined) {
+          contactPersonDetail = {
+            ...contactPersonDetail,
+            [val.KEY]: val.VALUE.value,
+          };
+          // finalCustomerObject=([val.KEY]: val.VALUE.value);
+        } else {
+          contactPersonDetail = {
+            ...contactPersonDetail,
+            [val.KEY]: val.VALUE,
+          };
+        }
+      });
+
+      let timeLine = {
+        ACTION_NAME:"Request to create customer",         
+        ACTION_TIME: new Date(),
+      };
+
+      // finalCustomerObject = {
+      //   ...finalCustomerFromData,
+      //   FINANCE: JSON.stringify(FinancialDetail),
+      //   SALES_DISTRIBUTION: JSON.stringify(sales_distributionDetail),
+      //   COMPANY_DATA: JSON.stringify(CompanyDataDetail),
+      //   TIMELINE: JSON.stringify(timeLine),
+      //   CREDIT_SEGMENT: JSON.stringify(creditSegmentDataDetail),
+      //   CONTACT_PERSON: JSON.stringify(contactPersonDetail),
+      // };
+
+      finalCustomerFromData.set("FINANCE", JSON.stringify(FinancialDetail));
+      finalCustomerFromData.set(
+        "SALES_DISTRIBUTION",
+        JSON.stringify(sales_distributionDetail)
+      );
+      finalCustomerFromData.set(
+        "COMPANY_DATA",
+        JSON.stringify(CompanyDataDetail)
+      );
+      finalCustomerFromData.set("TIMELINE", JSON.stringify(timeLine));
+      finalCustomerFromData.set(
+        "CREDIT_SEGMENT",
+        JSON.stringify(creditSegmentDataDetail)
+      );
+      finalCustomerFromData.set(
+        "CONTACT_PERSON",
+        JSON.stringify(contactPersonDetail)
+      );
+      finalCustomerFromData.set(
+        "APPROVAL_FLAG",
+        "1"
+      );
+
+
+      // let tempCustomerGeneralFields = [...customerGeneralFields];
+
+
+      console.log("finalCustomerObject", finalCustomerObject);
+
+      axios
+        .post(AXIOS.axiosUrl + AXIOS.customer_create, finalCustomerFromData)
+        .then((response) => {
+          console.log(response.data);
+          cogoToast.success("Application Submitted successfully");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      cogoToast.warn("Please fill all Mandatory fields");
     }
   };
 
@@ -151,6 +431,7 @@ function CustomerCreditSegment(props) {
         <button
           className="save-button"
           onClick={() => {
+            CustomerGeneralDataInRedux();
             submitCustomerForm();
           }}
         >
@@ -263,8 +544,9 @@ const mapStateToProps = (state) => ({
   CUSTOMER_FINANCE_DATA: state.customer.customer_finance,
   CUSTOMER_SALES_DISTRIBUTION_DATA: state.customer.customer_sales_distribution,
   CUSTOMER_CREDIT_SEGMENT_DATA: state.customer.customer_credit_segment,
+  CUSTOMER_CONTACT_PERSON: state.customer.customer_contact_person,
 });
 
-export default connect(mapStateToProps, { setCustomerGeneralDataAction })(
+export default connect(mapStateToProps, { setCreditSegmentAction })(
   CustomerCreditSegment
 );

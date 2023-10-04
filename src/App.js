@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Dashboard from './screens/Dashboard/Dashboard';
-import { CUSTOMER_CREATION, DASHBOARD, VENDOR, VENDOR_APPROVAL, VENDOR_CREATION, VENDOR_DETAILS } from './utils/Routes';
+import { CUSTOMER, CUSTOMER_CREATION, CUSTOMER_DETAILS, DASHBOARD, VENDOR, VENDOR_APPROVAL, VENDOR_CREATION, VENDOR_DETAILS } from './utils/Routes';
 import VendorCreation from './screens/VendorCreation/VendorCreation';
 import Login from './screens/Login/Login';
 import Vendor from './screens/VendorCreation/Vendor';
@@ -12,6 +12,8 @@ import { useEffect } from 'react';
 import { setAuthDataOnRender } from './redux/action/authAction';
 import { connect } from 'react-redux';
 import CustomerCreation from './screens/Customer/CustomerCreation/CustomerCreation';
+import Customer from './screens/Customer/CustomerCreation/Customer';
+import CustomerDetails from './screens/Customer/CustomerCreation/CustomerDetails';
 
 function App(props) {
     useEffect(() => {
@@ -27,6 +29,8 @@ function App(props) {
         <Route element={<VendorDetails />} path={VENDOR_DETAILS} />
         <Route element={<VendorApproval />} path={VENDOR_APPROVAL} />
         <Route element={<CustomerCreation />} path={CUSTOMER_CREATION} />
+        <Route element={<Customer />} path={CUSTOMER} />
+        <Route element={<CustomerDetails />} path={CUSTOMER_DETAILS} />
       </Routes>
     </BrowserRouter>
   );

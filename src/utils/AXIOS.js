@@ -17,6 +17,9 @@ const VendorDataFromApplication =
   const vendor_approve_reject = "api/vendor/vendor_approval_update";
   const createVendorSAP ="api/vendor/data_send_to_sap";
   const sap_created_vendor_get ="api/vendor/sap_created_vendor_get";
+  const customer_create = "api/customer/customer_create";
+  const customer_get = "api/customer/customer_get";
+  const customer_approval_update = "api/customer/customer_approval_update";
 export default {
   axiosUrl,
   vendorCreate,
@@ -34,4 +37,7 @@ export default {
   vendor_approve_reject,
   createVendorSAP,
   sap_created_vendor_get,
+  customer_create,
+  customer_get,
+  customer_approval_update,
 };

@@ -32,3 +32,9 @@ export const setCreditSegmentAction =
       customer_credit_segment: creditSegmentData,
     });
   };
+export const setContactPersonAction = (contactPersonData) => (dispatch) => {
+  dispatch({
+    type: "SET_CONTACT_PERSON_DATA",
+    customer_contact_person: contactPersonData,
+  });
+};

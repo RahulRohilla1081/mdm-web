@@ -23,7 +23,7 @@ import LoginRoundedIcon from "@mui/icons-material/LoginRounded";
 
 // import { ACCOUNT, CUSTOMER, LOGIN } from "../util/Routes";
 import { useNavigate } from "react-router-dom";
-import { CUSTOMER_CREATION, DASHBOARD, PROFILE, VENDOR, VENDOR_APPROVAL, VENDOR_CREATION } from "../../utils/Routes";
+import { CUSTOMER, CUSTOMER_CREATION, DASHBOARD, PROFILE, VENDOR, VENDOR_APPROVAL, VENDOR_CREATION } from "../../utils/Routes";
 import { COLORS } from "../../utils/Theme";
 import "./styles.css"
 
@@ -57,6 +57,11 @@ const listItem = [
     label: "Customer Creation",
     icon: <AccountBalanceRoundedIcon />,
     path: CUSTOMER_CREATION,
+  },
+  {
+    label: "Customer",
+    icon: <AccountBalanceRoundedIcon />,
+    path: CUSTOMER,
   },
 ];
 

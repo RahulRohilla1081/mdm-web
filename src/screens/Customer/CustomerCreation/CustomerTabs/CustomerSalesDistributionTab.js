@@ -1,11 +1,11 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Checkbox, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CustomInput from "../../../../components/CustomInput/CustomInput";
 import Label from "../../../../components/Label/Label";
 import CustomDropdown from "../../../../components/CustomDropdown/CustomDropdown";
 import cogoToast from "cogo-toast";
 import { COLORS } from "../../../../utils/Theme";
-import { setCustomerGeneralDataAction } from "../../../../redux/action/customerAction";
+import { setCustomerSalesDistributionAction } from "../../../../redux/action/customerAction";
 import { connect } from "react-redux";
 
 function CustomerSalesDistributionTab(props) {
@@ -13,22 +13,56 @@ function CustomerSalesDistributionTab(props) {
 
   const [customerGeneralFields, setCustomerGeneralFields] = useState([
     {
+      TITLE: "Distribution Channel*",
+      IS_DISABLED: false,
+      DROPDOWN: true,
+      KEY: "DISTRIBUTION_CHANNEL",
+      REQUIRED: true,
+      ERROR_FLAG: false,
+      VALUE: "",
+      CHECK_BOX: false,
+      DROPDOWN_OPTIONS: [
+        {
+          label: "Customer",
+          value: "Customer",
+        },
+      ],
+    },
+    {
+      TITLE: "Division*",
+      IS_DISABLED: false,
+      DROPDOWN: true,
+      KEY: "DIVISION",
+      REQUIRED: true,
+      ERROR_FLAG: false,
+      VALUE: "",
+      CHECK_BOX: false,
+      DROPDOWN_OPTIONS: [
+        {
+          label: "Customer",
+          value: "Customer",
+        },
+      ],
+    },
+    {
       TITLE: "Customer Classification for PPD*",
       IS_DISABLED: false,
       DROPDOWN: false,
-      KEY: "CUSTOMER_CREDIT_LIMIT",
+      KEY: "CUSTOMER_CLASSIFICATION_FOR_PPD",
       REQUIRED: true,
       VALUE: "",
       ERROR_FLAG: false,
       DROPDOWN_OPTIONS: [],
+      CHECK_BOX: false,
     },
     {
       TITLE: "Order Combination Indicator*",
       IS_DISABLED: false,
       DROPDOWN: false,
-      KEY: "CUSTOMER_CREDIT_LIMIT",
+      KEY: "ORDER_COMBINATION_INDICATOR",
       REQUIRED: true,
-      VALUE: "",
+      CHECK_BOX: true,
+      VALUE: false,
       ERROR_FLAG: false,
       DROPDOWN_OPTIONS: [],
     },
@@ -36,11 +70,17 @@ function CustomerSalesDistributionTab(props) {
       TITLE: "Shipping Conditions*",
       IS_DISABLED: false,
       DROPDOWN: true,
-      KEY: "CUSTOMER_CREDIT_LIMIT",
+      KEY: "SHIPPING_CONDITION",
       REQUIRED: true,
       VALUE: "",
       ERROR_FLAG: false,
-      DROPDOWN_OPTIONS: [],
+      CHECK_BOX: false,
+      DROPDOWN_OPTIONS: [
+        {
+          label: "Customer",
+          value: "Customer",
+        },
+      ],
     },
 
     {
@@ -50,8 +90,14 @@ function CustomerSalesDistributionTab(props) {
       KEY: "INCO_TERM_1",
       REQUIRED: true,
       ERROR_FLAG: false,
+      CHECK_BOX: false,
       VALUE: "",
-      DROPDOWN_OPTIONS: [],
+      DROPDOWN_OPTIONS: [
+        {
+          label: "Customer",
+          value: "Customer",
+        },
+      ],
     },
     {
       TITLE: "Inco Term 2*",
@@ -60,39 +106,36 @@ function CustomerSalesDistributionTab(props) {
       KEY: "INCO_TERM_2",
       REQUIRED: false,
       ERROR_FLAG: false,
+      CHECK_BOX: false,
       VALUE: "",
-      DROPDOWN_OPTIONS: [],
+      DROPDOWN_OPTIONS: [
+        {
+          label: "Customer",
+          value: "Customer",
+        },
+      ],
     },
     {
       TITLE: "Currency*",
       IS_DISABLED: false,
-      DROPDOWN: false,
+      DROPDOWN: true,
       KEY: "CURRENCY",
       REQUIRED: true,
       ERROR_FLAG: false,
       VALUE: "",
-      DROPDOWN_OPTIONS: [],
+      CHECK_BOX: false,
+      DROPDOWN_OPTIONS: [
+        {
+          label: "INR",
+          value: "INR",
+        },
+        {
+          label: "USD",
+          value: "USD",
+        },
+      ],
     },
-    {
-      TITLE: "Distribution Channel*",
-      IS_DISABLED: false,
-      DROPDOWN: true,
-      KEY: "DISTRIBUTION_CHANNEL",
-      REQUIRED: true,
-      ERROR_FLAG: false,
-      VALUE: "",
-      DROPDOWN_OPTIONS: [],
-    },
-    {
-      TITLE: "Division",
-      IS_DISABLED: false,
-      DROPDOWN: true,
-      KEY: "DIVISION",
-      REQUIRED: true,
-      ERROR_FLAG: false,
-      VALUE: "",
-      DROPDOWN_OPTIONS: [],
-    },
+
     {
       TITLE: "Sales Office",
       IS_DISABLED: false,
@@ -100,8 +143,14 @@ function CustomerSalesDistributionTab(props) {
       KEY: "SALES_OFFICE",
       REQUIRED: true,
       ERROR_FLAG: false,
+      CHECK_BOX: false,
       VALUE: "",
-      DROPDOWN_OPTIONS: [],
+      DROPDOWN_OPTIONS: [
+        {
+          label: "Customer",
+          value: "Customer",
+        },
+      ],
     },
     {
       TITLE: "Customer Group",
@@ -111,7 +160,13 @@ function CustomerSalesDistributionTab(props) {
       REQUIRED: false,
       VALUE: "",
       ERROR_FLAG: false,
-      DROPDOWN_OPTIONS: [],
+      CHECK_BOX: false,
+      DROPDOWN_OPTIONS: [
+        {
+          label: "Customer",
+          value: "Customer",
+        },
+      ],
     },
     {
       TITLE: "Sales Group*",
@@ -120,18 +175,46 @@ function CustomerSalesDistributionTab(props) {
       KEY: "SALES_GROUP",
       REQUIRED: false,
       ERROR_FLAG: false,
+      CHECK_BOX: false,
       VALUE: "",
-      DROPDOWN_OPTIONS: [],
+      DROPDOWN_OPTIONS: [
+        {
+          label: "Customer",
+          value: "Customer",
+        },
+      ],
     },
     {
-      TITLE: "Delivery Plant",
+      TITLE: "Delivery Plant*",
       IS_DISABLED: false,
       DROPDOWN: true,
+      CHECK_BOX: false,
       KEY: "DELIVERY_PLANT",
       REQUIRED: true,
       ERROR_FLAG: false,
       VALUE: "",
-      DROPDOWN_OPTIONS: [],
+      DROPDOWN_OPTIONS: [
+        {
+          label: "Customer",
+          value: "Customer",
+        },
+      ],
+    },
+    {
+      TITLE: "Price Group*",
+      IS_DISABLED: false,
+      CHECK_BOX: false,
+      DROPDOWN: true,
+      KEY: "PRICE_GROUP",
+      REQUIRED: true,
+      ERROR_FLAG: false,
+      VALUE: "",
+      DROPDOWN_OPTIONS: [
+        {
+          label: "Customer",
+          value: "Customer",
+        },
+      ],
     },
   ]);
 
@@ -155,6 +238,8 @@ function CustomerSalesDistributionTab(props) {
       ) {
         val.ERROR_FLAG = true;
         ErrorFound = true;
+      } else {
+        val.ERROR_FLAG = false;
       }
     });
 
@@ -165,14 +250,14 @@ function CustomerSalesDistributionTab(props) {
       });
       console.log("tempGeneralData", tempGeneralData);
 
-      props.setCustomerGeneralDataAction(tempGeneralData);
+      props.setCustomerSalesDistributionAction(tempGeneralData);
     }
     setCustomerGeneralFields(tempCustomerGeneralField);
   };
   useEffect(() => {
     let tempCustomerGeneralFields = [...customerGeneralFields];
 
-    props.CUSTOMER_GENERAL_DATA.map((val, index) => {
+    props.CUSTOMER_SALES_DISTRIBUTION_DATA.map((val, index) => {
       console.log("index", val?.KEY == tempCustomerGeneralFields[index].KEY);
       if (val?.KEY == tempCustomerGeneralFields[index].KEY) {
         tempCustomerGeneralFields[index].VALUE = val.VALUE;
@@ -219,7 +304,20 @@ function CustomerSalesDistributionTab(props) {
             return (
               <Box className="grid-item">
                 <Label LabelText={val.TITLE} />
-                {val.DROPDOWN ? (
+                {val.CHECK_BOX && (
+                  <>
+                    <Checkbox
+                      checked={val.VALUE}
+                      onClick={(e) => {
+                        // console.log("askdjbasbdasd", e.target.value);
+                        // if()
+                        storeFieldsValuesInState(!val.VALUE, val.KEY, index);
+                      }}
+                    />
+                  </>
+                )}
+
+                {val.DROPDOWN && (
                   <>
                     <CustomDropdown
                       Options={val.DROPDOWN_OPTIONS}
@@ -247,7 +345,9 @@ function CustomerSalesDistributionTab(props) {
                       </Typography>
                     )}
                   </>
-                ) : (
+                )}
+
+                {!val.DROPDOWN && !val.CHECK_BOX && (
                   <>
                     <CustomInput
                       Placeholder={val.TITLE}
@@ -302,9 +402,10 @@ function CustomerSalesDistributionTab(props) {
 // export default CustomerGeneralTab;
 
 const mapStateToProps = (state) => ({
-  CUSTOMER_GENERAL_DATA: state.customer.customer_general,
+
+  CUSTOMER_SALES_DISTRIBUTION_DATA: state.customer.customer_sales_distribution,
 });
 
-export default connect(mapStateToProps, { setCustomerGeneralDataAction })(
+export default connect(mapStateToProps, { setCustomerSalesDistributionAction })(
   CustomerSalesDistributionTab
 );

@@ -12,6 +12,7 @@ import CustomerCompanyTab from "./CustomerTabs/CustomerCompanyTab";
 import CustomerFinanceTab from "./CustomerTabs/CustomerFinanceTab";
 import CustomerSalesDistributionTab from "./CustomerTabs/CustomerSalesDistributionTab";
 import CustomerCreditSegment from "./CustomerTabs/CustomerCreditSegment";
+import CustomerContactPersonTab from "./CustomerTabs/CustomerContactPersonTab";
 
 const drawerWidth = 280;
 
@@ -133,6 +134,15 @@ function CustomerCreation() {
 
             <Tab
               value={5}
+              label="Contact Person"
+              sx={{
+                fontSize: { xs: 14, md: 18 },
+                fontWeight: 600,
+                textTransform: "none",
+              }}
+            />
+            <Tab
+              value={6}
               label="Credit Segment"
               sx={{
                 fontSize: { xs: 14, md: 18 },
@@ -145,7 +155,8 @@ function CustomerCreation() {
           {VendorTab == 2 && <CustomerCompanyTab />}
           {VendorTab == 3 && <CustomerFinanceTab />}
           {VendorTab == 4 && <CustomerSalesDistributionTab />}
-          {VendorTab == 5 && <CustomerCreditSegment />}
+          {VendorTab == 5 && <CustomerContactPersonTab />}
+          {VendorTab == 6 && <CustomerCreditSegment />}
           {/* {VendorTab == 2 && <TaxData />}
             {VendorTab == 3 && <BankDetails />}
             {VendorTab == 4 && <CompanyData />}
